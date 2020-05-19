@@ -1,0 +1,30 @@
+{
+  "name": "movie-site",
+  "version": "1.0.0",
+  "description": "App intergrating Movie Database API",
+  "author": "Nicholas Roy",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@nuxtjs/axios": "^5.10.3",
+    "nuxt": "^2.0.0",
+    "vue-carousel": "^0.18.0",
+    "vue-carousel-3d": "^0.2.0",
+    "vue-debounce": "^2.5.3",
+    "vue-infinite-loading": "^2.4.5",
+    "vuex-persist": "^2.2.0"
+  },
+  "devDependencies": {
+    "@nuxtjs/vuetify": "^1.0.0",
+    "@vue/test-utils": "^1.0.0-beta.27",
+    "babel-jest": "^24.1.0",
+    "jest": "^24.1.0",
+    "vue-jest": "^4.0.0-0"
+  }
+}

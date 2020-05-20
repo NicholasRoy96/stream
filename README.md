@@ -1,4 +1,4 @@
-# movie-site
+# stream
 
 > App intergrating Movie Database API
 

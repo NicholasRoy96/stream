@@ -7,13 +7,31 @@
           <h3 class="subheading">Most popular</h3>
           <h3 class="subheading-description">The fan favourite films</h3>
         </div>
-        <MoviesCarousel :movies="popularMovies" class="mb-10" />
+        
+        <!-- LG+ -->
+        <MoviesCarousel :movies="popularMovies" class="mb-10 d-none d-lg-block" />
+
+        <!-- MD- -->
+        <v-row class="d-lg-none mb-10">
+          <v-col cols="4" sm="3" v-for="(movie, i) in trimmedPopularMovies" :key="i">
+            <MovieCard :movie="movie"/>
+          </v-col>
+        </v-row>
 
         <div class="subheading-div">
           <h3 class="subheading">Top rated</h3>
           <h3 class="subheading-description">The most critically acclaimed</h3>
         </div>
-        <MoviesCarousel :movies="topMovies"/>
+
+        <!-- LG+ -->
+        <MoviesCarousel :movies="topMovies" class="d-none d-lg-block" />
+
+        <!-- MD- -->
+        <v-row class="d-lg-none">
+          <v-col cols="4" sm="3" v-for="(movie, i) in trimmedTopMovies" :key="i">
+            <MovieCard :movie="movie"/>
+          </v-col>
+        </v-row>
 
         <h3 class="heading">Explore genres</h3>
           <v-row>
@@ -40,6 +58,7 @@
 <script>
 import Carousel from "@/components/Carousel.vue"
 import MoviesCarousel from "@/components/MoviesCarousel.vue"
+import MovieCard from "@/components/MovieCard.vue"
 import GenreCard from "@/components/GenreCard.vue"
 import ActorCard from '@/components/ActorCard.vue'
 
@@ -47,6 +66,7 @@ export default {
   components: {
     Carousel,
     MoviesCarousel,
+    MovieCard,
     GenreCard,
     ActorCard
   },
@@ -76,6 +96,18 @@ export default {
         { name: "War", genreId: 10752, backdropImage: "https://image.tmdb.org/t/p/original/cqa3sa4c4jevgnEJwq3CMF8UfTG.jpg"},
         { name: "Western", genreId: 37, backdropImage: "https://image.tmdb.org/t/p/original/s4cJQaj40SwMifUrrdtdOJsjnRO.jpg"}
       ]
+    }
+  },
+  computed: {
+    trimmedPopularMovies() {
+      if (this.popularMovies) {
+        return this.popularMovies.slice(0, 12)
+      }
+    },
+    trimmedTopMovies() {
+      if (this.topMovies) {
+        return this.topMovies.slice(0, 12)
+      }
     }
   },
   methods: {

@@ -24,7 +24,7 @@
       </v-row>
 
       <!-- SM - -->
-      <v-row class="d-md-none">
+      <v-row v-if="!searchOpen" class="d-md-none">
         <nuxt-link to="/" class="site-name">
           <div class="logo-frame">
             <span class="logo-helper"></span><img src="~/assets/logo.png" height="38" class="logo"><img>
@@ -33,9 +33,15 @@
 
         <v-spacer></v-spacer>
 
-        <Search />
+        <SearchSmall />
         <Watchlist />
 
+      </v-row>
+
+      <v-row v-else class="d-md-none">
+        <v-col cols="12">
+          <SearchSmall />
+        </v-col>
       </v-row>
 
     </v-container>
@@ -44,13 +50,19 @@
 
 <script>
 import Watchlist from '@/components/Watchlist.vue'
-import Search from '@/components/Search.vue'
+import Search from '@/components/search/Search.vue'
+import SearchSmall from '@/components/search/SearchSmall.vue'
+import { mapState } from 'vuex'
 
 export default {
   name: 'Navbar',
   components: {
     Watchlist,
-    Search
+    Search,
+    SearchSmall
+  },
+  computed: {
+    ...mapState(["searchOpen"])
   }
 }
 </script>

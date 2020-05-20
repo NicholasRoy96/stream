@@ -1,5 +1,6 @@
 export const state = () => ({
-  watchlist: []
+  watchlist: [],
+  searchOpen: false
 })
 
 export const mutations = {
@@ -8,6 +9,9 @@ export const mutations = {
   },
   updateWatchlist: (state, params) => {
     state.watchlist = params
+  },
+  toggleSearch: (state) => {
+    state.searchOpen = !state.searchOpen
   }
 }
 
@@ -22,5 +26,8 @@ export const actions = {
   emptyWatchlist ({ commit }) {
     const emptiedWatchlist = []
     commit('setWatchlist', emptiedWatchlist)
+  },
+  toggleSearchBar({ commit }) {
+    commit('toggleSearch')
   }
 }

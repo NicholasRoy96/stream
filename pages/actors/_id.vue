@@ -107,7 +107,8 @@ export default {
         }
         console.log(this.actorInfo)
       } catch(err) {
-        console.log(err)
+        // suppress actor lookup error
+        // console.log(err)
       }
     },
     async getCredits() {

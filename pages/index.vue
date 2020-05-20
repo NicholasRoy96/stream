@@ -68,7 +68,6 @@ export default {
     async getPopularMovies() {
       const movies = await this.$axios.$get('https://api.themoviedb.org/3/movie/popular?api_key=fac214f57908d267c5cd93e69460f956&language=en-US&page=1');
       this.popularMovies = movies.results;
-      console.log(this.popularMovies);
     },
     async getTopMovies() {
       const movies = await this.$axios.$get('https://api.themoviedb.org/3/movie/top_rated?api_key=fac214f57908d267c5cd93e69460f956&language=en-US&page=1');

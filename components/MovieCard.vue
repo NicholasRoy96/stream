@@ -17,7 +17,9 @@
       <v-card-text class="movie-card-title">{{movie.title}}</v-card-text>
     </nuxt-link>
     <div class="movie-card-rating-div">
-      <v-icon class="movie-card-rating-star" size="17">mdi-star</v-icon><span class="movie-card-rating">{{movie.vote_average}}</span>
+      <v-icon class="movie-card-rating-star" size="17">mdi-star</v-icon>
+      <span v-if="movie.vote_average !== 0" class="movie-card-rating">{{movie.vote_average}}</span>
+      <span v-else class="movie-card-rating">No reviews</span>
     </div>
     <v-card-actions class="card-actions d-none d-sm-block">
       <AddWatchlistButton :movie="movie" />

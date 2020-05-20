@@ -61,6 +61,7 @@
 import { mapState, mapActions } from 'vuex'
 
 export default {
+  name: 'Watchlist',
   computed: {
     ...mapState(["watchlist"])
   },

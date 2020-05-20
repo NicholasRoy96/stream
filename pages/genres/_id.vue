@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     async getMovies() {
-      const movies = await this.$axios.$get(`https://api.themoviedb.org/3/discover/movie?api_key=fac214f57908d267c5cd93e69460f956&language=en-US&sort_by=popularity.desc&include_adult=true&include_video=false&page=1&with_genres=${this.genreId}`)
+      const movies = await this.$axios.$get(`https://api.themoviedb.org/3/discover/movie?api_key=fac214f57908d267c5cd93e69460f956&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${this.genreId}`)
       this.movies = movies.results
       const mostPopularBackdrop = this.movies[0].backdrop_path
       this.featuredBackdrop = `https://image.tmdb.org/t/p/original${mostPopularBackdrop}`
@@ -59,7 +59,7 @@ export default {
       this.genre = genre[0].name
     },
     async getMoreMovies($state) {      
-      const movies = await this.$axios.$get(`https://api.themoviedb.org/3/discover/movie?api_key=fac214f57908d267c5cd93e69460f956&language=en-US&sort_by=popularity.desc&include_adult=true&include_video=false&page=${this.page}&with_genres=${this.genreId}`)
+      const movies = await this.$axios.$get(`https://api.themoviedb.org/3/discover/movie?api_key=fac214f57908d267c5cd93e69460f956&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${this.page}&with_genres=${this.genreId}`)
         .then( movies => {
           if (movies.results.length) {
             this.page += 1

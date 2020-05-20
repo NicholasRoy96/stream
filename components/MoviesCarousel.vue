@@ -18,7 +18,7 @@
 import MovieCard from '@/components/MovieCard.vue'
 
 export default {
-  name: 'PopularMovies',
+  name: 'MoviesCarousel',
   components: {
     MovieCard
   },

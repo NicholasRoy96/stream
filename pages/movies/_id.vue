@@ -39,9 +39,17 @@
                 <v-icon color="yellow" class="mr-2">mdi-star</v-icon>{{movie.vote_average}}
               </div>
             </div>
-            <div class="movie-overview">
-              {{movie.overview}}
+            
+            <!-- OVERVIEW SHORTENED IF 400+ CHARS -->
+            <div v-if="trimmedOverview && !expandOverview" class="movie-overview">{{trimmedOverview}}
+              <v-icon @click="expandOverview = true" icon>mdi-chevron-down</v-icon>
             </div>
+            
+            <!-- OVERVIEW EXPANDED -->
+            <div v-if="!trimmedOverview || expandOverview" class="movie-overview">{{movie.overview}}
+              <v-icon v-if="expandOverview" @click="expandOverview = false">mdi-chevron-up</v-icon>
+            </div>
+
             <div class="genre-info">
               <span class="genres">Genres: </span>
               <a class="genre-name" v-for="(genre, i) in movie.genres" :key="i" :href="'/genres/'+ genre.id">{{genre.name}}</a>
@@ -98,6 +106,7 @@ export default {
       movie: {},
       moviePoster: '',
       movieBackdrop: '',
+      expandOverview: false,
       cast: [],
       similarMovies: []
     }
@@ -109,7 +118,14 @@ export default {
         return date.slice(0, 4)
       }
       return ''
-    }
+    },
+    trimmedOverview() {
+      if (this.movie && this.movie.overview) {
+        if (this.movie.overview.length > 400) {
+          return this.movie.overview.slice(0, 400).trim() + "..."
+        }
+      }
+    },
   },
   methods: {
     async getMovie() {

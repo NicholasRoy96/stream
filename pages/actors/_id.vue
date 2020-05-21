@@ -31,12 +31,12 @@
 
             <!-- BIO SHORTENED IF 400+ CHARS -->
             <div v-if="trimmedBio && !expandBio" class="actor-overview">{{trimmedBio}}
-              <v-btn @click="expandBio = true" icon><v-icon>mdi-chevron-down</v-icon></v-btn>
+              <v-icon @click="expandBio = true" icon>mdi-chevron-down</v-icon>
             </div>
             
             <!-- BIO EXPANDED -->
             <div v-if="!trimmedBio || expandBio" class="actor-overview">{{actorInfo.biography}}
-              <v-btn v-if="expandBio" @click="expandBio = false" icon><v-icon>mdi-chevron-up</v-icon></v-btn>
+              <v-icon v-if="expandBio" @click="expandBio = false">mdi-chevron-up</v-icon>
             </div>
 
             <div v-if="alsoKnownAs" class="aka-info">

@@ -161,6 +161,8 @@ export default {
 .actor-info {
   margin-top: 20px;
   font-weight: bold;
+  padding-left: 10px;
+  border-left: 3px solid #f5c518;
 }
 .actor-info-item {
   margin-bottom: 10px;

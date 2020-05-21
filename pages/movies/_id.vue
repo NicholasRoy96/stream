@@ -39,7 +39,7 @@
                 <v-icon color="yellow" class="mr-2">mdi-star</v-icon>{{movie.vote_average}}
               </div>
             </div>
-            
+
             <!-- OVERVIEW SHORTENED IF 400+ CHARS -->
             <div v-if="trimmedOverview && !expandOverview" class="movie-overview">{{trimmedOverview}}
               <v-icon @click="expandOverview = true" icon>mdi-chevron-down</v-icon>
@@ -50,9 +50,15 @@
               <v-icon v-if="expandOverview" @click="expandOverview = false">mdi-chevron-up</v-icon>
             </div>
 
-            <div class="genre-info">
-              <span class="genres">Genres: </span>
-              <a class="genre-name" v-for="(genre, i) in movie.genres" :key="i" :href="'/genres/'+ genre.id">{{genre.name}}</a>
+            <div class="extra-info">
+              <div class="extra-info-item">
+                <span class="extra-info-title">Genres: </span>
+                <a class="extra-info-data" v-for="(genre, i) in movie.genres" :key="i" :href="'/genres/'+ genre.id">{{genre.name}}</a>
+              </div>
+              <div>
+                <span class="extra-info-title">Status: </span>
+                <span>{{movie.status}}</span>
+              </div>
             </div>
             <div>
               <AddWatchlistButton :movie="movie" />
@@ -170,6 +176,8 @@ export default {
 .movie-tagline {
   font-size: 1.3em;
   font-weight: bold;
+  padding-left: 10px;
+  border-left: 3px solid #f5c518;
 }
 .movie-info {
   margin-top: 20px;
@@ -182,23 +190,26 @@ export default {
   margin-top: 30px;
   margin-bottom: 15px;
 }
-.genre-info {
+.extra-info {
   color: lightgrey;
   margin-bottom: 40px;
   max-width: 100%;
   display: block;
   word-wrap: break-word;
 }
-.genres {
+.extra-info-item {
+  padding-bottom: 5px;
+}
+.extra-info-title {
   margin-right: 10px;
   font-weight: bold;
 }
-.genre-name {
+.extra-info-data {
   margin-right: 12px;
   color: lightgrey !important;
   text-decoration: none;
 }
-.genre-name:hover {
+.extra-info-data:hover {
   text-decoration: underline;
 }
 .sub-div {

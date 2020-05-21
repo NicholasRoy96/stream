@@ -1,9 +1,12 @@
 <template>
   <div>
-    <v-btn v-if="!inWatchlist" block small class="watchlist-button" @click="addMovieToWatchlist">
+    <v-btn v-if="movie.status !== 'Released'" block small disabled class="watchlist-button">
+      Coming Soon
+    </v-btn>
+    <v-btn v-else-if="!inWatchlist" block small class="watchlist-button" @click="addMovieToWatchlist">
       + Watchlist
     </v-btn>
-    <v-btn v-else small block disabled class="watchlist-button" @click="addMovieToWatchlist">
+    <v-btn v-else block small disabled class="watchlist-button">
       In Watchlist
     </v-btn>
   </div>

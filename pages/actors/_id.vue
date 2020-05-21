@@ -1,8 +1,9 @@
 <template>
   <v-app>
     <v-container>
+
       <v-row>
-        <v-col cols="12" md="4" align-self="center">
+        <v-col cols="12" sm="5" md="4">
           <v-img v-if="actorImage" :src="actorImage" class="actor-image">
             <template v-slot:placeholder>
               <v-row class="fill-height ma-0" align="center" justify="center">
@@ -13,7 +14,7 @@
           <v-icon v-else size="300" color="grey darken-2">mdi-account</v-icon>
         </v-col>
 
-        <v-col cols="12" md="8">
+        <v-col cols="12" sm="7" md="8">
           <div class="pl-4">
             <span class="actor-name">{{actorInfo.name}}</span>
             <div class="actor-info">
@@ -27,7 +28,17 @@
                 <span>Died: {{formatDeathday}}</span>
               </div>
             </div>
-            <div class="actor-overview">{{actorInfo.biography}}</div>
+
+            <!-- BIO SHORTENED IF 400+ CHARS -->
+            <div v-if="trimmedBio && !expandBio" class="actor-overview">{{trimmedBio}}
+              <v-btn @click="expandBio = true" icon><v-icon>mdi-chevron-down</v-icon></v-btn>
+            </div>
+            
+            <!-- BIO EXPANDED -->
+            <div v-if="!trimmedBio || expandBio" class="actor-overview">{{actorInfo.biography}}
+              <v-btn v-if="expandBio" @click="expandBio = false" icon><v-icon>mdi-chevron-up</v-icon></v-btn>
+            </div>
+
             <div v-if="alsoKnownAs" class="aka-info">
               <span class="aka">Also known as: </span>
               <span class="aka-name" v-for="(name, i) in actorInfo.also_known_as" :key="i">{{name}}</span>
@@ -62,6 +73,7 @@ export default {
       actorId: this.$route.params.id,
       actorInfo: {},
       actorImage: "",
+      expandBio: false,
       credits: []
     }
   },
@@ -90,6 +102,13 @@ export default {
           actorAge--
         }
         return actorAge
+      }
+    },
+    trimmedBio() {
+      if (this.actorInfo && this.actorInfo.biography) {
+        if (this.actorInfo.biography.length > 400) {
+          return this.actorInfo.biography.slice(0, 400).trim() + "..."
+        }
       }
     },
     alsoKnownAs() {
@@ -131,7 +150,7 @@ export default {
 <style scoped>
 .actor-image {
   border-radius: 8px;
-  max-height: 950px;
+  max-height: 600px;
 }
 .actor-name {
   color: #f5c518;
@@ -152,6 +171,7 @@ export default {
   color: lightgrey;
 }
 .aka-info {
+  padding-top: 10px;
   margin-bottom: 40px;
   max-width: 100%;
   display: block;
@@ -179,7 +199,6 @@ export default {
 }
 
 /* MEDIA QUERIES */
-
 /* MD */
 @media (max-width: 960px) {
   .actor-image {

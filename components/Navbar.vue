@@ -1,10 +1,9 @@
 <template>
   <v-app-bar class="app-bar">
-    <v-container>
+    <v-container class="nav-container">
       
       <!-- MD + -->
       <v-row align="center" justify="space-between" class="d-none d-md-flex">
-        
         <v-col cols="2">
           <nuxt-link to="/" class="site-name">
             <div class="logo-frame">
@@ -12,15 +11,12 @@
             </div>
           </nuxt-link>
         </v-col>
-
         <v-col cols="8">
           <Search />
         </v-col>
-
         <v-col cols="2">
           <Watchlist />
         </v-col>
-
       </v-row>
 
       <!-- SM - -->
@@ -30,12 +26,9 @@
             <span class="logo-helper"></span><img src="~/assets/logo.png" height="38" class="logo"><img>
           </div>
         </nuxt-link>
-
         <v-spacer></v-spacer>
-
         <SearchSmall />
         <Watchlist />
-
       </v-row>
 
       <v-row v-else class="d-md-none">
@@ -66,6 +59,17 @@ export default {
   }
 }
 </script>
+
+<style>
+/* MEDIA QUERIES */
+/* SM */
+@media (max-width: 959px) {
+  .v-toolbar__content, .v-toolbar__extension {
+    padding: 0;
+  }
+}
+
+</style>
 
 <style scoped>
 .app-bar {

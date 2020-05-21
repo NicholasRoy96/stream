@@ -1,6 +1,12 @@
 <template>
   <v-app>
     <v-container>
+      
+      <v-row>
+        <v-col cols="12">
+          
+        </v-col>
+      </v-row>
 
       <!-- Dynamic banner image -->
       <v-img :src="movieBackdrop">
@@ -68,8 +74,20 @@
 
       </v-row>
 
+      <!-- Trailers -->
+      <div v-if="trailers.length" class="sub-div">
+        <h3 class="sub-heading">Trailers</h3>
+        <h3 class="sub-heading-description">Get a preview</h3>
+      </div>
+      <v-row v-if="trailers.length">
+        <v-col cols="12" md="6" v-for="(trailer, i) in trailers" :key="i">
+          <client-only>
+            <youtube :video-id="trailer.key" player-height="350" player-width="100%"></youtube>
+          </client-only>
+        </v-col>
+      </v-row>
+
       <!-- Cast cards -->
-      <!-- TODO: Separate into separate component -->
       <div v-if="cast.length" class="sub-div">
         <h3 class="sub-heading">Cast</h3>
         <h3 class="sub-heading-description">Meet the stars</h3>
@@ -112,6 +130,7 @@ export default {
       movie: {},
       moviePoster: '',
       movieBackdrop: '',
+      trailers: [],
       expandOverview: false,
       cast: [],
       similarMovies: []
@@ -136,11 +155,14 @@ export default {
   methods: {
     async getMovie() {
       this.movie = await this.$axios.$get(`https://api.themoviedb.org/3/movie/${this.movieId}?api_key=fac214f57908d267c5cd93e69460f956&language=en-US`)
-      console.log(this.movie)
       if (this.movie.poster_path) {
         this.moviePoster = `https://image.tmdb.org/t/p/w500${this.movie.poster_path}`
       }
       this.movieBackdrop = `https://image.tmdb.org/t/p/original${this.movie.backdrop_path}`
+    },
+    async getTrailers() {
+      const trailers = await this.$axios.$get(`https://api.themoviedb.org/3/movie/${this.movieId}/videos?api_key=fac214f57908d267c5cd93e69460f956&language=en-US`)
+      this.trailers = trailers.results
     },
     async getSimilarMovies () {
       const movies = await this.$axios.$get(`https://api.themoviedb.org/3/movie/${this.movieId}/similar?api_key=fac214f57908d267c5cd93e69460f956&language=en-US&page=1`)
@@ -156,9 +178,16 @@ export default {
     this.getMovie()
     this.getSimilarMovies()
     this.getCredits()
+    this.getTrailers()
   }
 }
 </script>
+
+<style>
+.ytp-pause-overlay {
+  display: none;
+}
+</style>
 
 <style scoped>
 .movie-title-div {

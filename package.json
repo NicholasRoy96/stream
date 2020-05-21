@@ -18,6 +18,7 @@
     "vue-carousel-3d": "^0.2.0",
     "vue-debounce": "^2.5.3",
     "vue-infinite-loading": "^2.4.5",
+    "vue-youtube-embed": "^2.2.2",
     "vuex-persist": "^2.2.0"
   },
   "devDependencies": {

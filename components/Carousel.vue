@@ -1,13 +1,17 @@
 <template>
-  <v-carousel height="700" continuous show-arrows-on-hover hide-delimiters>
-    <v-carousel-item
-      v-for="(item,i) in items"
-      :key="i"
-      :src="item.image"
-      reverse-transition="fade-transition"
-      transition="fade-transition"
-    ></v-carousel-item>
-  </v-carousel>
+  <v-container>
+    <v-carousel height="700" continuous show-arrows-on-hover hide-delimiters>
+      <v-carousel-item
+        v-for="(slide,i) in slides"
+        :key="i"
+        :src="slide.image"
+        reverse-transition="fade-transition"
+        transition="fade-transition"
+      >
+        <!-- <div class="image-text">Stream Movies Now</div> -->
+      </v-carousel-item>
+    </v-carousel>
+  </v-container>
 </template>
 
 <script>
@@ -15,7 +19,7 @@ export default {
   name: 'Carousel',
   data() {
     return {
-      items: [
+      slides: [
           {
             image: "https://image.tmdb.org/t/p/original/2lBOQK06tltt8SQaswgb8d657Mv.jpg",
           },
@@ -35,5 +39,16 @@ export default {
 </script>
 
 <style>
-
+/* .image-text {
+  background-image: linear-gradient(#1c1c1c, black);
+  width: 100%;
+  height: 100px;
+  padding-top: 15px;
+  text-align: center;
+  background-color: black;
+  font-size: 3em;
+  font-weight: bold;
+  position: absolute;
+  bottom: 0;
+} */
 </style>

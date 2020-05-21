@@ -69,6 +69,5 @@ export default {
 <style scoped>
 .search-icon {
   color: grey !important;
-  margin-right: 3px;
 }
 </style>

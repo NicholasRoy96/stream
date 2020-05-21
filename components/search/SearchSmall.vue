@@ -48,8 +48,9 @@ export default {
       try {
         const movies = await this.$axios.$get(`https://api.themoviedb.org/3/search/movie?api_key=fac214f57908d267c5cd93e69460f956&language=en-US&query=${this.searchString}&page=1&include_adult=false`)
         this.searchResults = movies.results
-      } catch (error) {
-        console.log(error)
+      } catch (err) {
+        // suppress movie lookup error
+        // console.log(err)
       }
     }
   },

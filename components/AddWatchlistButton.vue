@@ -42,7 +42,11 @@ export default {
   methods: {
     ...mapActions(["addToWatchlist"]),
     async addMovieToWatchlist () {
-      await this.addToWatchlist(this.movie);
+      try {
+        await this.addToWatchlist(this.movie);
+      } catch(err) {
+        console.log(err)
+      }
     }
   }
 }

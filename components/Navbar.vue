@@ -62,6 +62,7 @@ export default {
 
 <style>
 /* MEDIA QUERIES */
+
 /* SM */
 @media (max-width: 959px) {
   .v-toolbar__content, .v-toolbar__extension {

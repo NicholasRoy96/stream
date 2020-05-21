@@ -45,6 +45,7 @@
             </div>
           </div>
         </v-col>
+
       </v-row>
 
       <div v-if="credits.length" class="sub-div">
@@ -136,7 +137,8 @@ export default {
         this.credits = credits.cast.slice(0, 24)
         console.log(this.credits)
       } catch(err) {
-        console.log(err)
+        // suppress credits lookup error
+        // console.log(err)
       }
     }
   },

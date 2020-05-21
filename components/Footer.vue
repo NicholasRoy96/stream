@@ -1,13 +1,13 @@
 <template>
   <v-footer padless class="footer">
-    <v-card flat class="footer-card">
-    <v-btn icon large class="footer-icon" v-for="icon in icons" :key="icon">
-      <v-icon>{{icon}}</v-icon>
-    </v-btn>
-    <div class="link-div">
-       <a class="footer-link" v-for="link in links" :key="link" href="#">{{link}}</a>
-    </div>
-    </v-card>
+      <v-card flat class="footer-card">
+        <v-btn icon large class="footer-icon" v-for="icon in icons" :key="icon">
+          <v-icon>{{icon}}</v-icon>
+        </v-btn>
+        <div class="link-div">
+          <a class="footer-link" v-for="link in links" :key="link" href="#">{{link}}</a>
+        </div>
+      </v-card>
   </v-footer>
 </template>
 

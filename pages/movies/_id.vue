@@ -74,6 +74,17 @@
 
       </v-row>
 
+      <!-- Cast cards -->
+      <div v-if="cast.length" class="sub-div">
+        <h3 class="sub-heading">Cast</h3>
+        <h3 class="sub-heading-description">Meet the stars</h3>
+      </div>
+      <v-row>
+        <v-col cols="6" sm="4" lg="2" v-for="(actor, i) in cast" :key="i" align-self="center">
+          <ActorCard :actor="actor" />
+        </v-col>
+      </v-row>
+
       <!-- Trailers -->
       <div v-if="trailers.length" class="sub-div">
         <h3 class="sub-heading">Trailers</h3>
@@ -84,17 +95,6 @@
           <client-only>
             <youtube :video-id="trailer.key" player-height="350" player-width="100%"></youtube>
           </client-only>
-        </v-col>
-      </v-row>
-
-      <!-- Cast cards -->
-      <div v-if="cast.length" class="sub-div">
-        <h3 class="sub-heading">Cast</h3>
-        <h3 class="sub-heading-description">Meet the stars</h3>
-      </div>
-      <v-row>
-        <v-col cols="6" sm="4" lg="2" v-for="(actor, i) in cast" :key="i" align-self="center">
-          <ActorCard :actor="actor" />
         </v-col>
       </v-row>
 
@@ -154,31 +154,50 @@ export default {
   },
   methods: {
     async getMovie() {
-      this.movie = await this.$axios.$get(`https://api.themoviedb.org/3/movie/${this.movieId}?api_key=fac214f57908d267c5cd93e69460f956&language=en-US`)
-      if (this.movie.poster_path) {
-        this.moviePoster = `https://image.tmdb.org/t/p/w500${this.movie.poster_path}`
+      try {
+        this.movie = await this.$axios.$get(`https://api.themoviedb.org/3/movie/${this.movieId}?api_key=fac214f57908d267c5cd93e69460f956&language=en-US`)
+        if (this.movie.poster_path) {
+          this.moviePoster = `https://image.tmdb.org/t/p/w500${this.movie.poster_path}`
+        }
+        this.movieBackdrop = `https://image.tmdb.org/t/p/original${this.movie.backdrop_path}`
+      } catch (err) {
+        // suppress movie lookup error
+        // console.log(err)
       }
-      this.movieBackdrop = `https://image.tmdb.org/t/p/original${this.movie.backdrop_path}`
     },
     async getTrailers() {
-      const trailers = await this.$axios.$get(`https://api.themoviedb.org/3/movie/${this.movieId}/videos?api_key=fac214f57908d267c5cd93e69460f956&language=en-US`)
-      this.trailers = trailers.results
+      try {
+        const trailers = await this.$axios.$get(`https://api.themoviedb.org/3/movie/${this.movieId}/videos?api_key=fac214f57908d267c5cd93e69460f956&language=en-US`)
+        this.trailers = trailers.results
+      } catch(err) {
+        // suppress trailer lookup error
+        // console.log(err)
+      } 
     },
     async getSimilarMovies () {
-      const movies = await this.$axios.$get(`https://api.themoviedb.org/3/movie/${this.movieId}/similar?api_key=fac214f57908d267c5cd93e69460f956&language=en-US&page=1`)
-      this.similarMovies = movies.results.slice(0, 12)
+      try {
+        const movies = await this.$axios.$get(`https://api.themoviedb.org/3/movie/${this.movieId}/similar?api_key=fac214f57908d267c5cd93e69460f956&language=en-US&page=1`)
+        this.similarMovies = movies.results.slice(0, 12)
+      } catch(err) {
+        // suppress movie lookup error
+        // console.log(err)
+      }
     },
     async getCredits() {
-      const credits = await this.$axios.$get(`https://api.themoviedb.org/3/movie/${this.movieId}/credits?api_key=fac214f57908d267c5cd93e69460f956`)
-      this.cast = credits.cast.slice(0, 6)
-      console.log(this.cast)
+      try {
+        const credits = await this.$axios.$get(`https://api.themoviedb.org/3/movie/${this.movieId}/credits?api_key=fac214f57908d267c5cd93e69460f956`) 
+        this.cast = credits.cast.slice(0, 6)
+      } catch(err) {
+        // suppress cast lookup error
+        // console.log(err)
+      }
     }
   },
   created() {
     this.getMovie()
-    this.getSimilarMovies()
     this.getCredits()
     this.getTrailers()
+    this.getSimilarMovies()
   }
 }
 </script>

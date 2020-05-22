@@ -2,35 +2,35 @@
   <v-container>
     <v-carousel height="700" continuous show-arrows-on-hover hide-delimiters>
       <div v-for="(movie,i) in movies" :key="i">
-      <nuxt-link :to="{ path: `/movies/${movie.id}` }" class="slide-link">
-        <v-carousel-item
-          :src="'https://image.tmdb.org/t/p/original' + movie.backdrop_path"
-          reverse-transition="fade-transition"
-          transition="fade-transition"
-          class="slide"
-        >
-          
-          <div class="background-div"></div>
-          <v-row class="overlay-row">
-              <v-col cols="5" sm="4" md="3" align-self="end">
-              <v-img :src="'https://image.tmdb.org/t/p/w500' + movie.poster_path" class="image-poster" >
-                <template v-slot:placeholder>
-                  <v-row class="fill-height ma-0" align="center" justify="center">
-                    <v-progress-circular indeterminate color="grey darken-2"></v-progress-circular>
-                  </v-row>
-                </template>
-              </v-img>
-              </v-col>
-              <v-col cols="7" sm="8" md="9" align-self="end">
-                <div class="title-div">
-                  <div class="movie-title">'{{movie.title}}'</div>
-                  <div class="movie-subtitle">Popular today</div>
-                </div>
-              </v-col>
-          </v-row>
-      
-        </v-carousel-item>
-      </nuxt-link>
+        <nuxt-link :to="{ path: `/movies/${movie.id}` }" class="slide-link">
+          <v-carousel-item
+            :src="`https://image.tmdb.org/t/p/original${movie.backdrop_path}`"
+            reverse-transition="fade-transition"
+            transition="fade-transition"
+            class="slide"
+          >
+            
+            <div class="background-div"></div>
+            <v-row class="overlay-row">
+                <v-col cols="5" sm="4" md="3" align-self="end">
+                <v-img :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`" class="image-poster" >
+                  <template v-slot:placeholder>
+                    <v-row class="fill-height ma-0" align="center" justify="center">
+                      <v-progress-circular indeterminate color="grey darken-2"></v-progress-circular>
+                    </v-row>
+                  </template>
+                </v-img>
+                </v-col>
+                <v-col cols="7" sm="8" md="9" align-self="end">
+                  <div class="title-div">
+                    <div class="movie-title">{{movie.title}}</div>
+                    <div class="movie-subtitle">Trending now</div>
+                  </div>
+                </v-col>
+            </v-row>
+        
+          </v-carousel-item>
+        </nuxt-link>
       </div>
     </v-carousel>
   </v-container>

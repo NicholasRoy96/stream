@@ -1,7 +1,7 @@
 <template>
   <v-card class="movie-card">
     <nuxt-link :to="{ path: `/movies/${movie.id}` }" class="movie-card-link">
-      <v-img v-if="movie.poster_path" class="movie-card-poster" :src="'https://image.tmdb.org/t/p/w185' + movie.poster_path">
+      <v-img v-if="movie.poster_path" class="movie-card-poster" :src="`https://image.tmdb.org/t/p/w185${movie.poster_path}`">
         <template v-slot:placeholder>
           <v-row class="fill-height ma-0" align="center" justify="center">
             <v-progress-circular indeterminate color="grey darken-2"></v-progress-circular>
@@ -9,7 +9,7 @@
         </template>
       </v-img>
       <div v-else class="placeholder-icon-div">
-        <v-icon size="100" color="grey darken-2">mdi-video-image</v-icon>
+        <v-icon class="placeholder-movie-icon" size="100" color="grey darken-2">mdi-video-image</v-icon>
         <h3 class="placeholder-movie-title">No movie poster</h3>
       </div>
     </nuxt-link>
@@ -18,8 +18,8 @@
     </nuxt-link>
     <div class="movie-card-rating-div">
       <v-icon class="movie-card-rating-star" size="17">mdi-star</v-icon>
-      <span v-if="movie.vote_average !== 0" class="movie-card-rating">{{movie.vote_average}}</span>
-      <span v-else class="movie-card-rating">No reviews</span>
+      <span v-if="movie.vote_average" class="movie-card-rating">{{movie.vote_average}}</span>
+      <span v-else class="movie-card-rating">N/A</span>
     </div>
     <v-card-actions class="card-actions d-none d-sm-block">
       <AddWatchlistButton :movie="movie" />

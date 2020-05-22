@@ -21,9 +21,7 @@
       </v-row>
 
       <!-- Load more cards -->
-      <client-only>
-        <infinite-loading spinner="waveDots" @infinite="getMoreMovies"></infinite-loading>
-      </client-only>
+      <infinite-loading spinner="waveDots" @infinite="getMoreMovies"></infinite-loading>
     </v-container>
   </v-app>
 </template>

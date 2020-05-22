@@ -1,11 +1,9 @@
 <template>
-  <client-only>
-    <carousel :per-page="6" :navigationEnabled="true" :paginationEnabled="false" :min-swipe-distance="1">
-      <slide v-for="(movie, i) in movies" :key="i" class="slide">
-        <MovieCard :movie="movie" />
-      </slide>
-    </carousel>
-  </client-only>
+  <carousel :per-page="6" :navigationEnabled="true" :paginationEnabled="false" :min-swipe-distance="1">
+    <slide v-for="(movie, i) in movies" :key="i" class="slide">
+      <MovieCard :movie="movie" />
+    </slide>
+  </carousel>
 </template>
 
 <script>
@@ -20,11 +18,6 @@ export default {
     movies: {
       type: Array,
       required: true
-    }
-  },
-  data () {
-    return {
-      moviePoster: ''
     }
   }
 }

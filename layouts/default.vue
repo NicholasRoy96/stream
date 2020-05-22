@@ -1,8 +1,10 @@
 <template>
   <v-app id="app">
-    <Navbar />
-    <Nuxt />
-    <Footer />
+    <client-only>
+      <Navbar />
+      <Nuxt />
+      <Footer />
+    </client-only>
   </v-app>
 </template>
 

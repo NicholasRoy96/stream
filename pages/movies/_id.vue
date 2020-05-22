@@ -26,9 +26,9 @@
         </v-col>
 
         <v-col cols="12" md="8">
-          <div class="pl-4">
+          <div class="movie-div">
             <div class="movie-title-div">
-              <span class="movie-title">{{movie.title}}</span><span class="released-year">({{releasedYear}})</span>
+              <span class="movie-title">{{movie.title}}</span><span v-if="releasedYear" class="released-year">({{releasedYear}})</span>
             </div>
             <div v-if="movie.tagline" class="movie-tagline">"{{movie.tagline}}"</div>
             <div class="movie-info">
@@ -53,11 +53,11 @@
             </div>
 
             <div class="extra-info">
-              <div class="extra-info-item">
+              <div v-if="movie.genres && movie.genres.length" class="extra-info-item">
                 <span class="extra-info-title">Genres: </span>
                 <a class="extra-info-data" v-for="(genre, i) in movie.genres" :key="i" :href="'/genres/'+ genre.id">{{genre.name}}</a>
               </div>
-              <div>
+              <div v-if="movie.status">
                 <span class="extra-info-title">Status: </span>
                 <span>{{movie.status}}</span>
               </div>
@@ -88,9 +88,7 @@
       </div>
       <v-row v-if="trailers.length">
         <v-col cols="12" md="6" v-for="(trailer, i) in trailers" :key="i">
-          <client-only>
-            <youtube :video-id="trailer.key" player-height="350" player-width="100%"></youtube>
-          </client-only>
+          <youtube :video-id="trailer.key" player-height="350" player-width="100%"></youtube>
         </v-col>
       </v-row>
 
@@ -155,7 +153,9 @@ export default {
         if (this.movie.poster_path) {
           this.moviePoster = `https://image.tmdb.org/t/p/w500${this.movie.poster_path}`
         }
-        this.movieBackdrop = `https://image.tmdb.org/t/p/original${this.movie.backdrop_path}`
+        if (this.movie.backdrop_path) {
+          this.movieBackdrop = `https://image.tmdb.org/t/p/original${this.movie.backdrop_path}`
+        } 
       } catch (err) {
         // suppress movie lookup error
         // console.log(err)
@@ -205,6 +205,9 @@ export default {
 </style>
 
 <style scoped>
+.movie-div {
+  padding-left: 16px;
+}
 .movie-title-div {
   color: #f5c518;
   font-weight: bold;
@@ -270,5 +273,14 @@ export default {
 .sub-heading-description {
   color: darkgrey;
   padding-left: 10px;
+}
+
+/* MEDIA QUERIES */
+
+/* SM */
+@media (max-width: 959px) {
+  .movie-div {
+    padding-left: 0;
+  }
 }
 </style>

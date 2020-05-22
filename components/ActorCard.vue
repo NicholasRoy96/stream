@@ -2,7 +2,7 @@
   <nuxt-link :to="{ path: `/actors/${actor.id}` }" class="actor-card-link">
     <div class="actor-div">
       <v-avatar class="actor-avatar" size="155" color="grey darken-4">
-        <v-img v-if="actor.profile_path" :src="'https://image.tmdb.org/t/p/w185' + actor.profile_path">
+        <v-img v-if="actor.profile_path" :src="`https://image.tmdb.org/t/p/w185${actor.profile_path}`">
           <template v-slot:placeholder>
             <v-row class="fill-height ma-0" align="center" justify="center">
               <v-progress-circular indeterminate color="grey darken-2"></v-progress-circular>

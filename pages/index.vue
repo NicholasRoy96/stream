@@ -1,6 +1,6 @@
 <template>
     <div>
-      <Carousel :movies="popularMovies"/>
+      <BannerCarousel :movies="popularMovies"/>
       <v-container>
         <h3 class="heading">What to watch</h3>
         <div class="subheading-div">
@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import Carousel from "@/components/Carousel.vue"
+import BannerCarousel from "@/components/BannerCarousel.vue"
 import MoviesCarousel from "@/components/MoviesCarousel.vue"
 import MovieCard from "@/components/MovieCard.vue"
 import GenreCard from "@/components/GenreCard.vue"
@@ -64,7 +64,7 @@ import ActorCard from '@/components/ActorCard.vue'
 
 export default {
   components: {
-    Carousel,
+    BannerCarousel,
     MoviesCarousel,
     MovieCard,
     GenreCard,

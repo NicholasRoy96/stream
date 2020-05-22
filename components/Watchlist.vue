@@ -27,7 +27,7 @@
       </v-list-item>
       <v-list-item v-for="(watchlistMovie, i) in watchlist" :key="i" class="watchlist-item">
         <v-avatar tile height="85%" width="10%" class="watchlist-movie-image">
-          <v-img v-if="watchlistMovie.poster_path" :src="'https://image.tmdb.org/t/p/w185' + watchlistMovie.poster_path" ></v-img>
+          <v-img v-if="watchlistMovie.poster_path" :src="`https://image.tmdb.org/t/p/w185${watchlistMovie.poster_path}`" ></v-img>
           <v-icon v-else size="40" color="grey darken-2">mdi-video-image</v-icon>
         </v-avatar>
         <v-list-item-content>

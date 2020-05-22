@@ -125,7 +125,6 @@ export default {
         if (this.actorInfo.profile_path) {
           this.actorImage = `https://image.tmdb.org/t/p/original${this.actorInfo.profile_path}`
         }
-        console.log(this.actorInfo)
       } catch(err) {
         // suppress actor lookup error
         // console.log(err)
@@ -135,7 +134,6 @@ export default {
       try {
         const credits = await this.$axios.$get(`https://api.themoviedb.org/3/person/${this.actorId}/movie_credits?api_key=fac214f57908d267c5cd93e69460f956&language=en-US`)
         this.credits = credits.cast.slice(0, 24)
-        console.log(this.credits)
       } catch(err) {
         // suppress credits lookup error
         // console.log(err)

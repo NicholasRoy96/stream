@@ -1,7 +1,7 @@
 {
-  "name": "movie-site",
+  "name": "stream",
   "version": "1.0.0",
-  "description": "App intergrating Movie Database API",
+  "description": "The only place to stream movies",
   "author": "Nicholas Roy",
   "private": true,
   "scripts": {

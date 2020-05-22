@@ -154,7 +154,6 @@ export default {
         this.movie = await this.$axios.$get(`https://api.themoviedb.org/3/movie/${this.movieId}?api_key=fac214f57908d267c5cd93e69460f956&language=en-US`)
         if (this.movie.poster_path) {
           this.moviePoster = `https://image.tmdb.org/t/p/w500${this.movie.poster_path}`
-          console.log(this.moviePoster)
         }
         this.movieBackdrop = `https://image.tmdb.org/t/p/original${this.movie.backdrop_path}`
       } catch (err) {

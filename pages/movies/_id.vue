@@ -2,12 +2,6 @@
   <v-app>
     <v-container>
       
-      <v-row>
-        <v-col cols="12">
-          
-        </v-col>
-      </v-row>
-
       <!-- Dynamic banner image -->
       <v-img :src="movieBackdrop">
         <template v-slot:placeholder>
@@ -39,10 +33,12 @@
             <div v-if="movie.tagline" class="movie-tagline">"{{movie.tagline}}"</div>
             <div class="movie-info">
               <div v-if="movie.runtime" class="movie-info-item">
-                <v-icon color="blue" class="mr-2">mdi-clock-outline</v-icon>{{movie.runtime}} minutes
+                <v-icon color="blue" class="mr-2" size="20">mdi-clock-outline</v-icon>
+                <span class="movie-info-item-data">{{movie.runtime}} minutes</span>
               </div>
               <div v-if="movie.vote_average" class="movie-info-item">
-                <v-icon color="yellow" class="mr-2">mdi-star</v-icon>{{movie.vote_average}}
+                <v-icon color="yellow" class="mr-2" size="20">mdi-star</v-icon>
+                <span class="movie-info-item-data">{{movie.vote_average}}</span>
               </div>
             </div>
 
@@ -158,6 +154,7 @@ export default {
         this.movie = await this.$axios.$get(`https://api.themoviedb.org/3/movie/${this.movieId}?api_key=fac214f57908d267c5cd93e69460f956&language=en-US`)
         if (this.movie.poster_path) {
           this.moviePoster = `https://image.tmdb.org/t/p/w500${this.movie.poster_path}`
+          console.log(this.moviePoster)
         }
         this.movieBackdrop = `https://image.tmdb.org/t/p/original${this.movie.backdrop_path}`
       } catch (err) {
@@ -229,10 +226,13 @@ export default {
 }
 .movie-info {
   margin-top: 20px;
-  font-weight: bold;
 }
 .movie-info-item {
   margin-bottom: 10px;
+  vertical-align: center;
+}
+.movie-info-item-data {
+  vertical-align: middle;
 }
 .movie-overview {
   margin-top: 30px;

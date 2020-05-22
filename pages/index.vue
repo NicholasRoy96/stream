@@ -1,6 +1,6 @@
 <template>
     <div>
-      <Carousel />
+      <Carousel :movies="popularMovies"/>
       <v-container>
         <h3 class="heading">What to watch</h3>
         <div class="subheading-div">

@@ -98,6 +98,8 @@ export default {
   width: 100%;
 }
 
+/* MEDIA QUERIES */
+
 /* XS */
 @media (max-width: 599px) {
   .movie-card {

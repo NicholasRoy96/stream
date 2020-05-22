@@ -165,7 +165,7 @@ export default {
     async getTrailers() {
       try {
         const trailers = await this.$axios.$get(`https://api.themoviedb.org/3/movie/${this.movieId}/videos?api_key=fac214f57908d267c5cd93e69460f956&language=en-US`)
-        this.trailers = trailers.results
+        this.trailers = trailers.results.slice(0, 2)
       } catch(err) {
         // suppress trailer lookup error
         // console.log(err)

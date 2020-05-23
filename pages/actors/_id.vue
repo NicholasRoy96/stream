@@ -15,14 +15,14 @@
         </v-col>
 
         <v-col cols="12" sm="7" md="8">
-          <div class="pl-4">
+          <div>
             <span class="actor-name">{{actorInfo.name}}</span>
             <div class="actor-info">
               <div class="actor-info-item">
-                <span v-if="actorInfo.birthday && !actorInfo.deathday">Age: {{calculateAge}}</span>
+                <span v-if="actorInfo.birthday && !actorInfo.deathday">Age:<span class="actor-info-item-data">{{calculateAge}}</span></span>
               </div>
               <div class="actor-info-item">
-                <span v-if="actorInfo.birthday">Born: {{formatBirthday}} in {{actorInfo.place_of_birth}}</span>
+                <span v-if="actorInfo.birthday">Born:<span class="actor-info-item-data">{{formatBirthday}} in {{actorInfo.place_of_birth}}</span></span>
               </div>
               <div v-if="actorInfo.deathday" class="actor-info-item">
                 <span>Died: {{formatDeathday}}</span>
@@ -160,12 +160,17 @@ export default {
 }
 .actor-info {
   margin-top: 20px;
-  font-weight: bold;
   padding-left: 10px;
   border-left: 3px solid #f5c518;
 }
 .actor-info-item {
   margin-bottom: 10px;
+  font-weight: bold;
+}
+.actor-info-item-data {
+  color: lightgrey;
+  padding-left: 4px;
+  font-weight: normal;
 }
 .actor-overview {
   margin-top: 30px;

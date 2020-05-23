@@ -14,7 +14,7 @@
               class="d-flex transition-fast-in-fast-out grey darken-4 v-card--reveal display-3"
               style="height: 100%;"
             >
-            <span class="v-card--reveal-name">{{genre.name}}</span>
+              <span class="v-card--reveal-name">{{genre.name}}</span>
             </div>
           </v-expand-transition>
         </v-img>

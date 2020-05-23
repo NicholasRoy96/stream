@@ -49,7 +49,7 @@ export default {
   margin: 10px 15px;
 }
 .footer-icon:hover {
-  color: lightblue !important;
+  color: #f5c518 !important;
 }
 .link-div {
   margin-top: 40px;

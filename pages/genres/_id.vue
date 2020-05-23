@@ -21,7 +21,9 @@
       </v-row>
 
       <!-- Load more cards -->
-      <infinite-loading spinner="waveDots" @infinite="getMoreMovies"></infinite-loading>
+      <client-only>
+        <infinite-loading spinner="waveDots" @infinite="getMoreMovies"></infinite-loading>
+      </client-only>
     </v-container>
   </v-app>
 </template>
@@ -45,7 +47,7 @@ export default {
   methods: {
     async getMovies() {
       try {
-        const movies = await this.$axios.$get(`https://api.themoviedb.org/3/discover/movie?api_key=fac214f57908d267c5cd93e69460f956&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${this.genreId}`)
+        const movies = await this.$axios.$get(`https://api.themoviedb.org/3/discover/movie?api_key=${process.env.apikey}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${this.genreId}`)
         this.movies = movies.results
         const mostPopularBackdrop = this.movies[0].backdrop_path
         this.featuredBackdrop = `https://image.tmdb.org/t/p/original${mostPopularBackdrop}`
@@ -57,7 +59,7 @@ export default {
     },
     async findGenreName() {
       try {
-        const response = await this.$axios.$get("https://api.themoviedb.org/3/genre/movie/list?api_key=fac214f57908d267c5cd93e69460f956&language=en-US")
+        const response = await this.$axios.$get(`https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.apikey}&language=en-US`)
         const genre = response.genres.filter(genre => genre.id == this.genreId)
         this.genre = genre[0].name
       } catch(err) {
@@ -67,7 +69,7 @@ export default {
       
     },
     async getMoreMovies($state) {      
-      const movies = await this.$axios.$get(`https://api.themoviedb.org/3/discover/movie?api_key=fac214f57908d267c5cd93e69460f956&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${this.page}&with_genres=${this.genreId}`)
+      const movies = await this.$axios.$get(`https://api.themoviedb.org/3/discover/movie?api_key=${process.env.apikey}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${this.page}&with_genres=${this.genreId}`)
         .then( movies => {
           if (movies.results.length) {
             this.page += 1

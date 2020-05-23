@@ -30,9 +30,7 @@ export default {
    ** Plugins to load before mounting the App
    */
   plugins: [
-    { src: "~/plugins/carousel3d.js", ssr: false },
     { src: "~/plugins/carousel.js", ssr: false },
-    { src: "~/plugins/debounce.js", ssr: false },
     { src: "~/plugins/infiniteLoading.js", ssr: false },
     { src: "~/plugins/vuex-persist.js", ssr: false },
     { src: "~/plugins/youtubeEmbed.js", ssr: false }
@@ -73,5 +71,8 @@ export default {
      ** You can extend webpack config here
      */
     extend(config, ctx) {}
+  },
+  env: {
+    apikey: "fac214f57908d267c5cd93e69460f956"
   }
 };

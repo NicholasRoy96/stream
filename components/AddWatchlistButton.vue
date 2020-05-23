@@ -8,8 +8,7 @@
     </v-btn>
     <v-btn v-else block small class="watchlist-button" @click="addMovieToWatchlist">
       + Watchlist
-    </v-btn>
-    
+    </v-btn>   
   </div>
 </template>
 
@@ -43,7 +42,7 @@ export default {
     ...mapActions(["addToWatchlist"]),
     async addMovieToWatchlist () {
       try {
-        await this.addToWatchlist(this.movie);
+        await this.addToWatchlist(this.movie)
       } catch(err) {
         console.log(err)
       }

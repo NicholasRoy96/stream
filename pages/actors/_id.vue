@@ -120,7 +120,7 @@ export default {
   methods: {
     async getActor() {
       try {
-        const info = await this.$axios.$get(`https://api.themoviedb.org/3/person/${this.actorId}?api_key=fac214f57908d267c5cd93e69460f956&language=en-US`)
+        const info = await this.$axios.$get(`https://api.themoviedb.org/3/person/${this.actorId}?api_key=${process.env.apikey}&language=en-US`)
         this.actorInfo = info
         if (this.actorInfo.profile_path) {
           this.actorImage = `https://image.tmdb.org/t/p/original${this.actorInfo.profile_path}`
@@ -132,7 +132,7 @@ export default {
     },
     async getCredits() {
       try {
-        const credits = await this.$axios.$get(`https://api.themoviedb.org/3/person/${this.actorId}/movie_credits?api_key=fac214f57908d267c5cd93e69460f956&language=en-US`)
+        const credits = await this.$axios.$get(`https://api.themoviedb.org/3/person/${this.actorId}/movie_credits?api_key=${process.env.apikey}&language=en-US`)
         this.credits = credits.cast.slice(0, 24)
       } catch(err) {
         // suppress credits lookup error

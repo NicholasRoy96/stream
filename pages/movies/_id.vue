@@ -88,7 +88,9 @@
       </div>
       <v-row v-if="trailers.length">
         <v-col cols="12" md="6" v-for="(trailer, i) in trailers" :key="i">
-          <youtube :video-id="trailer.key" player-height="350" player-width="100%"></youtube>
+          <client-only>
+            <youtube :video-id="trailer.key" player-height="350" player-width="100%"></youtube>
+          </client-only>
         </v-col>
       </v-row>
 
@@ -149,7 +151,7 @@ export default {
   methods: {
     async getMovie() {
       try {
-        this.movie = await this.$axios.$get(`https://api.themoviedb.org/3/movie/${this.movieId}?api_key=fac214f57908d267c5cd93e69460f956&language=en-US`)
+        this.movie = await this.$axios.$get(`https://api.themoviedb.org/3/movie/${this.movieId}?api_key=${process.env.apikey}&language=en-US`)
         if (this.movie.poster_path) {
           this.moviePoster = `https://image.tmdb.org/t/p/w500${this.movie.poster_path}`
         }
@@ -163,7 +165,7 @@ export default {
     },
     async getTrailers() {
       try {
-        const trailers = await this.$axios.$get(`https://api.themoviedb.org/3/movie/${this.movieId}/videos?api_key=fac214f57908d267c5cd93e69460f956&language=en-US`)
+        const trailers = await this.$axios.$get(`https://api.themoviedb.org/3/movie/${this.movieId}/videos?api_key=${process.env.apikey}&language=en-US`)
         this.trailers = trailers.results.slice(0, 2)
       } catch(err) {
         // suppress trailer lookup error
@@ -172,7 +174,7 @@ export default {
     },
     async getSimilarMovies () {
       try {
-        const movies = await this.$axios.$get(`https://api.themoviedb.org/3/movie/${this.movieId}/similar?api_key=fac214f57908d267c5cd93e69460f956&language=en-US&page=1`)
+        const movies = await this.$axios.$get(`https://api.themoviedb.org/3/movie/${this.movieId}/similar?api_key=${process.env.apikey}&language=en-US&page=1`)
         this.similarMovies = movies.results.slice(0, 12)
       } catch(err) {
         // suppress movie lookup error
@@ -181,7 +183,7 @@ export default {
     },
     async getCredits() {
       try {
-        const credits = await this.$axios.$get(`https://api.themoviedb.org/3/movie/${this.movieId}/credits?api_key=fac214f57908d267c5cd93e69460f956`) 
+        const credits = await this.$axios.$get(`https://api.themoviedb.org/3/movie/${this.movieId}/credits?api_key=${process.env.apikey}`) 
         this.cast = credits.cast.slice(0, 6)
       } catch(err) {
         // suppress cast lookup error

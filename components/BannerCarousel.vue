@@ -38,7 +38,7 @@
 
 <script>
 export default {
-  name: 'Carousel',
+  name: 'BannerCarousel',
   props: {
     movies: {
       type: Array,

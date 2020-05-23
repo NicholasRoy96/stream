@@ -49,10 +49,6 @@ afterEach(() => {
   invalidMovie.destroy();
 })
 
-
-// if text is expected every time, write test in main describe block
-// if text only shows under certain conditions, (v-if/v-else/v-else-if),
-//   create new describe block explaining conditioning that youre testing
 describe("MovieCard.vue", () => {
   test("is a Vue instance", () => {
     expect(validMovie.isVueInstance()).toBeTruthy();

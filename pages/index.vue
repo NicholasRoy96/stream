@@ -112,22 +112,22 @@ export default {
   },
   methods: {
     async getPopularMovies() {
-      const movies = await this.$axios.$get('https://api.themoviedb.org/3/movie/popular?api_key=fac214f57908d267c5cd93e69460f956&language=en-US&page=1');
-      this.popularMovies = movies.results;
+      const movies = await this.$axios.$get(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.apikey}&language=en-US&page=1`)
+      this.popularMovies = movies.results
     },
     async getTopMovies() {
-      const movies = await this.$axios.$get('https://api.themoviedb.org/3/movie/top_rated?api_key=fac214f57908d267c5cd93e69460f956&language=en-US&page=1');
-      this.topMovies = movies.results;
+      const movies = await this.$axios.$get(`https://api.themoviedb.org/3/movie/top_rated?api_key=${process.env.apikey}&language=en-US&page=1`)
+      this.topMovies = movies.results
     },
     async getTrendingActors() {
-      const actors = await this.$axios.$get('https://api.themoviedb.org/3/person/popular?api_key=fac214f57908d267c5cd93e69460f956&language=en-US&page=1');
+      const actors = await this.$axios.$get(`https://api.themoviedb.org/3/person/popular?api_key=${process.env.apikey}&language=en-US&page=1`)
       this.trendingActors = actors.results.slice(0, 12)
     }
   },
   created() {
-    this.getPopularMovies();
-    this.getTopMovies();
-    this.getTrendingActors();
+    this.getPopularMovies()
+    this.getTopMovies()
+    this.getTrendingActors()
   }
 }
 </script>

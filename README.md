@@ -1,7 +1,7 @@
 ![logo](https://user-images.githubusercontent.com/54635883/82729346-abff3480-9cee-11ea-97b3-228b725fb6f3.png)
 
 # stream
-###Visit the live stream site [here](http://stream-co.herokuapp.com/), hosted with Heroku.
+### Visit the live stream site [here](http://stream-co.herokuapp.com/), hosted with Heroku.
 
 ----
 ## What is stream?

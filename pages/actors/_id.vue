@@ -25,7 +25,7 @@
                 <span v-if="actorInfo.birthday">Born:<span class="actor-info-item-data">{{formatBirthday}} in {{actorInfo.place_of_birth}}</span></span>
               </div>
               <div v-if="actorInfo.deathday" class="actor-info-item">
-                <span>Died: {{formatDeathday}}</span>
+                <span>Died:<span class="actor-info-item-data">{{formatDeathday}}</span></span>
               </div>
             </div>
 
@@ -169,7 +169,7 @@ export default {
 }
 .actor-info-item-data {
   color: lightgrey;
-  padding-left: 4px;
+  padding-left: 6px;
   font-weight: normal;
 }
 .actor-overview {

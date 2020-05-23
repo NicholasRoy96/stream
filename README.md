@@ -50,10 +50,11 @@
 * Currently, the site essentially renders a blank page when an invalid id is  passed into params, so this could be improved upon.
 
 ### Project structure
-*  
+* Currently components are all within one directory. If I were to scale this further, I would separate these components into logical directories to make the components more maintainable.
 
 ### Config
 * In a production environment I wouldn't expose the API key I am using. In this instance though, to make running the site locally easier, the API key has been included in the config.
+* Furthermore, I could also store variables used multiple places in config to reduce duplication of code.
 
 ### Hosting
 * The site is currently hosted using a free tier of Heroku. In a production environment, paying for better hosting (and using a custom domain name) would improve the site look and performance.

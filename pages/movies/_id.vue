@@ -55,7 +55,7 @@
             <div class="extra-info">
               <div v-if="movie.genres && movie.genres.length" class="extra-info-item">
                 <span class="extra-info-title">Genres: </span>
-                <a class="extra-info-data" v-for="(genre, i) in movie.genres" :key="i" :href="'/genres/'+ genre.id">{{genre.name}}</a>
+                <a class="extra-info-data" v-for="(genre, i) in movie.genres" :key="i" :href="`/genres/${genre.id}`">{{genre.name}}</a>
               </div>
               <div v-if="movie.status">
                 <span class="extra-info-title">Status: </span>
@@ -142,9 +142,10 @@ export default {
     },
     trimmedOverview() {
       if (this.movie && this.movie.overview) {
-        if (this.movie.overview.length > 400) {
-          return this.movie.overview.slice(0, 400).trim() + "..."
+        if (this.movie.overview.length < 400) {
+          return ''
         }
+        return this.movie.overview.slice(0, 400).trim() + "..."
       }
     },
   },

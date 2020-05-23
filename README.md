@@ -11,13 +11,13 @@
 ----
 ## How to run locally
 
-### Clone and install dependencies
-1.  git clone: https://github.com/NicholasRoy96/stream.git
-2. npm install
-
-### Run with hot reload
-1. npm run dev
-2. app is running at localhost:3000
+### Clone and install dependencies (requires Node v12 or later)
+```
+1. git clone https://github.com/NicholasRoy96/stream.git
+2. cd stream
+3. npm install
+4. npm run dev
+```
 
 ----
 ## Features
@@ -47,8 +47,13 @@
 
 ### Error pages
 * Given more time, I would using utliise Nuxt validation on the dynamic pages, meaning that if a user passed in an invalid id in the params, a well-designed 404 page could be rendered.
-* Currently, although the site essentially renders a blank page when an invalid id is  passed into params, so this could be improved upon.
+* Currently, the site essentially renders a blank page when an invalid id is  passed into params, so this could be improved upon.
+
+### Project structure
+*  
 
 ### Config
-* In a real production environment I wouldn't expose the API key I am using. In this instance though, for ease of access if you want to run the site locally, the API key has just included in the repo.
-* The site is currently hosted using a free tier of Heroku. In a real production environment, paying for better hosting (and custom domain name) would improve the site look and performance.
+* In a production environment I wouldn't expose the API key I am using. In this instance though, to make running the site locally easier, the API key has been included in the config.
+
+### Hosting
+* The site is currently hosted using a free tier of Heroku. In a production environment, paying for better hosting (and using a custom domain name) would improve the site look and performance.

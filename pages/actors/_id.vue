@@ -3,7 +3,7 @@
     <v-container>
 
       <v-row>
-        <v-col cols="12" sm="5" md="4">
+        <v-col cols="8" sm="5" md="4" offset="2" offset-sm="0">
           <v-img v-if="actorImage" :src="actorImage" class="actor-image">
             <template v-slot:placeholder>
               <v-row class="fill-height ma-0" align="center" justify="center">
@@ -22,7 +22,10 @@
                 <span v-if="actorInfo.birthday && !actorInfo.deathday">Age:<span class="actor-info-item-data">{{calculateAge}}</span></span>
               </div>
               <div class="actor-info-item">
-                <span v-if="actorInfo.birthday">Born:<span class="actor-info-item-data">{{formatBirthday}} in {{actorInfo.place_of_birth}}</span></span>
+                <span v-if="actorInfo.birthday">
+                  Born:<span class="actor-info-item-data">{{formatBirthday}}</span>
+                  <span v-if="actorInfo.place_of_birth" class="actor-info-item-data birthplace">in {{actorInfo.place_of_birth}}</span>
+                </span>
               </div>
               <div v-if="actorInfo.deathday" class="actor-info-item">
                 <span>Died:<span class="actor-info-item-data">{{formatDeathday}}</span></span>
@@ -171,6 +174,9 @@ export default {
   color: lightgrey;
   padding-left: 6px;
   font-weight: normal;
+}
+.birthplace {
+  padding-left: 1px;
 }
 .actor-overview {
   margin-top: 30px;

@@ -39,6 +39,7 @@
               <div v-if="movie.vote_average" class="movie-info-item">
                 <v-icon color="yellow" class="mr-2" size="20">mdi-star</v-icon>
                 <span class="movie-info-item-data">{{movie.vote_average}}</span>
+                <span class="movie-info-item-data vote-count">({{movie.vote_count}})</span>
               </div>
             </div>
 
@@ -53,6 +54,10 @@
             </div>
 
             <div class="extra-info">
+              <div v-if="director.name" class="extra-info-item">
+                <span class="extra-info-title">Directed by: </span>
+                <span>{{director.name}}</span>
+              </div>
               <div v-if="movie.genres && movie.genres.length" class="extra-info-item">
                 <span class="extra-info-title">Genres: </span>
                 <a class="extra-info-data" v-for="(genre, i) in movie.genres" :key="i" :href="`/genres/${genre.id}`">{{genre.name}}</a>
@@ -94,6 +99,17 @@
         </v-col>
       </v-row>
 
+      <!-- Collection cards -->
+      <div v-if="collectionExists" class="sub-div">
+        <h3 class="sub-heading">{{collection.name}}</h3>
+        <h3 class="sub-heading-description">Explore the entire collection</h3>
+      </div>
+      <v-row>
+        <v-col cols="4" sm="3" lg="2" v-for="(movie, i) in collection.parts" :key="i">
+          <MovieCard :movie="movie" />
+        </v-col>
+      </v-row>
+
       <!-- Similar movies cards -->
       <div v-if="similarMovies.length" class="sub-div">
         <h3 class="sub-heading">Similar movies</h3>
@@ -128,7 +144,10 @@ export default {
       movieBackdrop: '',
       trailers: [],
       expandOverview: false,
+      director: {},
       cast: [],
+      collection: {},
+      collectionExists: false,
       similarMovies: []
     }
   },
@@ -147,18 +166,22 @@ export default {
         }
         return this.movie.overview.slice(0, 400).trim() + "..."
       }
-    },
+    }
   },
   methods: {
     async getMovie() {
       try {
         this.movie = await this.$axios.$get(`https://api.themoviedb.org/3/movie/${this.movieId}?api_key=${process.env.apikey}&language=en-US`)
+        console.log(this.movie)
         if (this.movie.poster_path) {
           this.moviePoster = `https://image.tmdb.org/t/p/w500${this.movie.poster_path}`
         }
         if (this.movie.backdrop_path) {
           this.movieBackdrop = `https://image.tmdb.org/t/p/original${this.movie.backdrop_path}`
-        } 
+        }
+        if (this.movie.belongs_to_collection) {
+          this.getCollection()
+        }
       } catch (err) {
         // suppress movie lookup error
         // console.log(err)
@@ -173,6 +196,16 @@ export default {
         // console.log(err)
       } 
     },
+    async getCollection() {
+      try {
+        const collection = await this.$axios.$get (`https://api.themoviedb.org/3/collection/${this.movie.belongs_to_collection.id}?api_key=${process.env.apikey}&language=en-US`)
+        this.collection = collection
+        this.collectionExists = true
+      } catch(err) {
+        // supress collection lookup error
+        // console.log(err)
+      }
+    },
     async getSimilarMovies () {
       try {
         const movies = await this.$axios.$get(`https://api.themoviedb.org/3/movie/${this.movieId}/similar?api_key=${process.env.apikey}&language=en-US&page=1`)
@@ -184,7 +217,10 @@ export default {
     },
     async getCredits() {
       try {
-        const credits = await this.$axios.$get(`https://api.themoviedb.org/3/movie/${this.movieId}/credits?api_key=${process.env.apikey}`) 
+        const credits = await this.$axios.$get(`https://api.themoviedb.org/3/movie/${this.movieId}/credits?api_key=${process.env.apikey}`)
+        this.director = credits.crew.filter(crew => {
+          return crew.job === "Director"
+        }).pop()
         this.cast = credits.cast.slice(0, 6)
       } catch(err) {
         // suppress cast lookup error
@@ -201,12 +237,6 @@ export default {
 }
 </script>
 
-<style>
-.ytp-pause-overlay {
-  display: none;
-}
-</style>
-
 <style scoped>
 .movie-div {
   padding-left: 16px;
@@ -216,15 +246,15 @@ export default {
   font-weight: bold;
 }
 .movie-title {
-  font-size: 2.5em;
+  font-size: 2.3em;
   margin-right: 8px;
 }
 .released-year {
-  font-size: 1.7em;
+  font-size: 1.4em;
   font-weight: normal;
 }
 .movie-tagline {
-  font-size: 1.3em;
+  font-size: 1.2em;
   font-weight: bold;
   padding-left: 10px;
   border-left: 3px solid #f5c518;
@@ -238,6 +268,9 @@ export default {
 }
 .movie-info-item-data {
   vertical-align: middle;
+}
+.vote-count {
+  font-size: 0.8em;
 }
 .movie-overview {
   margin-top: 30px;

@@ -23,7 +23,7 @@
 ## Features
 * A homepage that fetches data of popular and top-rated movies, trending actors, and ~20 film genres, allowing the user to navigate any of these categories.
 * Pages for each genre that list all movies of the selected genre and infinitely loads more movies as the user scrolls.
-* A dynamic movie page that contains information of a selected movie,  including trailers, cast, and similar movies.
+* A dynamic movie page that contains information of a selected movie, including trailers, cast, collections, and similar movies.
 * A dynamic actor page that contains information of a selected actor, including their most notable credits.
 * A watchlist (essentially a cart) that users can add and remove movies from.
 * A live search that enables users to search for any film in the database.

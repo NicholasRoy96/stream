@@ -111,6 +111,9 @@ export default {
   .placeholder-icon-div {
     height: 78%;
   }
+  .placeholder-movie-title {
+    font-size: 0.9em;
+  }
   .movie-card-title {
     font-size: 0.8em;
   }

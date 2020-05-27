@@ -58,7 +58,7 @@
                 <span class="extra-info-title">Directed by: </span>
                 <span>{{director.name}}</span>
               </div>
-              <div v-if="movie.genres && movie.genres.length" class="extra-info-item">
+              <div v-if="movie.genres.length" class="extra-info-item">
                 <span class="extra-info-title">Genres: </span>
                 <a class="extra-info-data" v-for="(genre, i) in movie.genres" :key="i" :href="`/genres/${genre.id}`">{{genre.name}}</a>
               </div>
@@ -76,7 +76,7 @@
       </v-row>
 
       <!-- Cast cards -->
-      <div v-if="cast.length" class="sub-div">
+      <div v-if="cast && cast.length" class="sub-div">
         <h3 class="sub-heading">Cast</h3>
         <h3 class="sub-heading-description">Meet the stars</h3>
       </div>
@@ -139,7 +139,7 @@ export default {
   data () {
     return {
       movieId: this.$route.params.id,
-      movie: {},
+      movie: {genres: []},
       moviePoster: '',
       movieBackdrop: '',
       trailers: [],
@@ -172,7 +172,6 @@ export default {
     async getMovie() {
       try {
         this.movie = await this.$axios.$get(`https://api.themoviedb.org/3/movie/${this.movieId}?api_key=${process.env.apikey}&language=en-US`)
-        console.log(this.movie)
         if (this.movie.poster_path) {
           this.moviePoster = `https://image.tmdb.org/t/p/w500${this.movie.poster_path}`
         }
@@ -218,9 +217,7 @@ export default {
     async getCredits() {
       try {
         const credits = await this.$axios.$get(`https://api.themoviedb.org/3/movie/${this.movieId}/credits?api_key=${process.env.apikey}`)
-        this.director = credits.crew.filter(crew => {
-          return crew.job === "Director"
-        }).pop()
+        this.director = credits.crew.find(crew => crew.job === "Director") || {}
         this.cast = credits.cast.slice(0, 6)
       } catch(err) {
         // suppress cast lookup error

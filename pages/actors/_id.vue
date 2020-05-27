@@ -16,7 +16,7 @@
 
         <v-col cols="12" sm="7" md="8">
           <div>
-            <span class="actor-name">{{actorInfo.name}}</span>
+            <span v-if="actorInfo.name" class="actor-name">{{actorInfo.name}}</span>
             <div class="actor-info">
               <div class="actor-info-item">
                 <span v-if="actorInfo.birthday && !actorInfo.deathday">Age:<span class="actor-info-item-data">{{calculateAge}}</span></span>

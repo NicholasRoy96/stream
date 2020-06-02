@@ -6,7 +6,7 @@
     <v-btn v-else-if="inWatchlist && available" block small disabled class="watchlist-button">
       In Watchlist
     </v-btn>
-    <v-btn v-else block small class="watchlist-button" @click="addMovieToWatchlist">
+    <v-btn v-else block small class="watchlist-button" @click="addMediaToWatchlist">
       + Watchlist
     </v-btn>   
   </div>
@@ -18,7 +18,7 @@ import { mapState, mapActions } from 'vuex'
 export default {
   name: 'AddWatchlistButton',
   props: {
-    movie: {
+    media: {
       type: Object,
       required: true
     }
@@ -26,23 +26,30 @@ export default {
   computed: {
     ...mapState(["watchlist"]),
     available() {
-      if (this.movie && this.movie.release_date) {
+      if (this.media) {
         const today = new Date().toISOString().slice(0,10).split('-')
-        const release = this.movie.release_date.split('-')
-        return today > release
+        if (this.media.release_date) {
+          const release = this.media.release_date.split('-')
+          return today > release
+        }
+        if (this.media.first_air_date) {
+          const release = this.media.first_air_date.split('-')
+          return today > release
+        }
+        return null
       }
     },
     inWatchlist() {
-      return this.watchlist.some(watchlistMovie => {
-        return watchlistMovie.id === this.movie.id
+      return this.watchlist.some(watchlistMedia => {
+        return watchlistMedia.id === this.media.id
       })
     }
   },
   methods: {
     ...mapActions(["addToWatchlist"]),
-    async addMovieToWatchlist () {
+    async addMediaToWatchlist () {
       try {
-        await this.addToWatchlist(this.movie)
+        await this.addToWatchlist(this.media)
       } catch(err) {
         console.log(err)
       }

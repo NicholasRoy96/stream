@@ -33,7 +33,8 @@ export default {
     { src: "~/plugins/carousel.js", ssr: false },
     { src: "~/plugins/infiniteLoading.js", ssr: false },
     { src: "~/plugins/vuex-persist.js", ssr: false },
-    { src: "~/plugins/youtubeEmbed.js", ssr: false }
+    { src: "~/plugins/youtubeEmbed.js", ssr: false },
+    { src: "~/plugins/filters.js", ssr: false }
   ],
   /*
    ** Nuxt.js dev-modules

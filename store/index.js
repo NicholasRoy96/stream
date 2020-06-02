@@ -20,7 +20,7 @@ export const actions = {
     commit('setWatchlist', params)
   },
   removeFromWatchlist({ commit, state }, id) {
-    const updatedWatchlist = state.watchlist.filter(movie => movie.id !== id)
+    const updatedWatchlist = state.watchlist.filter(media => media.id !== id)
     commit('updateWatchlist', updatedWatchlist)
   },
   emptyWatchlist ({ commit }) {

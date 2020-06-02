@@ -1,5 +1,6 @@
 <template>
   <v-menu bottom left min-width="300" max-width="300" max-height="500" transition="slide-x-reverse-transition" :close-on-content-click="false">
+    
     <template v-slot:activator="{ on }">
       
       <!-- MD + -->
@@ -25,21 +26,21 @@
       <v-list-item v-if="!watchlist.length">
         <v-list-item-title class="text-center watchlist-empty-title">Your watchlist is empty.</v-list-item-title>
       </v-list-item>
-      <v-list-item v-for="(watchlistMovie, i) in watchlist" :key="i" class="watchlist-item">
-        <v-avatar tile height="85%" width="10%" class="watchlist-movie-image">
-          <v-img v-if="watchlistMovie.poster_path" :src="`https://image.tmdb.org/t/p/w185${watchlistMovie.poster_path}`" ></v-img>
+      <v-list-item v-for="(watchlistMedia, i) in watchlist" :key="i" class="watchlist-item">
+        <v-avatar tile height="85%" width="10%" class="watchlist-media-image">
+          <v-img v-if="watchlistMedia.poster_path" :src="`https://image.tmdb.org/t/p/w185${watchlistMedia.poster_path}`" ></v-img>
           <v-icon v-else size="40" color="grey darken-2">mdi-video-image</v-icon>
         </v-avatar>
         <v-list-item-content>
-          <nuxt-link :to="{ path: `/movies/${watchlistMovie.id}` }" class="watchlist-movie-link">
-            <v-list-item-title class="watchlist-movie-title">{{ watchlistMovie.title }}</v-list-item-title>
+          <nuxt-link :to="{ path: `/${determineMediaType(watchlistMedia)}/${watchlistMedia.id}` }" class="watchlist-media-link">
+            <v-list-item-title class="watchlist-media-title">{{ watchlistMedia.title || watchlistMedia.name }}</v-list-item-title>
           </nuxt-link>
           <v-list-item-subtitle class="watchlist-rating">
-            {{releasedYear(watchlistMovie)}}
+            {{releasedYear(watchlistMedia)}}
           </v-list-item-subtitle>
         </v-list-item-content>
         <v-list-item-action>
-          <v-btn icon @click="removeFromWatchlist(watchlistMovie.id)">
+          <v-btn icon @click="removeFromWatchlist(watchlistMedia.id)">
             <v-icon color="grey darken-1">mdi-bookmark-remove</v-icon>
           </v-btn>
         </v-list-item-action>
@@ -61,12 +62,22 @@ export default {
   name: 'Watchlist',
   computed: {
     ...mapState(["watchlist"]),
+
   },
   methods: {
     ...mapActions(["removeFromWatchlist"]),
-    releasedYear(movie) {
-      const date = movie.release_date.toString()
-      return date.slice(0, 4)
+    releasedYear(media) {
+      if (media.release_date) {
+        const date = media.release_date.toString()
+        return date.slice(0, 4)
+      }
+      if (media.first_air_date) {
+        const date = media.first_air_date.toString()
+        return date.slice(0, 4)
+      }
+    },
+    determineMediaType(media) {
+      return media.first_air_date ? "tv" : "movies"
     }
   }
 }
@@ -89,21 +100,21 @@ export default {
 .watchlist-item {
   height: 100px;
 }
-.watchlist-movie-title {
+.watchlist-media-title {
   font-size: 0.9em;
   font-weight: bold;
 }
-.watchlist-movie-link {
+.watchlist-media-link {
   text-decoration: none;
   color: lightgrey;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-.watchlist-movie-link:hover {
+.watchlist-media-link:hover {
   text-decoration: underline;
 }
-.watchlist-movie-image {
+.watchlist-media-image {
   margin-right: 22px;
 }
 .watchlist-rating-star {

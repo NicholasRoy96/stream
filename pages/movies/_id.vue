@@ -28,7 +28,7 @@
         <v-col cols="12" md="8">
           <div class="movie-div">
             <div class="movie-title-div">
-              <span class="movie-title">{{movie.title}}</span><span v-if="releasedYear" class="released-year">({{releasedYear}})</span>
+              <span class="movie-title">{{movie.title}}</span><span v-if="movie.release_date" class="released-year">({{ movie.release_date | formatYear }})</span>
             </div>
             <div v-if="movie.tagline" class="movie-tagline">"{{movie.tagline}}"</div>
             <div class="movie-info">
@@ -56,7 +56,7 @@
             <div class="extra-info">
               <div v-if="director.name" class="extra-info-item">
                 <span class="extra-info-title">Directed by: </span>
-                <span>{{director.name}}</span>
+                <a class="extra-info-data" :href="`/people/${director.id}`">{{director.name}}</a>
               </div>
               <div v-if="movie.genres.length" class="extra-info-item">
                 <span class="extra-info-title">Genres: </span>
@@ -68,7 +68,7 @@
               </div>
             </div>
             <div>
-              <AddWatchlistButton :movie="movie" />
+              <AddWatchlistButton :media="movie" />
             </div>
           </div>
         </v-col>
@@ -82,7 +82,18 @@
       </div>
       <v-row>
         <v-col cols="6" sm="4" lg="2" v-for="(actor, i) in cast" :key="i" align-self="center">
-          <ActorCard :actor="actor" />
+          <PersonCard :person="actor" />
+        </v-col>
+      </v-row>
+
+      <!-- Crew cards -->
+      <div v-if="crew && crew.length" class="sub-div">
+        <h3 class="sub-heading">Crew</h3>
+        <h3 class="sub-heading-description">Meet the production team</h3>
+      </div>
+      <v-row>
+        <v-col cols="6" sm="4" lg="2" v-for="(crew, i) in crew" :key="i" align-self="center">
+          <PersonCard :person="crew" />
         </v-col>
       </v-row>
 
@@ -104,10 +115,8 @@
         <h3 class="sub-heading">{{collection.name}}</h3>
         <h3 class="sub-heading-description">Explore the entire collection</h3>
       </div>
-      <v-row>
-        <v-col cols="4" sm="3" lg="2" v-for="(movie, i) in collection.parts" :key="i">
-          <MovieCard :movie="movie" />
-        </v-col>
+      <v-row class="pl-1">
+        <MediaCard v-for="(movie, i) in collection.parts" :key="i" :media="movie" />
       </v-row>
 
       <!-- Similar movies cards -->
@@ -115,10 +124,8 @@
         <h3 class="sub-heading">Similar movies</h3>
         <h3 class="sub-heading-description">We found more movies you might like</h3>
       </div>
-      <v-row>
-        <v-col cols="4" sm="3" lg="2" v-for="(movie, i) in similarMovies" :key="i">
-          <MovieCard :movie="movie" />
-        </v-col>
+      <v-row class="pl-1">
+        <MediaCard v-for="(movie, i) in similarMovies" :key="i" :media="movie" />
       </v-row>
 
     </v-container>
@@ -126,15 +133,15 @@
 </template>
 
 <script>
-import MovieCard from '@/components/MovieCard.vue'
+import MediaCard from '@/components/MediaCard.vue'
 import AddWatchlistButton from '@/components/AddWatchlistButton.vue'
-import ActorCard from '@/components/ActorCard.vue'
+import PersonCard from '@/components/PersonCard.vue'
 
 export default {
   components: {
-    MovieCard,
+    MediaCard,
     AddWatchlistButton,
-    ActorCard
+    PersonCard
   },
   data () {
     return {
@@ -144,21 +151,15 @@ export default {
       movieBackdrop: '',
       trailers: [],
       expandOverview: false,
-      director: {},
       cast: [],
+      crew: [],
+      director: {},
       collection: {},
       collectionExists: false,
       similarMovies: []
     }
   },
   computed: {
-    releasedYear() {
-      if (this.movie && this.movie.release_date) {
-        const date = this.movie.release_date.toString()
-        return date.slice(0, 4)
-      }
-      return ''
-    },
     trimmedOverview() {
       if (this.movie && this.movie.overview) {
         if (this.movie.overview.length < 400) {
@@ -172,6 +173,7 @@ export default {
     async getMovie() {
       try {
         this.movie = await this.$axios.$get(`https://api.themoviedb.org/3/movie/${this.movieId}?api_key=${process.env.apikey}&language=en-US`)
+        console.log(this.movie)
         if (this.movie.poster_path) {
           this.moviePoster = `https://image.tmdb.org/t/p/w500${this.movie.poster_path}`
         }
@@ -217,8 +219,10 @@ export default {
     async getCredits() {
       try {
         const credits = await this.$axios.$get(`https://api.themoviedb.org/3/movie/${this.movieId}/credits?api_key=${process.env.apikey}`)
-        this.director = credits.crew.find(crew => crew.job === "Director") || {}
+        console.log(credits.crew)
         this.cast = credits.cast.slice(0, 6)
+        this.crew = credits.crew.slice(0, 6)
+        this.director = credits.crew.find(crew => crew.job === "Director") || {}
       } catch(err) {
         // suppress cast lookup error
         // console.log(err)

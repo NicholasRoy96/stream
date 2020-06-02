@@ -2,19 +2,19 @@
   <client-only>
     <carousel :per-page="6" :navigationEnabled="true" :paginationEnabled="false" :min-swipe-distance="1">
       <slide v-for="(movie, i) in movies" :key="i" class="slide">
-        <MovieCard :movie="movie" />
+        <MediaCard :media="movie" />
       </slide>
     </carousel>
   </client-only>
 </template>
 
 <script>
-import MovieCard from '@/components/MovieCard.vue'
+import MediaCard from '@/components/MediaCard.vue'
 
 export default {
   name: 'MoviesCarousel',
   components: {
-    MovieCard
+    MediaCard
   },
   props: {
     movies: {

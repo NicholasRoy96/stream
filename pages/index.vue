@@ -12,10 +12,8 @@
         <MoviesCarousel :movies="popularMovies" class="mb-10 d-none d-lg-block" />
 
         <!-- MD- -->
-        <v-row class="d-lg-none mb-10">
-          <v-col cols="4" sm="3" v-for="(movie, i) in trimmedPopularMovies" :key="i">
-            <MovieCard :movie="movie"/>
-          </v-col>
+        <v-row class="d-lg-none mb-10 pl-1" justify="center">
+          <MediaCard v-for="(movie, i) in trimmedPopularMovies" :key="i" :media="movie"/>
         </v-row>
 
         <div class="subheading-div">
@@ -27,10 +25,8 @@
         <MoviesCarousel :movies="topMovies" class="d-none d-lg-block" />
 
         <!-- MD- -->
-        <v-row class="d-lg-none">
-          <v-col cols="4" sm="3" v-for="(movie, i) in trimmedTopMovies" :key="i">
-            <MovieCard :movie="movie"/>
-          </v-col>
+        <v-row class="d-lg-none pl-1" justify="center">
+          <MediaCard v-for="(movie, i) in trimmedTopMovies" :key="i" :media="movie"/>
         </v-row>
 
         <h3 class="heading">Explore genres</h3>
@@ -47,7 +43,7 @@
           </div>
           <v-row>
             <v-col cols="6" sm="4" lg="2" v-for="(actor, i) in trendingActors" :key="i" align-self="center">
-              <ActorCard :actor="actor" />
+              <PersonCard :person="actor" />
             </v-col>
           </v-row>
         
@@ -58,17 +54,17 @@
 <script>
 import BannerCarousel from "@/components/BannerCarousel.vue"
 import MoviesCarousel from "@/components/MoviesCarousel.vue"
-import MovieCard from "@/components/MovieCard.vue"
+import MediaCard from "@/components/MediaCard.vue"
 import GenreCard from "@/components/GenreCard.vue"
-import ActorCard from '@/components/ActorCard.vue'
+import PersonCard from '@/components/PersonCard.vue'
 
 export default {
   components: {
     BannerCarousel,
     MoviesCarousel,
-    MovieCard,
+    MediaCard,
     GenreCard,
-    ActorCard
+    PersonCard
   },
   data() {
     return {
@@ -114,6 +110,7 @@ export default {
     async getPopularMovies() {
       const movies = await this.$axios.$get(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.apikey}&language=en-US&page=1`)
       this.popularMovies = movies.results
+      console.log(this.popularMovies)
     },
     async getTopMovies() {
       const movies = await this.$axios.$get(`https://api.themoviedb.org/3/movie/top_rated?api_key=${process.env.apikey}&language=en-US&page=1`)

@@ -1,9 +1,5 @@
 import colors from 'vuetify/es5/util/colors'
 
-['nuxt-i18n', {
-  seo: false
-}]
-
 export default {
   mode: "universal",
   /*

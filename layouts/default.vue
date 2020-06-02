@@ -11,9 +11,6 @@ import Navbar from "@/components/Navbar.vue"
 import Footer from "@/components/Footer.vue"
 
 export default {
-  head () {
-    return this.$nuxtI18nSeo()
-  },
   components: {
     Navbar,
     Footer

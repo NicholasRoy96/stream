@@ -74,6 +74,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import MediaCarousel from '@/components/MediaCarousel.vue'
 
 export default {
@@ -130,14 +131,15 @@ export default {
     }
   },
   methods: {
+    ...mapActions(["addToRecentlyViewed"]),
     async getPerson() {
       try {
-        const info = await this.$axios.$get(`https://api.themoviedb.org/3/person/${this.personId}?api_key=${process.env.apikey}&language=en-US`)
-        this.personInfo = info
+        this.personInfo = await this.$axios.$get(`https://api.themoviedb.org/3/person/${this.personId}?api_key=${process.env.apikey}&language=en-US`)
         console.log(this.personInfo)
         if (this.personInfo.profile_path) {
           this.personImage = `https://image.tmdb.org/t/p/original${this.personInfo.profile_path}`
         }
+        this.addMediaToRecentlyViewed()
       } catch(err) {
         // suppress person lookup error
         // console.log(err)
@@ -175,6 +177,13 @@ export default {
       } catch(err) {
         // suppress credits lookup error
         // console.log(err)
+      }
+    },
+    async addMediaToRecentlyViewed () {
+      try {
+        await this.addToRecentlyViewed(this.personInfo)
+      } catch(err) {
+        console.log(err)
       }
     },
     formatRole(role) {

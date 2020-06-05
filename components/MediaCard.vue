@@ -1,5 +1,6 @@
 <template>
   <v-card class="media-card">
+    <Bookmark :media="media" />
     <nuxt-link :to="{ path: `/${mediaType}/${media.id}` }" class="media-card-link">
       <v-img v-if="media.poster_path" class="media-card-poster" :src="`https://image.tmdb.org/t/p/w185${media.poster_path}`">
         <template v-slot:placeholder>
@@ -9,7 +10,7 @@
         </template>
       </v-img>
       <div v-else class="placeholder-icon-div">
-        <v-icon class="placeholder-media-icon" :size="110" color="grey darken-2">mdi-video-image</v-icon>
+        <v-icon class="placeholder-media-icon" size="110" color="grey darken-2">mdi-video-image</v-icon>
       </div>
     </nuxt-link>
     <nuxt-link :to="{ path: `/${mediaType}/${media.id}` }" class="media-card-link">
@@ -20,7 +21,7 @@
       <span v-if="media.vote_average" class="media-card-rating">{{media.vote_average}}</span>
       <span v-else class="media-card-rating">N/A</span>
     </div>
-    <Bookmark :media="media" />
+    
     <v-card-actions class="card-actions d-block">
       <AddWatchlistButton :media="media" />
     </v-card-actions>

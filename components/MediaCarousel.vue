@@ -1,8 +1,9 @@
 <template>
   <client-only>
-    <RecycleScroller  class="scroller" :minItemSize="190" direction="horizontal" :items="media">
+    <RecycleScroller class="scroller" :minItemSize="190" direction="horizontal" :items="media">
       <template :style="{ width: `${totalWidth}px` }" v-slot="{ item }">
-          <MediaCard :media="item" />
+          <MediaCard v-if="!useRecentCard" :media="item" />
+          <MediaCardRecent v-else :media="item" />
       </template>
     </RecycleScroller>
   </client-only>
@@ -10,16 +11,21 @@
 
 <script>
 import MediaCard from '@/components/MediaCard.vue'
+import MediaCardRecent from '@/components/MediaCardRecent.vue'
 
 export default {
   name: 'MediaCarousel',
   components: {
-    MediaCard
+    MediaCard,
+    MediaCardRecent
   },
   props: {
     media: {
       type: Array,
       required: true
+    },
+    useRecentCard: {
+      type: Boolean
     }
   },
   computed: {
@@ -39,7 +45,6 @@ export default {
 .vue-recycle-scroller__item-wrapper {
   height: 400px !important;
 }
-
 .scroller {
   height: 100%;
 }

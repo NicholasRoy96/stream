@@ -45,12 +45,21 @@
               <PersonCard :person="actor" />
             </v-col>
           </v-row>
+
+          <v-row class="subheading-div" align="center">
+            <h3 class="subheading">Recently Viewed</h3>
+            <v-spacer></v-spacer>
+            <v-btn text class="text-capitalize empty-recent-button" @click="emptyRecentlyViewed">Clear All</v-btn>
+          </v-row>
+          <MediaCarousel v-if="recentlyViewed.length" :media="recentlyViewed" :useRecentCard="true" />
+          <h3 v-else class="no-recent-pages">You have no recently viewed pages.</h3>
         
       </v-container>
     </div>
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 import BannerCarousel from "@/components/BannerCarousel.vue"
 import MediaCarousel from "@/components/MediaCarousel.vue"
 import MediaCard from "@/components/MediaCard.vue"
@@ -95,10 +104,15 @@ export default {
       ]
     }
   },
+  computed: {
+    ...mapState(["recentlyViewed"])
+  },
   methods: {
+    ...mapActions(["emptyRecentlyViewed"]),
     async getPopularTV() {
       const tv = await this.$axios.$get(`https://api.themoviedb.org/3/tv/popular?api_key=${process.env.apikey}&language=en-US&page=1`)
       this.popularTV = tv.results
+      console.log(this.recentlyViewed)
     },
     async getTopTV() {
       const tv = await this.$axios.$get(`https://api.themoviedb.org/3/tv/top_rated?api_key=${process.env.apikey}&language=en-US&page=1`)
@@ -147,5 +161,14 @@ export default {
   color: darkgrey;
   padding-left: 10px;
 }
-
+.no-recent-pages {
+  color: darkgrey;
+  font-size: 1em;
+}
+.empty-recent-button {
+  color: #5799ef;
+}
+.empty-recent-button:hover {
+  text-decoration: underline;
+}
 </style>

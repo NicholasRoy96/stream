@@ -50,7 +50,7 @@ export default {
   left: 0;
   z-index: 999;
   margin-top: -7px;
-  margin-left: -12px;
+  margin-left: -13px;
 }
 .add-watchlist-icon-background {
   color: rgba(12, 12, 12, 0.68);

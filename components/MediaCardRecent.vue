@@ -1,8 +1,8 @@
 <template>
   <v-card class="media-card">
-    <Bookmark :media="media" />
+    <Bookmark v-if="mediaType && mediaType !== 'people'" :media="media" />
     <nuxt-link :to="{ path: `/${mediaType}/${media.id}` }" class="media-card-link">
-      <v-img v-if="media.poster_path" class="media-card-poster" :src="`https://image.tmdb.org/t/p/w185${media.poster_path}`">
+      <v-img v-if="media.poster_path || media.profile_path" class="media-card-poster" :src="`https://image.tmdb.org/t/p/w185${media.poster_path || media.profile_path}`">
         <template v-slot:placeholder>
           <v-row class="fill-height ma-0" align="center" justify="center">
             <v-progress-circular indeterminate color="grey darken-2"></v-progress-circular>
@@ -13,26 +13,17 @@
         <v-icon class="placeholder-media-icon" size="110" color="grey darken-2">mdi-video-image</v-icon>
       </div>
     </nuxt-link>
-    <nuxt-link :to="{ path: `/medias/${media.id}` }" class="media-card-link">
+    <nuxt-link :to="{ path: `/${mediaType}/${media.id}` }" class="media-card-link">
       <v-card-text class="media-card-title">{{media.title || media.name}}</v-card-text>
     </nuxt-link>
-    <div class="media-card-rating-div">
-      <v-icon class="media-card-rating-star" size="17">mdi-star</v-icon>
-      <span v-if="media.vote_average" class="media-card-rating">{{media.vote_average}}</span>
-      <span v-else class="media-card-rating">N/A</span>
-    </div>
-    <v-card-actions class="card-actions d-none d-sm-block">
-      <AddWatchlistButton :media="media" />
-    </v-card-actions>
   </v-card>
 </template>
 
 <script>
-import AddWatchlistButton from '@/components/AddWatchlistButton'
 import Bookmark from '@/components/Bookmark'
 
 export default {
-  name: 'MediaCardResponsive',
+  name: 'MediaCardRecent',
   props: {
     media: {
       type: Object,
@@ -40,13 +31,12 @@ export default {
     }
   },
   components: {
-    AddWatchlistButton,
     Bookmark
   },
   computed: {
     mediaType() {
       if (this.media) {
-        return this.media.name ? "tv" : "movies"
+        return this.media.title ? "movies" : this.media.first_air_date || this.media.last_air_date ? "tv" : "people"
       }
     }
   }
@@ -55,7 +45,7 @@ export default {
 
 <style scoped>
 .media-card {
-  height: 373.13px;
+  height: 315px;
   width: 175px;
   margin: 10px;
 }
@@ -107,53 +97,4 @@ export default {
 }
 
 /* TO WORK OUT IMAGE SIZE IN FUTURE, DIVIDE ANY WIDTH BY .67 TO GET POSTER HEIGHT, THEN / .7 TO GET CARD HEIGHT */
-
-/* MEDIA QUERIES */
-/* MD */
-@media(max-width: 1263px) {
-  .media-card {
-    height: 345.28px;
-    width: 155px;
-    margin: 8px;
-  }
-  .media-card-poster {
-    height: 231.34px;
-    width: 100%;
-  }
-}
-
-/* SM */
-@media(max-width: 959px) {
-  .media-card {
-    height: 310px;
-    width: 135px;
-    margin: 6px;
-  }
-  .media-card-poster {
-    height: 201.49px;
-    width: 100%;
-  }
-  .media-card-rating-div {
-    padding-top: 0;
-  }
-}
-
-/* XS */
-@media(max-width: 599px) {
-  .media-card {
-    height: 234px;
-    width: 115px;
-    margin: 4px;
-  }
-  .media-card-poster {
-    height: 171.64px;
-    width: 100%;
-  }
-  .media-card-title {
-    font-size: 0.7em;
-  }
-  .media-card-rating {
-    font-size: 0.72em;
-  }
-}
 </style>

@@ -121,17 +121,20 @@
       </div>
 
       <!-- Similar movies cards -->
-      <div v-if="similarMovies.length" class="sub-div">
-        <h3 class="sub-heading">Similar movies</h3>
-        <h3 class="sub-heading-description">We found more movies you might like</h3>
+      <div v-if="similarMovies.length">
+        <div class="sub-div">
+          <h3 class="sub-heading">Similar movies</h3>
+          <h3 class="sub-heading-description">We found more movies you might like</h3>
+        </div>
+        <MediaCarousel :media="similarMovies" />
       </div>
-      <MediaCarousel :media="similarMovies" />
 
     </v-container>
   </v-app>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import MediaCard from '@/components/MediaCard.vue'
 import AddWatchlistButton from '@/components/AddWatchlistButton.vue'
 import PersonCard from '@/components/PersonCard.vue'
@@ -171,6 +174,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(["addToRecentlyViewed"]),
     async getMovie() {
       try {
         this.movie = await this.$axios.$get(`https://api.themoviedb.org/3/movie/${this.movieId}?api_key=${process.env.apikey}&language=en-US`)
@@ -184,6 +188,7 @@ export default {
         if (this.movie.belongs_to_collection) {
           this.getCollection()
         }
+        this.addMediaToRecentlyViewed()
       } catch (err) {
         // suppress movie lookup error
         // console.log(err)
@@ -227,6 +232,13 @@ export default {
       } catch(err) {
         // suppress cast lookup error
         // console.log(err)
+      }
+    },
+    async addMediaToRecentlyViewed () {
+      try {
+        await this.addToRecentlyViewed(this.movie)
+      } catch(err) {
+        console.log(err)
       }
     }
   },

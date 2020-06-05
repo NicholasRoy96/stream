@@ -119,6 +119,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import AddWatchlistButton from '@/components/AddWatchlistButton.vue'
 import PersonCard from '@/components/PersonCard.vue'
 import MediaCard from '@/components/MediaCard.vue'
@@ -156,6 +157,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(["addToRecentlyViewed"]),
     async getTvShow() {
       try {
         this.tvShow = await this.$axios.$get(`https://api.themoviedb.org/3/tv/${this.tvId}?api_key=${process.env.apikey}&language=en-US`)
@@ -166,6 +168,7 @@ export default {
         if (this.tvShow.backdrop_path) {
           this.tvShowBackdrop = `https://image.tmdb.org/t/p/original${this.tvShow.backdrop_path}`
         }
+        this.addMediaToRecentlyViewed()
       } catch (err) {
         // suppress tv lookup error
         // console.log(err)
@@ -190,6 +193,13 @@ export default {
       } catch(err) {
         // suppress tv lookup error
         // console.log(err)
+      }
+    },
+    async addMediaToRecentlyViewed () {
+      try {
+        await this.addToRecentlyViewed(this.tvShow)
+      } catch(err) {
+        console.log(err)
       }
     },
   },

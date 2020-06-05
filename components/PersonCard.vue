@@ -31,8 +31,8 @@ export default {
     avatarSize() {
       switch (this.$vuetify.breakpoint.name) {
         case 'xs': return '135'
-        case 'sm': return '140'
-        case 'md': return '150'
+        case 'sm': return '170'
+        case 'md': return '180'
         case 'lg': return '160'
         case 'xl': return '160'
       }

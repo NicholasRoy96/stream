@@ -1,80 +1,81 @@
 <template>
   <v-app>
-    <v-container>
       
-      <!-- Dynamic banner image -->
-      <v-img :src="movieBackdrop">
-        <template v-slot:placeholder>
-          <v-row class="fill-height ma-0" align="center" justify="center">
-            <v-progress-circular indeterminate color="grey darken-2"></v-progress-circular>
-          </v-row>
-        </template>
-      </v-img>
+    <!-- Dynamic banner image -->
+    <v-img :src="movieBackdrop" class="backdrop-image">
 
       <!-- Poster image and movie info -->
-      <v-row class="mt-10">
+      <v-container fluid fill-height class="overlay-container">
+        <v-container>
+          <v-row align="center">
+            <v-col cols="4" class="d-none d-md-block">
+              <v-img v-if="moviePoster" :src="moviePoster" class="poster-image">
+                <template v-slot:placeholder>
+                  <v-row class="fill-height ma-0" align="center" justify="center">
+                    <v-progress-circular indeterminate color="grey darken-2"></v-progress-circular>
+                  </v-row>
+                </template>
+              </v-img>
+              <v-icon v-else size="300" color="grey darken-2">mdi-video-image</v-icon>
+            </v-col>
 
-        <v-col cols="4" class="d-none d-md-block">
-          <v-img v-if="moviePoster" :src="moviePoster">
-            <template v-slot:placeholder>
-              <v-row class="fill-height ma-0" align="center" justify="center">
-                <v-progress-circular indeterminate color="grey darken-2"></v-progress-circular>
-              </v-row>
-            </template>
-          </v-img>
-          <v-icon v-else size="300" color="grey darken-2">mdi-video-image</v-icon>
-        </v-col>
+            <v-col cols="12" md="8">
+              <div class="movie-div">
+                <div class="movie-title-div">
+                  <span class="movie-title">{{movie.title}}</span><span v-if="movie.release_date" class="released-year">({{ movie.release_date | formatYear }})</span>
+                </div>
+                <div v-if="movie.tagline" class="movie-tagline">"{{movie.tagline}}"</div>
+                <div class="movie-info">
+                  <div v-if="movie.runtime" class="movie-info-item">
+                    <v-icon color="blue" class="mr-2" size="20">mdi-clock-outline</v-icon>
+                    <span class="movie-info-item-data">{{movie.runtime}} minutes</span>
+                  </div>
+                  <div v-if="movie.vote_average" class="movie-info-item">
+                    <v-icon color="yellow" class="mr-2" size="20">mdi-star</v-icon>
+                    <span class="movie-info-item-data">{{movie.vote_average}}</span>
+                    <span class="movie-info-item-data vote-count">({{movie.vote_count}})</span>
+                  </div>
+                </div>
 
-        <v-col cols="12" md="8">
-          <div class="movie-div">
-            <div class="movie-title-div">
-              <span class="movie-title">{{movie.title}}</span><span v-if="movie.release_date" class="released-year">({{ movie.release_date | formatYear }})</span>
-            </div>
-            <div v-if="movie.tagline" class="movie-tagline">"{{movie.tagline}}"</div>
-            <div class="movie-info">
-              <div v-if="movie.runtime" class="movie-info-item">
-                <v-icon color="blue" class="mr-2" size="20">mdi-clock-outline</v-icon>
-                <span class="movie-info-item-data">{{movie.runtime}} minutes</span>
+                <!-- OVERVIEW SHORTENED IF 400+ CHARS -->
+                <div v-if="movie.overview">
+                  <div class="movie-overview-title">Overview</div>
+                  <div v-if="trimmedOverview && !expandOverview" class="movie-overview">
+                    <span class="movie-overview">{{trimmedOverview}}</span>
+                    <v-icon @click="expandOverview = true" icon>mdi-chevron-down</v-icon>
+                  </div>
+                  
+                  <!-- OVERVIEW EXPANDED -->
+                  <div v-if="!trimmedOverview || expandOverview" class="movie-overview">{{movie.overview}}
+                    <v-icon v-if="expandOverview" @click="expandOverview = false">mdi-chevron-up</v-icon>
+                  </div>
+                </div>
+
+                <div class="extra-info">
+                  <div v-if="director.name" class="extra-info-item">
+                    <span class="extra-info-title">Directed by: </span>
+                    <a class="extra-info-data" :href="`/people/${director.id}`">{{director.name}}</a>
+                  </div>
+                  <div v-if="movie.genres.length" class="extra-info-item">
+                    <span class="extra-info-title">Genres: </span>
+                    <a class="extra-info-data" v-for="(genre, i) in movie.genres" :key="i" :href="`/genres/${genre.id}`">{{genre.name}}</a>
+                  </div>
+                  <div v-if="movie.status">
+                    <span class="extra-info-title">Status: </span>
+                    <span>{{movie.status}}</span>
+                  </div>
+                </div>
+                <div>
+                  <AddWatchlistButton :media="movie" />
+                </div>
               </div>
-              <div v-if="movie.vote_average" class="movie-info-item">
-                <v-icon color="yellow" class="mr-2" size="20">mdi-star</v-icon>
-                <span class="movie-info-item-data">{{movie.vote_average}}</span>
-                <span class="movie-info-item-data vote-count">({{movie.vote_count}})</span>
-              </div>
-            </div>
-
-            <!-- OVERVIEW SHORTENED IF 400+ CHARS -->
-            <div v-if="trimmedOverview && !expandOverview" class="movie-overview">{{trimmedOverview}}
-              <v-icon @click="expandOverview = true" icon>mdi-chevron-down</v-icon>
-            </div>
-            
-            <!-- OVERVIEW EXPANDED -->
-            <div v-if="!trimmedOverview || expandOverview" class="movie-overview">{{movie.overview}}
-              <v-icon v-if="expandOverview" @click="expandOverview = false">mdi-chevron-up</v-icon>
-            </div>
-
-            <div class="extra-info">
-              <div v-if="director.name" class="extra-info-item">
-                <span class="extra-info-title">Directed by: </span>
-                <a class="extra-info-data" :href="`/people/${director.id}`">{{director.name}}</a>
-              </div>
-              <div v-if="movie.genres.length" class="extra-info-item">
-                <span class="extra-info-title">Genres: </span>
-                <a class="extra-info-data" v-for="(genre, i) in movie.genres" :key="i" :href="`/genres/${genre.id}`">{{genre.name}}</a>
-              </div>
-              <div v-if="movie.status">
-                <span class="extra-info-title">Status: </span>
-                <span>{{movie.status}}</span>
-              </div>
-            </div>
-            <div>
-              <AddWatchlistButton :media="movie" />
-            </div>
-          </div>
-        </v-col>
-
-      </v-row>
-
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-container>
+    </v-img>
+      
+    <v-container>
       <!-- Cast cards -->
       <div v-if="cast && cast.length" class="sub-div">
         <h3 class="sub-heading">Cast</h3>
@@ -111,22 +112,20 @@
       </v-row>
 
       <!-- Collection cards -->
-      <div v-if="collectionExists" class="sub-div">
-        <h3 class="sub-heading">{{collection.name}}</h3>
-        <h3 class="sub-heading-description">Explore the entire collection</h3>
+      <div v-if="collectionExists">
+        <div class="sub-div">
+          <h3 class="sub-heading">{{collection.name}}</h3>
+          <h3 class="sub-heading-description">Explore the entire collection</h3>
+        </div>
+        <MediaCarousel :media="collection.parts" />
       </div>
-      <v-row class="pl-1">
-        <MediaCard v-for="(movie, i) in collection.parts" :key="i" :media="movie" />
-      </v-row>
 
       <!-- Similar movies cards -->
       <div v-if="similarMovies.length" class="sub-div">
         <h3 class="sub-heading">Similar movies</h3>
         <h3 class="sub-heading-description">We found more movies you might like</h3>
       </div>
-      <v-row class="pl-1">
-        <MediaCard v-for="(movie, i) in similarMovies" :key="i" :media="movie" />
-      </v-row>
+      <MediaCarousel :media="similarMovies" />
 
     </v-container>
   </v-app>
@@ -136,12 +135,14 @@
 import MediaCard from '@/components/MediaCard.vue'
 import AddWatchlistButton from '@/components/AddWatchlistButton.vue'
 import PersonCard from '@/components/PersonCard.vue'
+import MediaCarousel from '@/components/MediaCarousel.vue'
 
 export default {
   components: {
     MediaCard,
     AddWatchlistButton,
-    PersonCard
+    PersonCard,
+    MediaCarousel
   },
   data () {
     return {
@@ -210,7 +211,7 @@ export default {
     async getSimilarMovies () {
       try {
         const movies = await this.$axios.$get(`https://api.themoviedb.org/3/movie/${this.movieId}/similar?api_key=${process.env.apikey}&language=en-US&page=1`)
-        this.similarMovies = movies.results.slice(0, 12)
+        this.similarMovies = movies.results.slice(0, 18)
       } catch(err) {
         // suppress movie lookup error
         // console.log(err)
@@ -239,11 +240,22 @@ export default {
 </script>
 
 <style scoped>
+.backdrop-image {
+  height: 700px;
+}
+.poster-image {
+  border-radius: 8px;
+}
+.overlay-container {
+  height: 100%;
+  width: 100%;
+  background-image: linear-gradient(to right, rgba(12, 10, 9, 0.95) 150px, rgba(32, 28, 20, 0.8) 100%);
+  align-items: center;
+}
 .movie-div {
   padding-left: 16px;
 }
 .movie-title-div {
-  color: #f5c518;
   font-weight: bold;
 }
 .movie-title {
@@ -251,12 +263,12 @@ export default {
   margin-right: 8px;
 }
 .released-year {
-  font-size: 1.4em;
+  color: lightgrey;
+  font-size: 1.8em;
   font-weight: normal;
 }
 .movie-tagline {
-  font-size: 1.2em;
-  font-weight: bold;
+  font-size: 1em;
   padding-left: 10px;
   border-left: 3px solid #f5c518;
 }
@@ -273,9 +285,16 @@ export default {
 .vote-count {
   font-size: 0.8em;
 }
-.movie-overview {
+.movie-overview-title {
+  font-size: 1.2em;
+  font-weight: bold;
   margin-top: 30px;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
+}
+.movie-overview {
+  color: lightgrey;
+  margin-bottom: 25px;
+  font-size: 0.95em;
 }
 .extra-info {
   color: lightgrey;

@@ -5,14 +5,14 @@
       
       <!-- MD + -->
         <v-btn depressed class="watchlist-button d-none d-md-block" v-on="on">
-          <v-icon class="watchlist-button-icon">mdi-bookmark</v-icon>
-          Watchlist <span v-if="watchlist.length" class="pl-1">({{watchlist.length}})</span>
+          <v-icon class="watchlist-button-icon">mdi-bookmark-plus</v-icon>
+          <span class="watchlist-button-name text-capitalize">Watchlist</span><span v-if="watchlist.length" class="pl-1">({{watchlist.length}})</span>
         </v-btn>
 
       <!-- SM - -->
       <v-badge :value="watchlist.length" dot overlap color="#f5c518" class="d-md-none" offset-x="15" offset-y="12">
         <v-btn icon class="watchlist-button" v-on="on">
-          <v-icon class="watchlist-button-icon">mdi-bookmark</v-icon>
+          <v-icon class="watchlist-button-icon">mdi-bookmark-plus</v-icon>
         </v-btn>
       </v-badge>
 
@@ -62,7 +62,6 @@ export default {
   name: 'Watchlist',
   computed: {
     ...mapState(["watchlist"]),
-
   },
   methods: {
     ...mapActions(["removeFromWatchlist"]),
@@ -91,6 +90,11 @@ export default {
 .watchlist-button-icon {
   color: grey !important;
   margin-right: 3px;
+}
+.watchlist-button-name {
+  font-weight: bold;
+  font-size: 1.05em;
+  letter-spacing: 0.48px;
 }
 .watchlist-title {
   padding: 10px 0 10px 0;

@@ -14,8 +14,8 @@
       <h3 class="genre-subheading">Explore the most popular {{genre}} films</h3>
 
       <!-- Cards start -->
-      <v-row justify="center" class="pl-1">
-        <MediaCard v-for="(movie, i) in movies" :key="i" :media="movie"/>
+      <v-row justify="center">
+        <MediaCardResponsive v-for="(movie, i) in movies" :key="i" :media="movie"/>
       </v-row>
 
       <!-- Load more cards -->
@@ -27,11 +27,11 @@
 </template>
 
 <script>
-import MediaCard from '@/components/MediaCard.vue'
+import MediaCardResponsive from '@/components/MediaCardResponsive.vue'
 
 export default {
   components: {
-    MediaCard
+    MediaCardResponsive
   },
   data() {
     return {

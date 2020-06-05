@@ -3,7 +3,7 @@
     <v-container>
 
       <v-row>
-        <v-col cols="8" sm="5" md="4" offset="2" offset-sm="0">
+        <v-col cols="8" sm="4" md="3" offset="2" offset-sm="0">
           <v-img v-if="personImage" :src="personImage" class="person-image">
             <template v-slot:placeholder>
               <v-row class="fill-height ma-0" align="center" justify="center">
@@ -14,7 +14,7 @@
           <v-icon v-else size="300" color="grey darken-2">mdi-account</v-icon>
         </v-col>
 
-        <v-col cols="12" sm="7" md="8">
+        <v-col cols="12" sm="8" md="9">
           <div>
             <span v-if="personInfo.name" class="person-name">{{personInfo.name}}</span>
             <v-icon v-if="personInfo.known_for_department" color="yellow darken-4" class="pb-2">mdi-circle-medium</v-icon>
@@ -53,32 +53,32 @@
 
       </v-row>
 
-      <div v-if="castCredits.length" class="sub-div">
-        <h3 class="sub-heading">Appears in</h3>
-        <h3 class="sub-heading-description">Most notable acting credits</h3>
+      <div v-if="castCredits.length">
+        <div class="sub-div">
+          <h3 class="sub-heading">Appears in</h3>
+          <h3 class="sub-heading-description">Most notable acting credits</h3>
+        </div>
+        <MediaCarousel :media="castCredits" />
       </div>
-      <v-row class="pl-1">
-        <MediaCard v-for="(media, i) in castCredits" :key="i" :media="media" />
-      </v-row>
-
-      <div v-if="crewCredits.length" class="sub-div">
-        <h3 class="sub-heading">Worked on</h3>
-        <h3 class="sub-heading-description">Most notable crew credits</h3>
+      
+      <div v-if="crewCredits.length">
+        <div class="sub-div">
+          <h3 class="sub-heading">Worked on</h3>
+          <h3 class="sub-heading-description">Most notable crew credits</h3>
+        </div>
+        <MediaCarousel :media="crewCredits" />
       </div>
-      <v-row class="pl-1">
-        <MediaCard v-for="(media, i) in crewCredits" :key="i" :media="media" />
-      </v-row>
 
     </v-container>
   </v-app>
 </template>
 
 <script>
-import MediaCard from '@/components/MediaCard.vue'
+import MediaCarousel from '@/components/MediaCarousel.vue'
 
 export default {
   components: {
-    MediaCard
+    MediaCarousel
   },
   data() {
     return {
@@ -148,7 +148,16 @@ export default {
         const credits = await this.$axios.$get(`https://api.themoviedb.org/3/person/${this.personId}/combined_credits?api_key=${process.env.apikey}&language=en-US`)
         if (credits.cast.length) {
           const sortedArray = credits.cast.sort((a, b) => b.popularity - a.popularity)
-          this.castCredits = sortedArray.slice(0, 18)
+          const modSortedArray = sortedArray.map(media => {
+            return {
+              ...media,
+              title: media.title || media.name
+            }
+          })
+          const uniqueCredits = [...new Map(modSortedArray.map(media => {
+            return [media['title'], media]
+          })).values()]
+          this.castCredits = uniqueCredits.slice(0, 18)
         }
         if (credits.crew.length) {
           const sortedArray = credits.crew.sort((a, b) => b.popularity - a.popularity)

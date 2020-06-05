@@ -30,7 +30,7 @@ export default {
    ** Plugins to load before mounting the App
    */
   plugins: [
-    { src: "~/plugins/carousel.js", ssr: false },
+    { src: "~/plugins/scroller.js", ssr: false },
     { src: "~/plugins/infiniteLoading.js", ssr: false },
     { src: "~/plugins/vuex-persist.js", ssr: false },
     { src: "~/plugins/youtubeEmbed.js", ssr: false },

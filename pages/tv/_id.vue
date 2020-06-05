@@ -1,82 +1,79 @@
 <template>
   <v-app>
-    <v-container>
+    
+    <!-- Dynamic banner image -->
+    <v-img :src="tvShowBackdrop" class="backdrop-image">
+      
+    <!-- Poster image and TV show info -->
+      <v-container fluid fill-height class="overlay-container">
+        <v-container>
+          <v-row align="center">
+            <v-col cols="4" class="d-none d-md-block">
+              <v-img v-if="tvShowPoster" :src="tvShowPoster" class="poster-image">
+                <template v-slot:placeholder>
+                  <v-row class="fill-height ma-0" align="center" justify="center">
+                    <v-progress-circular indeterminate color="grey darken-2"></v-progress-circular>
+                  </v-row>
+                </template>
+              </v-img>
+              <v-icon v-else size="300" color="grey darken-2">mdi-video-image</v-icon>
+            </v-col>
 
-      <!-- Dynamic banner image -->
-      <v-img :src="tvShowBackdrop">
-        <template v-slot:placeholder>
-          <v-row class="fill-height ma-0" align="center" justify="center">
-            <v-progress-circular indeterminate color="grey darken-2"></v-progress-circular>
+            <v-col cols="12" md="8">
+              <div class="tv-div">
+                <div class="tv-title-div">
+                  <span class="tv-title">{{tvShow.name}}</span><span v-if="tvShow.first_air_date" class="released-year">({{ tvShow.first_air_date | formatYear }})</span>
+                </div>
+                <div v-if="tvShow.tagline" class="tv-tagline">"{{tvShow.tagline}}"</div>
+                <div class="tv-info">
+                  <div v-if="tvShow.seasons && tvShow.seasons.length" class="tv-info-item">
+                    <v-icon color="blue" class="mr-2" size="20">mdi-content-copy</v-icon>
+                    <span class="tv-info-item-data">{{tvShow.seasons.length}} Seasons</span>
+                  </div>
+                  <div v-if="tvShow.vote_average" class="tv-info-item">
+                    <v-icon color="yellow" class="mr-2" size="20">mdi-star</v-icon>
+                    <span class="tv-info-item-data">{{tvShow.vote_average}}</span>
+                    <span class="tv-info-item-data vote-count">({{tvShow.vote_count}})</span>
+                  </div>
+                </div>
+
+                <!-- OVERVIEW SHORTENED IF 400+ CHARS -->
+                <div v-if="tvShow.overview">
+                  <div class="tv-overview-title">Overview</div>
+                  <div v-if="trimmedOverview && !expandOverview">
+                      <span class="tv-overview">{{trimmedOverview}}</span>
+                      <v-icon @click="expandOverview = true" icon>mdi-chevron-down</v-icon>
+                  </div>
+                  
+                  <!-- OVERVIEW EXPANDED -->
+                  <div v-if="!trimmedOverview || expandOverview" class="tv-overview">
+                      <span class="tv-overview">{{tvShow.overview}}</span>
+                      <v-icon v-if="expandOverview" @click="expandOverview = false">mdi-chevron-up</v-icon>
+                  </div>
+                </div>
+
+                <div class="extra-info">
+                  <div v-if="tvShow.created_by && tvShow.created_by.length" class="extra-info-item">
+                    <span class="extra-info-title">Created by: </span>
+                    <a class="extra-info-data" v-for="(creator, i) in tvShow.created_by" :key="i" :href="`/people/${creator.id}`">{{creator.name}}</a>
+                  </div>
+                  <!-- <div v-if="tvShow.genres.length" class="extra-info-item">
+                    <span class="extra-info-title">Genres: </span>
+                    <a class="extra-info-data" v-for="(genre, i) in tvShow.genres" :key="i" :href="`/genres/${genre.id}`">{{genre.name}}</a>
+                  </div> -->
+                </div>
+                <div>
+                  <AddWatchlistButton :media="tvShow" />
+                </div>
+              </div>
+            </v-col>
+
           </v-row>
-        </template>
-      </v-img>
+        </v-container>
+      </v-container>
+    </v-img>
 
-      <!-- Poster image and TV show info -->
-      <v-row class="mt-10">
-
-        <v-col cols="4" class="d-none d-md-block">
-          <v-img v-if="tvShowPoster" :src="tvShowPoster">
-            <template v-slot:placeholder>
-              <v-row class="fill-height ma-0" align="center" justify="center">
-                <v-progress-circular indeterminate color="grey darken-2"></v-progress-circular>
-              </v-row>
-            </template>
-          </v-img>
-          <v-icon v-else size="300" color="grey darken-2">mdi-video-image</v-icon>
-        </v-col>
-
-        <v-col cols="12" md="8">
-          <div class="tv-div">
-            <div class="tv-title-div">
-              <span class="tv-title">{{tvShow.name}}</span><span v-if="tvShow.first_air_date" class="released-year">({{ tvShow.first_air_date | formatYear }})</span>
-            </div>
-            <div v-if="tvShow.tagline" class="tv-tagline">"{{tvShow.tagline}}"</div>
-            <div class="tv-info">
-              <div v-if="tvShow.seasons && tvShow.seasons.length" class="tv-info-item">
-                <v-icon color="blue" class="mr-2" size="20">mdi-content-copy</v-icon>
-                <span class="tv-info-item-data">{{tvShow.seasons.length}} seasons</span>
-              </div>
-              <div v-if="tvShow.vote_average" class="tv-info-item">
-                <v-icon color="yellow" class="mr-2" size="20">mdi-star</v-icon>
-                <span class="tv-info-item-data">{{tvShow.vote_average}}</span>
-                <span class="tv-info-item-data vote-count">({{tvShow.vote_count}})</span>
-              </div>
-            </div>
-
-            <!-- OVERVIEW SHORTENED IF 400+ CHARS -->
-            <div v-if="tvShow.overview">
-              <div v-if="trimmedOverview && !expandOverview" class="tv-overview">{{trimmedOverview}}
-                <v-icon @click="expandOverview = true" icon>mdi-chevron-down</v-icon>
-              </div>
-              
-              <!-- OVERVIEW EXPANDED -->
-              <div v-if="!trimmedOverview || expandOverview" class="tv-overview">{{tvShow.overview}}
-                <v-icon v-if="expandOverview" @click="expandOverview = false">mdi-chevron-up</v-icon>
-              </div>
-            </div>
-
-            <div class="extra-info">
-              <div v-if="tvShow.created_by && tvShow.created_by.length" class="extra-info-item">
-                <span class="extra-info-title">Created by: </span>
-                <a class="extra-info-data" v-for="(creator, i) in tvShow.created_by" :key="i" :href="`/people/${creator.id}`">{{creator.name}}</a>
-              </div>
-              <!-- <div v-if="tvShow.genres.length" class="extra-info-item">
-                <span class="extra-info-title">Genres: </span>
-                <a class="extra-info-data" v-for="(genre, i) in tvShow.genres" :key="i" :href="`/genres/${genre.id}`">{{genre.name}}</a>
-              </div> -->
-              <div v-if="tvShow.status">
-                <span class="extra-info-title">Status: </span>
-                <span>{{tvShow.status}}</span>
-              </div>
-            </div>
-            <div>
-              <AddWatchlistButton :media="tvShow" />
-            </div>
-          </div>
-        </v-col>
-
-      </v-row>
-
+    <v-container>
       <!-- Seasons cards -->
       <div v-if="tvShow.seasons && tvShow.seasons.length" class="sub-div">
         <h3 class="sub-heading">Seasons ({{tvShow.seasons.length}})</h3>
@@ -109,13 +106,13 @@
       </v-row>
 
       <!-- Similar TV show cards -->
-      <div v-if="similarTvShows.length" class="sub-div">
-        <h3 class="sub-heading">Similar Shows</h3>
-        <h3 class="sub-heading-description">We found more TV shows you might like</h3>
+      <div v-if="similarTvShows.length">
+        <div class="sub-div">
+          <h3 class="sub-heading">Similar Shows</h3>
+          <h3 class="sub-heading-description">We found more TV shows you might like</h3>
+        </div>
+        <MediaCarousel :media="similarTvShows" />
       </div>
-      <v-row class="pl-1" justify="center">
-        <MediaCard v-for="(tvShow, i) in similarTvShows" :key="i" :media="tvShow" />
-      </v-row>
 
     </v-container>
   </v-app>
@@ -126,13 +123,15 @@ import AddWatchlistButton from '@/components/AddWatchlistButton.vue'
 import PersonCard from '@/components/PersonCard.vue'
 import MediaCard from '@/components/MediaCard.vue'
 import MediaCardSmall from '@/components/MediaCardSmall.vue'
+import MediaCarousel from '@/components/MediaCarousel.vue'
 
 export default {
   components: {
     AddWatchlistButton,
     PersonCard,
     MediaCard,
-    MediaCardSmall
+    MediaCardSmall,
+    MediaCarousel
   },
   data() {
     return {
@@ -187,7 +186,7 @@ export default {
       try {
         const tvShows = await this.$axios.$get(`https://api.themoviedb.org/3/tv/${this.tvId}/similar?api_key=${process.env.apikey}&language=en-US&page=1`)
         console.log(tvShows)
-        this.similarTvShows = tvShows.results.slice(0, 15)
+        this.similarTvShows = tvShows.results.slice(0, 18)
       } catch(err) {
         // suppress tv lookup error
         // console.log(err)
@@ -203,11 +202,22 @@ export default {
 </script>
 
 <style scoped>
+.backdrop-image {
+  height: 700px;
+}
+.poster-image {
+  border-radius: 8px;
+}
+.overlay-container {
+  height: 100%;
+  width: 100%;
+  background-image: linear-gradient(to right, rgba(12, 10, 9, 0.95) 150px, rgba(32, 28, 20, 0.8) 100%);
+  align-items: center;
+}
 .tv-div {
   padding-left: 16px;
 }
 .tv-title-div {
-  color: #f5c518;
   font-weight: bold;
 }
 .tv-title {
@@ -215,12 +225,12 @@ export default {
   margin-right: 8px;
 }
 .released-year {
-  font-size: 1.4em;
+  color: lightgrey;
+  font-size: 1.8em;
   font-weight: normal;
 }
 .tv-tagline {
-  font-size: 1.2em;
-  font-weight: bold;
+  font-size: 1em;
   padding-left: 10px;
   border-left: 3px solid #f5c518;
 }
@@ -237,9 +247,16 @@ export default {
 .vote-count {
   font-size: 0.8em;
 }
-.tv-overview {
+.tv-overview-title {
+  font-size: 1.2em;
+  font-weight: bold;
   margin-top: 30px;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
+}
+.tv-overview {
+  color: lightgrey;
+  margin-bottom: 25px;
+  font-size: 0.95em;
 }
 .extra-info {
   color: lightgrey;

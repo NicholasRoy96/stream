@@ -73,6 +73,7 @@ export default {
   margin-bottom: 10px;
   max-width: 300px;
   transition: transform .2s;
+  border-radius: 8px;
 }
 .image-poster:hover {
   transform: scale(1.1);

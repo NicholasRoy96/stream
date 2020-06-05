@@ -7,31 +7,17 @@
           <h3 class="subheading">Most popular</h3>
           <h3 class="subheading-description">The fan favourite films</h3>
         </div>
-        
-        <!-- LG+ -->
-        <MoviesCarousel :movies="popularMovies" class="mb-10 d-none d-lg-block" />
-
-        <!-- MD- -->
-        <v-row class="d-lg-none mb-10 pl-1" justify="center">
-          <MediaCard v-for="(movie, i) in trimmedPopularMovies" :key="i" :media="movie"/>
-        </v-row>
+        <MediaCarousel :media="popularMovies" />
 
         <div class="subheading-div">
           <h3 class="subheading">Top rated</h3>
           <h3 class="subheading-description">The most critically acclaimed</h3>
         </div>
-
-        <!-- LG+ -->
-        <MoviesCarousel :movies="topMovies" class="d-none d-lg-block" />
-
-        <!-- MD- -->
-        <v-row class="d-lg-none pl-1" justify="center">
-          <MediaCard v-for="(movie, i) in trimmedTopMovies" :key="i" :media="movie"/>
-        </v-row>
+        <MediaCarousel :media="topMovies" />
 
         <h3 class="heading">Explore genres</h3>
           <v-row>
-            <v-col cols="6" md="4" v-for="(genre, i) in genres" :key="i">
+            <v-col cols="4" md="3" v-for="(genre, i) in genres" :key="i">
               <GenreCard :genre="genre" />
             </v-col>
           </v-row>
@@ -53,7 +39,7 @@
 
 <script>
 import BannerCarousel from "@/components/BannerCarousel.vue"
-import MoviesCarousel from "@/components/MoviesCarousel.vue"
+import MediaCarousel from "@/components/MediaCarousel.vue"
 import MediaCard from "@/components/MediaCard.vue"
 import GenreCard from "@/components/GenreCard.vue"
 import PersonCard from '@/components/PersonCard.vue'
@@ -61,10 +47,10 @@ import PersonCard from '@/components/PersonCard.vue'
 export default {
   components: {
     BannerCarousel,
-    MoviesCarousel,
+    MediaCarousel,
     MediaCard,
     GenreCard,
-    PersonCard
+    PersonCard,
   },
   data() {
     return {
@@ -97,12 +83,12 @@ export default {
   computed: {
     trimmedPopularMovies() {
       if (this.popularMovies) {
-        return this.popularMovies.slice(0, 12)
+        return this.popularMovies.slice(0, 18)
       }
     },
     trimmedTopMovies() {
       if (this.topMovies) {
-        return this.topMovies.slice(0, 12)
+        return this.topMovies.slice(0, 18)
       }
     }
   },

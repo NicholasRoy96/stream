@@ -21,7 +21,7 @@
       <span v-else class="media-card-rating">N/A</span>
     </div>
     <Bookmark :media="media" />
-    <v-card-actions class="card-actions d-block">
+    <v-card-actions class="card-actions d-none d-sm-block">
       <AddWatchlistButton :media="media" />
     </v-card-actions>
   </v-card>
@@ -32,7 +32,7 @@ import AddWatchlistButton from '@/components/AddWatchlistButton'
 import Bookmark from '@/components/Bookmark'
 
 export default {
-  name: 'MediaCard',
+  name: 'MediaCardResponsive',
   props: {
     media: {
       type: Object,
@@ -107,4 +107,53 @@ export default {
 }
 
 /* TO WORK OUT IMAGE SIZE IN FUTURE, DIVIDE ANY WIDTH BY .67 TO GET POSTER HEIGHT, THEN / .7 TO GET CARD HEIGHT */
+
+/* MEDIA QUERIES */
+/* MD */
+@media(max-width: 1263px) {
+  .media-card {
+    height: 345.28px;
+    width: 155px;
+    margin: 8px;
+  }
+  .media-card-poster {
+    height: 231.34px;
+    width: 100%;
+  }
+}
+
+/* SM */
+@media(max-width: 959px) {
+  .media-card {
+    height: 310px;
+    width: 135px;
+    margin: 6px;
+  }
+  .media-card-poster {
+    height: 201.49px;
+    width: 100%;
+  }
+  .media-card-rating-div {
+    padding-top: 0;
+  }
+}
+
+/* XS */
+@media(max-width: 599px) {
+  .media-card {
+    height: 234px;
+    width: 115px;
+    margin: 4px;
+  }
+  .media-card-poster {
+    height: 171.64px;
+    width: 100%;
+  }
+  .media-card-title {
+    font-size: 0.7em;
+  }
+  .media-card-rating {
+    font-size: 0.72em;
+  }
+}
 </style>

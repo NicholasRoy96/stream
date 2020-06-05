@@ -1,13 +1,15 @@
 <template>
   <div>
-    <v-btn v-if="!available" block small disabled class="watchlist-button">
+    <v-btn v-if="!available" block small depressed disabled class="watchlist-button text-capitalize">
       Coming Soon
     </v-btn>
-    <v-btn v-else-if="inWatchlist && available" block small disabled class="watchlist-button">
-      In Watchlist
+    <v-btn v-else-if="inWatchlist && available" block small depressed class="watchlist-button text-capitalize" @click="removeFromWatchlist(media.id)">
+      <v-icon left>mdi-check</v-icon>
+      Watchlist
     </v-btn>
-    <v-btn v-else block small class="watchlist-button" @click="addMediaToWatchlist">
-      + Watchlist
+    <v-btn v-else block small depressed class="watchlist-button text-capitalize" @click="addMediaToWatchlist">
+      <v-icon left>mdi-plus</v-icon>
+      Watchlist
     </v-btn>   
   </div>
 </template>
@@ -46,7 +48,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["addToWatchlist"]),
+    ...mapActions(["addToWatchlist", "removeFromWatchlist"]),
     async addMediaToWatchlist () {
       try {
         await this.addToWatchlist(this.media)
@@ -61,5 +63,8 @@ export default {
 <style scoped>
 .watchlist-button {
   color: #5799ef;
+  font-weight: bold;
+  font-size: 0.87em;
+  letter-spacing: 0.5px;
 }
 </style>

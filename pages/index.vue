@@ -2,10 +2,23 @@
     <div>
       <BannerCarousel :movies="popularMovies"/>
       <v-container>
-        <h3 class="heading">What to watch</h3>
+        <h3 class="heading">Bingeworthy series</h3>
+        <div class="subheading-div">
+          <h3 class="subheading">Classic TV</h3>
+          <h3 class="subheading-description">Most popular series</h3>
+        </div>
+        <MediaCarousel :media="popularTV" />
+
+        <div class="subheading-div">
+          <h3 class="subheading">Top rated</h3>
+          <h3 class="subheading-description">Explore the best-rated series</h3>
+        </div>
+        <MediaCarousel :media="topTV" />
+
+        <h3 class="heading">Movies to watch</h3>
         <div class="subheading-div">
           <h3 class="subheading">Most popular</h3>
-          <h3 class="subheading-description">The fan favourite films</h3>
+          <h3 class="subheading-description">The current fan favourites</h3>
         </div>
         <MediaCarousel :media="popularMovies" />
 
@@ -54,6 +67,8 @@ export default {
   },
   data() {
     return {
+      popularTV: [],
+      topTV: [],
       popularMovies: [],
       topMovies: [],
       trendingActors: [],
@@ -80,23 +95,19 @@ export default {
       ]
     }
   },
-  computed: {
-    trimmedPopularMovies() {
-      if (this.popularMovies) {
-        return this.popularMovies.slice(0, 18)
-      }
-    },
-    trimmedTopMovies() {
-      if (this.topMovies) {
-        return this.topMovies.slice(0, 18)
-      }
-    }
-  },
   methods: {
+    async getPopularTV() {
+      const tv = await this.$axios.$get(`https://api.themoviedb.org/3/tv/popular?api_key=${process.env.apikey}&language=en-US&page=1`)
+      this.popularTV = tv.results
+    },
+    async getTopTV() {
+      const tv = await this.$axios.$get(`https://api.themoviedb.org/3/tv/top_rated?api_key=${process.env.apikey}&language=en-US&page=1`)
+      this.topTV = tv.results
+    },
     async getPopularMovies() {
       const movies = await this.$axios.$get(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.apikey}&language=en-US&page=1`)
       this.popularMovies = movies.results
-      console.log(this.popularMovies)
+      console.log(this.topTV)
     },
     async getTopMovies() {
       const movies = await this.$axios.$get(`https://api.themoviedb.org/3/movie/top_rated?api_key=${process.env.apikey}&language=en-US&page=1`)
@@ -108,6 +119,8 @@ export default {
     }
   },
   created() {
+    this.getPopularTV()
+    this.getTopTV()
     this.getPopularMovies()
     this.getTopMovies()
     this.getTrendingActors()

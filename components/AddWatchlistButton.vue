@@ -1,9 +1,6 @@
 <template>
   <div>
-    <v-btn v-if="!available" block small depressed disabled class="watchlist-button text-capitalize">
-      Coming Soon
-    </v-btn>
-    <v-btn v-else-if="inWatchlist && available" block small depressed class="watchlist-button text-capitalize" @click="removeFromWatchlist(media.id)">
+    <v-btn v-if="inWatchlist" block small depressed class="watchlist-button text-capitalize" @click="removeFromWatchlist(media.id)">
       <v-icon left>mdi-check</v-icon>
       Watchlist
     </v-btn>
@@ -27,20 +24,6 @@ export default {
   },
   computed: {
     ...mapState(["watchlist"]),
-    available() {
-      if (this.media) {
-        const today = new Date().toISOString().slice(0,10).split('-')
-        if (this.media.release_date) {
-          const release = this.media.release_date.split('-')
-          return today > release
-        }
-        if (this.media.first_air_date) {
-          const release = this.media.first_air_date.split('-')
-          return today > release
-        }
-        return null
-      }
-    },
     inWatchlist() {
       return this.watchlist.some(watchlistMedia => {
         return watchlistMedia.id === this.media.id

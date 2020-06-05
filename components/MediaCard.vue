@@ -12,7 +12,7 @@
         <v-icon class="placeholder-media-icon" :size="110" color="grey darken-2">mdi-video-image</v-icon>
       </div>
     </nuxt-link>
-    <nuxt-link :to="{ path: `/medias/${media.id}` }" class="media-card-link">
+    <nuxt-link :to="{ path: `/${mediaType}/${media.id}` }" class="media-card-link">
       <v-card-text class="media-card-title">{{media.title || media.name}}</v-card-text>
     </nuxt-link>
     <div class="media-card-rating-div">
@@ -46,7 +46,7 @@ export default {
   computed: {
     mediaType() {
       if (this.media) {
-        return this.media.first_air_date ? "tv" : "movies"
+        return this.media.name ? "tv" : "movies"
       }
     }
   }

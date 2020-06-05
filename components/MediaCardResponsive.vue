@@ -46,7 +46,7 @@ export default {
   computed: {
     mediaType() {
       if (this.media) {
-        return this.media.first_air_date ? "tv" : "movies"
+        return this.media.name ? "tv" : "movies"
       }
     }
   }

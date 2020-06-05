@@ -9,17 +9,19 @@
     </v-img>
     <div v-else class="placeholder-icon-div">
       <v-icon class="placeholder-media-icon" size="100" color="grey darken-2">mdi-video-image</v-icon>
-      <h3 class="placeholder-media-title">No media poster</h3>
     </div>
     <v-card-text class="media-card-title">{{media.title || media.name}}</v-card-text>
-    <v-card-text v-if="media.air_date && media.episode_count" class="media-card-subtitle pt-0">{{ media.air_date | formatYear }}, {{media.episode_count}} Episodes</v-card-text>
+    <div v-if="media.air_date && media.episode_count" class="media-card-subtitle pt-0">
+      <span class="d-none d-md-flex media-card-released-year">{{ media.air_date | formatYear }}, </span>
+      <span>{{media.episode_count}} Episodes</span>
+    </div>
     <v-card-text v-else class="media-card-subtitle pt-0">Coming soon</v-card-text>
   </v-card>
 </template>
 
 <script>
 export default {
-  name: 'mediaCardHover',
+  name: 'mediaCardSmall',
   props: {
     media: {
       type: Object,
@@ -48,10 +50,6 @@ export default {
   text-align: center;
   padding-top: 45px;
 }
-.placeholder-media-title {
-  color: lightgrey;
-  font-size: 1em;
-}
 .media-card-link {
   text-decoration: none;
 }
@@ -69,6 +67,65 @@ export default {
   color: #f5c518 !important;
 }
 .media-card-subtitle {
-  font-size: 0.7em;
+  font-size: 0.75em;
+  display: flex;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 400;
+  line-height: 1.375rem;
+  letter-spacing: 0.0071428571em;
+  padding-left: 15px;
+}
+.media-card-released-year {
+  font-weight: 600;
+  padding-right: 3px;
+}
+/* MEDIA QUERIES */
+
+/* MD */
+@media(max-width: 1263px) {
+  .media-card {
+    width: 130px;
+    height: 255px;
+  }
+  .media-card-poster {
+    height: 194.03px;
+    width: 100%;
+  }
+  .placeholder-icon-div {
+    height: 194.03px;
+  }
+}
+
+/* SM */
+@media(max-width: 959px) {
+  .media-card {
+    width: 120px;
+    height: 240px;
+  }
+  .media-card-poster {
+    height: 179.1px;
+    width: 100%;
+  }
+  .placeholder-icon-div {
+    height: 179.1px;
+  }
+}
+
+/* XS */
+@media(max-width: 599px) {
+  .media-card {
+    width: 100px;
+    height: 210px;
+  }
+  .media-card-poster {
+    height: 149.25px;
+    width: 100%;
+  }
+  .placeholder-icon-div {
+    height: 149.25px;
+  }
+  .media-card-title {
+    font-size: 0.8em;
+  }
 }
 </style>

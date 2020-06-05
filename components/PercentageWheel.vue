@@ -1,0 +1,40 @@
+<template>
+  <v-progress-circular rotate="270" size="60" :value="ratingPercentage" width="4" color="#f5c518">
+    {{ratingPercentage}} <v-icon size="10">mdi-percent</v-icon>
+  </v-progress-circular>
+</template>
+
+<script>
+export default {
+  name: 'PercentageWheel',
+  props: {
+    rating: {
+      type: Number,
+      required: true
+    }
+  },
+  computed: {
+    ratingPercentage() {
+      if (this.rating) {
+        return Math.round((this.rating / 10) * 100)
+      }
+    }
+  }
+}
+</script>
+
+<style>
+.mdi-percent::before {
+  margin-bottom: 10px;
+  color: white;
+}
+.v-progress-circular__info {
+  font-weight: 600;
+  font-size: 1.1em;
+  color: white;
+}
+</style>
+
+<style scoped>
+
+</style>

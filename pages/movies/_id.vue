@@ -25,15 +25,13 @@
                   <span class="movie-title">{{movie.title}}</span><span v-if="movie.release_date" class="released-year">({{ movie.release_date | formatYear }})</span>
                 </div>
                 <div v-if="movie.tagline" class="movie-tagline">"{{movie.tagline}}"</div>
+
+                <PercentageWheel v-if="movie.vote_average" class="mt-3" :rating="this.movie.vote_average" />
+
                 <div class="movie-info">
                   <div v-if="movie.runtime" class="movie-info-item">
                     <v-icon color="blue" class="mr-2" size="20">mdi-clock-outline</v-icon>
                     <span class="movie-info-item-data">{{movie.runtime}} minutes</span>
-                  </div>
-                  <div v-if="movie.vote_average" class="movie-info-item">
-                    <v-icon color="yellow" class="mr-2" size="20">mdi-star</v-icon>
-                    <span class="movie-info-item-data">{{movie.vote_average}}</span>
-                    <span class="movie-info-item-data vote-count">({{movie.vote_count}})</span>
                   </div>
                 </div>
 
@@ -139,13 +137,15 @@ import MediaCard from '@/components/MediaCard.vue'
 import AddWatchlistButton from '@/components/AddWatchlistButton.vue'
 import PersonCard from '@/components/PersonCard.vue'
 import MediaCarousel from '@/components/MediaCarousel.vue'
+import PercentageWheel from '@/components/PercentageWheel.vue'
 
 export default {
   components: {
     MediaCard,
     AddWatchlistButton,
     PersonCard,
-    MediaCarousel
+    MediaCarousel,
+    PercentageWheel
   },
   data () {
     return {

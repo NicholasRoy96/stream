@@ -112,7 +112,6 @@ export default {
     async getPopularTV() {
       const tv = await this.$axios.$get(`https://api.themoviedb.org/3/tv/popular?api_key=${process.env.apikey}&language=en-US&page=1`)
       this.popularTV = tv.results
-      console.log(this.recentlyViewed)
     },
     async getTopTV() {
       const tv = await this.$axios.$get(`https://api.themoviedb.org/3/tv/top_rated?api_key=${process.env.apikey}&language=en-US&page=1`)
@@ -121,7 +120,6 @@ export default {
     async getPopularMovies() {
       const movies = await this.$axios.$get(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.apikey}&language=en-US&page=1`)
       this.popularMovies = movies.results
-      console.log(this.topTV)
     },
     async getTopMovies() {
       const movies = await this.$axios.$get(`https://api.themoviedb.org/3/movie/top_rated?api_key=${process.env.apikey}&language=en-US&page=1`)

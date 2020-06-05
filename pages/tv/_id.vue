@@ -25,17 +25,8 @@
                   <span class="tv-title">{{tvShow.name}}</span><span v-if="tvShow.first_air_date" class="released-year">({{ tvShow.first_air_date | formatYear }})</span>
                 </div>
                 <div v-if="tvShow.tagline" class="tv-tagline">"{{tvShow.tagline}}"</div>
-                <div class="tv-info">
-                  <div v-if="tvShow.seasons && tvShow.seasons.length" class="tv-info-item">
-                    <v-icon color="blue" class="mr-2" size="20">mdi-content-copy</v-icon>
-                    <span class="tv-info-item-data">{{tvShow.seasons.length}} Seasons</span>
-                  </div>
-                  <div v-if="tvShow.vote_average" class="tv-info-item">
-                    <v-icon color="yellow" class="mr-2" size="20">mdi-star</v-icon>
-                    <span class="tv-info-item-data">{{tvShow.vote_average}}</span>
-                    <span class="tv-info-item-data vote-count">({{tvShow.vote_count}})</span>
-                  </div>
-                </div>
+
+                <PercentageWheel v-if="tvShow.vote_average" class="mt-3" :rating="this.tvShow.vote_average" />
 
                 <!-- OVERVIEW SHORTENED IF 400+ CHARS -->
                 <div v-if="tvShow.overview">
@@ -125,6 +116,7 @@ import PersonCard from '@/components/PersonCard.vue'
 import MediaCard from '@/components/MediaCard.vue'
 import MediaCardSmall from '@/components/MediaCardSmall.vue'
 import MediaCarousel from '@/components/MediaCarousel.vue'
+import PercentageWheel from '@/components/PercentageWheel.vue'
 
 export default {
   components: {
@@ -132,7 +124,8 @@ export default {
     PersonCard,
     MediaCard,
     MediaCardSmall,
-    MediaCarousel
+    MediaCarousel,
+    PercentageWheel
   },
   data() {
     return {

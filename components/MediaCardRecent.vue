@@ -52,6 +52,7 @@ export default {
 .media-card-poster {
   height: 261.19px;
   width: 100%;
+  border-radius: 5px;
 }
 .media-card-poster:hover {
   opacity: 0.8;
@@ -89,6 +90,7 @@ export default {
 }
 .media-card-rating {
   font-size: 0.8em;
+  color: darkgrey;
 }
 .card-actions {
   position: absolute;

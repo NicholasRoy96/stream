@@ -7,7 +7,7 @@
         <v-col cols="2">
           <nuxt-link to="/" class="site-name">
             <div class="logo-frame">
-              <span class="logo-helper"></span><img src="~/assets/logo.png" height="43" class="logo"><img>
+              <span class="logo-helper"></span><img src="~/assets/logo.png" width="120" class="logo"><img>
             </div>
           </nuxt-link>
         </v-col>
@@ -23,7 +23,7 @@
       <v-row v-if="!searchOpen" class="d-md-none">
         <nuxt-link to="/" class="site-name">
           <div class="logo-frame">
-            <span class="logo-helper"></span><img src="~/assets/logo.png" height="38" class="logo"><img>
+            <span class="logo-helper"></span><img src="~/assets/logo.png" width="100" class="logo"><img>
           </div>
         </nuxt-link>
         <v-spacer></v-spacer>
@@ -93,5 +93,14 @@ export default {
 }
 .logo {
   vertical-align: middle;
+}
+
+/* MEDIA QUERIES */
+
+/* SM */
+@media(max-width: 959px) {
+  .logo {
+    padding-left: 11px;
+  }
 }
 </style>

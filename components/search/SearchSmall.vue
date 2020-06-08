@@ -128,7 +128,7 @@ export default {
 
 <style scoped>
 .search-icon {
-  color: grey !important;
+  color: white;
 }
 .search-list {
   border-bottom: 1px solid;

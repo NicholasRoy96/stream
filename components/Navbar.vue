@@ -1,26 +1,25 @@
 <template>
   <v-app-bar class="app-bar">
-    <v-container class="nav-container">
+    <v-container fluid>
       
       <!-- MD + -->
-      <v-row align="center" justify="space-between" class="d-none d-md-flex">
-        <v-col cols="2">
+      <v-row align="center" class="d-none d-md-flex pl-4" justify="center">
           <nuxt-link to="/" class="site-name">
             <div class="logo-frame">
-              <span class="logo-helper"></span><img src="~/assets/logo.png" width="120" class="logo"><img>
+              <span class="logo-helper"></span><img src="~/assets/logo.png" width="100" class="logo"><img>
             </div>
           </nuxt-link>
+        <v-col cols="6">
+          <Search class="search-bar" />
         </v-col>
-        <v-col cols="8">
-          <Search />
-        </v-col>
-        <v-col cols="2">
-          <Watchlist />
-        </v-col>
+        <NavMenu class="menu-button" />
+        <v-divider vertical inset></v-divider>
+          <Watchlist class="watchlist-button" />
       </v-row>
 
       <!-- SM - -->
-      <v-row v-if="!searchOpen" class="d-md-none">
+      <v-row v-if="!searchOpen" class="d-md-none pl-2 pr-2">
+        <NavMenu class="menu-button"/>
         <nuxt-link to="/" class="site-name">
           <div class="logo-frame">
             <span class="logo-helper"></span><img src="~/assets/logo.png" width="100" class="logo"><img>
@@ -45,6 +44,7 @@
 import Watchlist from '@/components/Watchlist.vue'
 import Search from '@/components/search/Search.vue'
 import SearchSmall from '@/components/search/SearchSmall.vue'
+import NavMenu from '@/components/NavMenu.vue'
 import { mapState } from 'vuex'
 
 export default {
@@ -52,7 +52,8 @@ export default {
   components: {
     Watchlist,
     Search,
-    SearchSmall
+    SearchSmall,
+    NavMenu
   },
   computed: {
     ...mapState(["searchOpen"])
@@ -61,6 +62,12 @@ export default {
 </script>
 
 <style>
+.v-divider--vertical.v-divider--inset {
+  margin-bottom: 8px;
+}
+#app > div > header > div > div > div.row.d-none.d-md-flex.align-center > button.watchlist-button.d-none.d-md-block.v-btn.v-btn--depressed.theme--dark.v-size--default {
+  margin-left: 10px;
+}
 /* MEDIA QUERIES */
 
 /* SM */
@@ -82,9 +89,10 @@ export default {
   text-decoration: none !important;
 }
 .logo-frame {
-  height: 45px;
-  width: 160px;
+  height: 33.91px;
+  width: 100px;
   white-space: nowrap;
+  margin-right: 20px;
 }
 .logo-helper {
   display: inline-block;
@@ -94,13 +102,20 @@ export default {
 .logo {
   vertical-align: middle;
 }
+.menu-button {
+  margin-right: 10px;
+}
 
 /* MEDIA QUERIES */
 
 /* SM */
 @media(max-width: 959px) {
-  .logo {
-    padding-left: 11px;
+  .site-name {
+    padding-top: 7px;
+    padding-left: 6px;
+  }
+  .menu-button {
+    margin-left: 6px;
   }
 }
 </style>

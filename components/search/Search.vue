@@ -120,11 +120,11 @@ export default {
 
 <style>
 /* Removing dropdown icon on v-autocomplete */
-#app > div.v-application--wrap > header > div > div > div.row.d-none.d-md-flex.align-center.justify-space-between > div.col.col-8 > div > div > div > div > div.v-select__slot > div {
-  display: none
+#app > div.v-application--wrap > header > div > div > div.row.d-none.d-md-flex.pl-4.align-center.justify-center > div.col-6 > div > div > div > div > div.v-select__slot > div > div > i {
+  display: none;
 }
  /* Changing color of v-autocomplete prepend icon */
-#app > div.v-application--wrap > header > div > div > div.row.d-none.d-md-flex.align-center.justify-space-between > div.col.col-8 > div > div > div > div > div.v-input__prepend-inner > div > i {
+#app > div.v-application--wrap > header > div > div > div.row.d-none.d-md-flex.pl-4.align-center.justify-center > div.col-6 > div > div > div > div > div.v-input__prepend-inner > div > i {
   color: grey;
 }
 </style>

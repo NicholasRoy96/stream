@@ -132,4 +132,14 @@ export default {
 .watchlist-stream-button {
   color: #5799ef;
 }
+
+/* MEDIA QUERIES */
+
+/* SM */
+@media(max-width: 959px) {
+  .watchlist-button-icon {
+    margin-right: 0;
+    color: white !important;
+  }
+}
 </style>

@@ -1,6 +1,6 @@
 <template>
   <v-hover v-slot:default="{ hover }">
-    <nuxt-link :to="{ path: `/genres/${genre.genreId}` }">
+    <nuxt-link :to="{ path: `/list/${mediaType}/genres/${genre.genreId}` }">
       <v-card>
         <v-img :src="genre.backdropImage">
           <template v-slot:placeholder>
@@ -10,7 +10,7 @@
           </template>
           <v-expand-transition>
             <div
-              v-if="hover"
+              v-if="!hover"
               class="d-flex transition-fast-in-fast-out grey darken-4 v-card--reveal display-3"
               style="height: 100%;"
             >
@@ -29,6 +29,10 @@ export default {
   props: {
     genre: {
       type: Object,
+      required: true
+    },
+    mediaType: {
+      type: String,
       required: true
     }
   }

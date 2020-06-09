@@ -2,7 +2,7 @@
   <v-container>
     <v-carousel height="700" continuous show-arrows-on-hover hide-delimiters>
       <div v-for="(movie,i) in movies" :key="i">
-        <nuxt-link :to="{ path: `/movies/${movie.id}` }" class="slide-link">
+        <nuxt-link :to="{ path: `/info/movies/${movie.id}` }" class="slide-link">
           <v-carousel-item
             :src="`https://image.tmdb.org/t/p/original${movie.backdrop_path}`"
             reverse-transition="fade-transition"

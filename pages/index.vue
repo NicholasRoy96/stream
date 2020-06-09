@@ -80,28 +80,7 @@ export default {
       topTV: [],
       popularMovies: [],
       topMovies: [],
-      trendingActors: [],
-      // genres: [
-      //   { name: "Action", genreId: 28, backdropImage: "https://image.tmdb.org/t/p/original/zuW6fOiusv4X9nnW3paHGfXcSll.jpg"},
-      //   { name: "Adventure", genreId: 12, backdropImage: "https://image.tmdb.org/t/p/original/zTxHf9iIOCqRbxvl8W5QYKrsMLq.jpg"},
-      //   { name: "Animation", genreId: 16, backdropImage: "https://image.tmdb.org/t/p/original/xFxk4vnirOtUxpOEWgA1MCRfy6J.jpg"},
-      //   { name: "Comedy", genreId: 35, backdropImage: "https://image.tmdb.org/t/p/original/165GzcOatgvHMeDu8FdKJcO23KI.jpg"},
-      //   { name: "Crime", genreId: 80, backdropImage: "https://image.tmdb.org/t/p/original/7VrRna8S3x6xbijooeBmxqvHXiu.jpg"},
-      //   { name: "Documentary", genreId: 99, backdropImage: "https://image.tmdb.org/t/p/original/dPBoyjIj8Hl8HnEVOVDk8hyl1OZ.jpg"},
-      //   { name: "Drama", genreId: 18, backdropImage: "https://image.tmdb.org/t/p/original/sixfWYfNegaGGHKdXrNNUHaMiAC.jpg"},
-      //   { name: "Family", genreId: 10751, backdropImage: "https://image.tmdb.org/t/p/original/9FBwqcd9IRruEDUrTdcaafOMKUq.jpg"},
-      //   { name: "Fantasy", genreId: 14, backdropImage: "https://image.tmdb.org/t/p/original/bVmSXNgH1gpHYTDyF9Q826YwJT5.jpg"},
-      //   { name: "History", genreId: 36, backdropImage: "https://image.tmdb.org/t/p/original/w2ezhZUk7ZJH9Mdk1Y6CTmaDRg5.jpg"},
-      //   { name: "Horror", genreId: 27, backdropImage: "https://image.tmdb.org/t/p/original/vZ7EVk7FaNEWYqlVWbFLHP8Z0LU.jpg"},
-      //   { name: "Music", genreId: 10402, backdropImage: "https://image.tmdb.org/t/p/original/fRGxZuo7jJUWQsVg9PREb98Aclp.jpg"},
-      //   { name: "Mystery", genreId: 9648, backdropImage: "https://image.tmdb.org/t/p/original/AbRYlvwAKHs0YuyNO6NX9ofq4l6.jpg"},
-      //   { name: "Romance", genreId: 10749, backdropImage: "https://image.tmdb.org/t/p/original/6VmFqApQRyZZzmiGOQq2C92jyvH.jpg"},
-      //   { name: "Sci-Fi", genreId: 878, backdropImage: "https://image.tmdb.org/t/p/original/3dPhs7hUnQLphDFzdkD407VZDYo.jpg"},
-      //   { name: "TV Movie", genreId: 10770, backdropImage: "https://image.tmdb.org/t/p/original/rBnUusNA6FmypqjGmRo5dvgycqL.jpg"},
-      //   { name: "Thriller", genreId: 53, backdropImage: "https://image.tmdb.org/t/p/original/uZMZyvarQuXLRqf3xdpdMqzdtjb.jpg"},
-      //   { name: "War", genreId: 10752, backdropImage: "https://image.tmdb.org/t/p/original/cqa3sa4c4jevgnEJwq3CMF8UfTG.jpg"},
-      //   { name: "Western", genreId: 37, backdropImage: "https://image.tmdb.org/t/p/original/s4cJQaj40SwMifUrrdtdOJsjnRO.jpg"}
-      // ]
+      trendingActors: []
     }
   },
   computed: {

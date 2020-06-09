@@ -52,11 +52,11 @@
                 <div class="extra-info">
                   <div v-if="director.name" class="extra-info-item">
                     <span class="extra-info-title">Directed by: </span>
-                    <a class="extra-info-data" :href="`/people/${director.id}`">{{director.name}}</a>
+                    <a class="extra-info-data" :href="`/info/people/${director.id}`">{{director.name}}</a>
                   </div>
                   <div v-if="movie.genres.length" class="extra-info-item">
                     <span class="extra-info-title">Genres: </span>
-                    <a class="extra-info-data" v-for="(genre, i) in movie.genres" :key="i" :href="`/genres/${genre.id}`">{{genre.name}}</a>
+                    <a class="extra-info-data" v-for="(genre, i) in movie.genres" :key="i" :href="`/list/movies/genres/${genre.id}`">{{genre.name}}</a>
                   </div>
                   <div v-if="movie.status">
                     <span class="extra-info-title">Status: </span>

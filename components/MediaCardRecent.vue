@@ -1,7 +1,7 @@
 <template>
   <v-card class="media-card">
     <Bookmark v-if="mediaType && mediaType !== 'people'" :media="media" />
-    <nuxt-link :to="{ path: `/${mediaType}/${media.id}` }" class="media-card-link">
+    <nuxt-link :to="{ path: `/info/${mediaType}/${media.id}` }" class="media-card-link">
       <v-img v-if="media.poster_path || media.profile_path" class="media-card-poster" :src="`https://image.tmdb.org/t/p/w185${media.poster_path || media.profile_path}`">
         <template v-slot:placeholder>
           <v-row class="fill-height ma-0" align="center" justify="center">
@@ -13,7 +13,7 @@
         <v-icon class="placeholder-media-icon" size="110" color="grey darken-2">mdi-video-image</v-icon>
       </div>
     </nuxt-link>
-    <nuxt-link :to="{ path: `/${mediaType}/${media.id}` }" class="media-card-link">
+    <nuxt-link :to="{ path: `/info/${mediaType}/${media.id}` }" class="media-card-link">
       <v-card-text class="media-card-title">{{media.title || media.name}}</v-card-text>
     </nuxt-link>
   </v-card>

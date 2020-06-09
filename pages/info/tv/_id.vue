@@ -46,7 +46,7 @@
                 <div class="extra-info">
                   <div v-if="tvShow.created_by && tvShow.created_by.length" class="extra-info-item">
                     <span class="extra-info-title">Created by: </span>
-                    <a class="extra-info-data" v-for="(creator, i) in tvShow.created_by" :key="i" :href="`/people/${creator.id}`">{{creator.name}}</a>
+                    <a class="extra-info-data" v-for="(creator, i) in tvShow.created_by" :key="i" :href="`/info/people/${creator.id}`">{{creator.name}}</a>
                   </div>
                   <!-- <div v-if="tvShow.genres.length" class="extra-info-item">
                     <span class="extra-info-title">Genres: </span>

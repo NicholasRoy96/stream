@@ -1,5 +1,5 @@
 <template>
-  <nuxt-link :to="{ path: `/people/${person.id}` }" class="person-card-link">
+  <nuxt-link :to="{ path: `/info/people/${person.id}` }" class="person-card-link">
     <div class="person-div">
       <v-avatar :size="avatarSize" color="grey darken-4">
         <v-img v-if="person.profile_path" :src="`https://image.tmdb.org/t/p/w185${person.profile_path}`">

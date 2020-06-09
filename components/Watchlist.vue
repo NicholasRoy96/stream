@@ -32,7 +32,7 @@
           <v-icon v-else size="40" color="grey darken-2">mdi-video-image</v-icon>
         </v-avatar>
         <v-list-item-content>
-          <nuxt-link :to="{ path: `/${determineMediaType(watchlistMedia)}/${watchlistMedia.id}` }" class="watchlist-media-link">
+          <nuxt-link :to="{ path: `/info/${determineMediaType(watchlistMedia)}/${watchlistMedia.id}` }" class="watchlist-media-link">
             <v-list-item-title class="watchlist-media-title">{{ watchlistMedia.title || watchlistMedia.name }}</v-list-item-title>
           </nuxt-link>
           <v-list-item-subtitle class="watchlist-rating">

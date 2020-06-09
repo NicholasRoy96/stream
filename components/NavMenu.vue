@@ -29,7 +29,7 @@
               <v-list>
                 <v-list-item v-for="(item, i) in catergory.items" :key="i" class="list-item ml-9">
                   <nuxt-link :to="item.link" class="item-link">
-                    <v-list-item-title>
+                    <v-list-item-title @click="dialog = false">
                       {{item.heading}}
                     </v-list-item-title>
                   </nuxt-link>
@@ -55,16 +55,24 @@ export default {
           icon: "mdi-filmstrip",
           items: [
             {
+              heading: "In Cinemas Now",
+              link: "/list/movies/keywords/now_playing"
+            },
+            {
+              heading: "Top Rated Movies",
+              link: "/list/movies/keywords/top_rated"
+            },
+            {
               heading: "Most Popular Movies",
-              link: "/#"
+              link: "/list/movies/keywords/popular"
             },
             {
               heading: "Browse Movies by Genre",
-              link: "/#"
+              link: "/list/movies/genres/GenreList"
             },
             {
-              heading: "Coming Soon",
-              link: "/#"
+              heading: "Coming Soon to Cinemas",
+              link: "/list/movies/keywords/upcoming"
             }
           ]
         },
@@ -73,24 +81,24 @@ export default {
           icon: "mdi-television",
           items: [
             {
-              heading: "What's Streaming Now",
-              link: "/#"
+              heading: "What's On TV",
+              link: "/list/tv/keywords/airing_today"
+            },
+            {
+              heading: "What's Airing Today",
+              link: "/list/tv/keywords/on_the_air"
             },
             {
               heading: "Top Rated TV",
-              link: "/#"
+              link: "/list/tv/keywords/top_rated"
             },
             {
               heading: "Most Popular TV",
-              link: "/#"
+              link: "/list/tv/keywords/popular"
             },
             {
               heading: "Browse TV by Genre",
-              link: "/#"
-            },
-            {
-              heading: "Coming Soon",
-              link: "/#"
+              link: "/list/tv/genres/GenreList"
             }
           ]
         },
@@ -99,17 +107,13 @@ export default {
           icon: "mdi-account-multiple",
           items: [
             {
-              heading: "Who's Trending Now",
-              link: "/#"
-            },
-            {
               heading: "Most Popular People",
-              link: "/#"
-            },
-            {
-              heading: "Browse by Role",
-              link: "/#"
+              link: "/list/people/keywords/popular"
             }
+            // {
+            //   heading: "Browse People by Role",
+            //   link: "/#"
+            // }
           ]
         }
       ]

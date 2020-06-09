@@ -119,7 +119,7 @@ export default {
     result() {
       const matchedMedia = this.formattedResults.find(media => media.title === this.result)
       const type = this.determineMediaType(matchedMedia)
-      this.$router.push({ path: `/${type}/${matchedMedia.id}` })
+      this.$router.push({ path: `/info/${type}/${matchedMedia.id}` })
       this.searchString = null
     }
   }

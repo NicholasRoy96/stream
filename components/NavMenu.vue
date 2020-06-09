@@ -13,7 +13,7 @@
         <v-container>
           <v-row class="pa-5 pa-md-12">
             <nuxt-link to="/">
-              <img src="~/assets/logo.png" width="150" class="logo"><img>
+              <img src="~/assets/logo.png" width="150" class="logo" @click="dialog = false"><img>
             </nuxt-link>
             <v-spacer></v-spacer>
             <v-btn icon class="close-button" @click="dialog = false">

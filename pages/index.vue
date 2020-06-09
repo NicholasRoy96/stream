@@ -3,29 +3,48 @@
       <BannerCarousel :movies="popularMovies"/>
       <v-container>
         <h3 class="heading">Bingeworthy series</h3>
-        <div class="subheading-div">
-          <h3 class="subheading">Classic TV</h3>
-          <h3 class="subheading-description">Most popular series</h3>
-        </div>
+        <nuxt-link :to="{ path: '/list/tv/keywords/popular' }" class="subheading-link">
+          <div class="subheading-div">
+            <div class="d-flex">
+              <h3 class="subheading">Classic TV</h3>
+              <v-icon size="38" class="subheading-arrow-icon">mdi-chevron-right</v-icon>
+            </div>
+            <h3 class="subheading-description">The most popular series</h3>
+          </div>
+        </nuxt-link>
         <MediaCarousel :media="popularTV" />
 
-        <div class="subheading-div">
-          <h3 class="subheading">Top rated</h3>
-          <h3 class="subheading-description">Explore the best-rated series</h3>
-        </div>
+        <nuxt-link :to="{ path: '/list/tv/keywords/top_rated' }" class="subheading-link">
+          <div class="subheading-div">
+            <div class="d-flex">
+              <h3 class="subheading">Top rated</h3>
+              <v-icon size="38" class="subheading-arrow-icon">mdi-chevron-right</v-icon>
+            </div>
+            <h3 class="subheading-description">Explore the best-rated series</h3>
+          </div>
+        </nuxt-link>
         <MediaCarousel :media="topTV" />
 
-        <h3 class="heading">Movies to watch</h3>
-        <div class="subheading-div">
-          <h3 class="subheading">Most popular</h3>
-          <h3 class="subheading-description">The current fan favourites</h3>
-        </div>
+        <nuxt-link :to="{ path: '/list/movies/keywords/popular' }" class="subheading-link">
+          <div class="subheading-div">
+            <div class="d-flex">
+              <h3 class="subheading">Most Popular</h3>
+              <v-icon size="38" class="subheading-arrow-icon">mdi-chevron-right</v-icon>
+            </div>
+            <h3 class="subheading-description">The current fan favourites</h3>
+          </div>
+        </nuxt-link>
         <MediaCarousel :media="popularMovies" />
 
-        <div class="subheading-div">
-          <h3 class="subheading">Top rated</h3>
-          <h3 class="subheading-description">The most critically acclaimed</h3>
-        </div>
+        <nuxt-link :to="{ path: '/list/movies/keywords/top_rated' }" class="subheading-link">
+          <div class="subheading-div">
+            <div class="d-flex">
+              <h3 class="subheading">Top rated</h3>
+              <v-icon size="38" class="subheading-arrow-icon">mdi-chevron-right</v-icon>
+            </div>
+            <h3 class="subheading-description">The most critically acclaimed</h3>
+          </div>
+        </nuxt-link>
         <MediaCarousel :media="topMovies" />
 
         <!-- <h3 class="heading">Explore genres</h3>
@@ -36,10 +55,15 @@
           </v-row> -->
 
           <h3 class="heading">Explore more</h3>
-          <div class="subheading-div">
-            <h3 class="subheading">Trending today</h3>
-            <h3 class="subheading-description">Most popular actors</h3>
-          </div>
+          <nuxt-link :to="{ path: '/list/people/keywords/popular' }" class="subheading-link">
+            <div class="subheading-div">
+              <div class="d-flex">
+                <h3 class="subheading">Trending today</h3>
+                <v-icon size="38" class="subheading-arrow-icon">mdi-chevron-right</v-icon>
+              </div>
+              <h3 class="subheading-description">Most popular actors</h3>
+            </div>
+          </nuxt-link>
           <v-row>
             <v-col cols="6" sm="4" lg="2" v-for="(actor, i) in trendingActors" :key="i" align-self="center">
               <PersonCard :person="actor" />
@@ -126,13 +150,24 @@ export default {
   font-weight: bold;
   margin: 25px 0 20px 0;
 }
+.subheading-link {
+  text-decoration: none;
+  color: white;
+}
 .subheading-div {
   margin: 20px 0 20px 0
+}
+.subheading-div:hover .subheading-arrow-icon {
+  color: #f5c518;
 }
 .subheading {
   font-size: 1.5em;
   padding-left: 10px;
   border-left: 3px solid #f5c518;
+}
+.subheading-arrow-icon {
+  color: white;
+  margin-left: 6px;
 }
 .subheading-description {
   color: darkgrey;

@@ -24,16 +24,28 @@
                 <div class="movie-title-div">
                   <span class="movie-title">{{movie.title}}</span><span v-if="movie.release_date" class="released-year">({{ movie.release_date | formatYear }})</span>
                 </div>
-                <div v-if="movie.tagline" class="movie-tagline">"{{movie.tagline}}"</div>
-
-                <PercentageWheel v-if="movie.vote_average" class="mt-3" :rating="this.movie.vote_average" />
-
                 <div class="movie-info">
-                  <div v-if="movie.runtime" class="movie-info-item">
-                    <v-icon color="blue" class="mr-2" size="20">mdi-clock-outline</v-icon>
-                    <span class="movie-info-item-data">{{movie.runtime}} minutes</span>
+                  <div v-if="movie.genres.length" class="movie-info-subdiv">
+                    <nuxt-link v-for="(genre, i) in movie.genres" :key="i" :to="{ path: `/list/movies/genres/${genre.id}` }" class="link">
+                      <span>
+                        {{genre.name}}
+                        <span v-if="i !== movie.genres.length - 1">,</span>
+                      </span>
+                    </nuxt-link>
+                  </div>
+                  <span v-if="movie.runtime" class="bullet-divider">&#8226;</span>
+                  <div v-if="movie.runtime" class="movie-info-subdiv">
+                    <span>{{runtime}}</span>
                   </div>
                 </div>
+
+                <v-row align="center" class="pl-6 pb-7">
+                  <PercentageWheel v-if="movie.vote_average" class="mt-3" :rating="this.movie.vote_average" />
+                  <AddWatchlistButton :media="movie" :icon="true" class="pt-3 ml-8" />
+                </v-row>
+                
+
+                <div v-if="movie.tagline" class="movie-tagline">"{{movie.tagline}}"</div>
 
                 <!-- OVERVIEW SHORTENED IF 400+ CHARS -->
                 <div v-if="movie.overview">
@@ -49,23 +61,26 @@
                   </div>
                 </div>
 
-                <div class="extra-info">
-                  <div v-if="director.name" class="extra-info-item">
-                    <span class="extra-info-title">Directed by: </span>
-                    <a class="extra-info-data" :href="`/info/people/${director.id}`">{{director.name}}</a>
-                  </div>
-                  <div v-if="movie.genres.length" class="extra-info-item">
-                    <span class="extra-info-title">Genres: </span>
-                    <a class="extra-info-data" v-for="(genre, i) in movie.genres" :key="i" :href="`/list/movies/genres/${genre.id}`">{{genre.name}}</a>
-                  </div>
-                  <div v-if="movie.status">
-                    <span class="extra-info-title">Status: </span>
-                    <span>{{movie.status}}</span>
-                  </div>
-                </div>
-                <div>
-                  <AddWatchlistButton :media="movie" />
-                </div>
+                <v-row>
+                  <v-col cols="6" md="4" v-if="director.name">
+                    <nuxt-link :to="{ path: `/info/people/${director.id}` }" class="link crew">
+                      <div class="crew-name">{{director.name}}</div>
+                    </nuxt-link>
+                    <div class="crew-role">Director</div>
+                  </v-col>
+                  <v-col cols="6" md="4" v-if="novel.name">
+                    <nuxt-link :to="{ path: `/info/people/${novel.id}` }" class="link crew">
+                      <div class="crew-name">{{novel.name}}</div>
+                    </nuxt-link>
+                    <div class="crew-role">Novel</div>
+                  </v-col>
+                  <v-col cols="6" md="4" v-if="composer.name">
+                    <nuxt-link :to="{ path: `/info/people/${composer.id}` }" class="link crew">
+                      <div class="crew-name">{{composer.name}}</div>
+                    </nuxt-link>
+                    <div class="crew-role">Original Music</div>
+                  </v-col>
+                </v-row>
               </div>
             </v-col>
           </v-row>
@@ -158,6 +173,8 @@ export default {
       cast: [],
       crew: [],
       director: {},
+      novel: {},
+      composer: {},
       collection: {},
       collectionExists: false,
       similarMovies: []
@@ -170,6 +187,15 @@ export default {
           return ''
         }
         return this.movie.overview.slice(0, 400).trim() + "..."
+      }
+    },
+    runtime() {
+      if (this.movie && this.movie.runtime) {
+        const hours = (this.movie.runtime / 60)
+        const rhours = Math.floor(hours)
+        const minutes = (hours - rhours) * 60
+        const rminutes = Math.round(minutes)
+        return `${rhours}h ${rminutes}m`
       }
     }
   },
@@ -226,9 +252,12 @@ export default {
       try {
         const credits = await this.$axios.$get(`https://api.themoviedb.org/3/movie/${this.movieId}/credits?api_key=${process.env.apikey}`)
         console.log(credits.crew)
+        this.director = credits.crew.find(crew => crew.job === "Director") || {}
+        this.composer = credits.crew.find(crew => crew.job === "Original Music Composer") || {}
+        this.novel = credits.crew.find(crew => crew.job === "Novel") || {}
         this.cast = credits.cast.slice(0, 6)
         this.crew = credits.crew.slice(0, 6)
-        this.director = credits.crew.find(crew => crew.job === "Director") || {}
+        
       } catch(err) {
         // suppress cast lookup error
         // console.log(err)
@@ -240,7 +269,11 @@ export default {
       } catch(err) {
         console.log(err)
       }
-    }
+    },
+    // TRY TO GET AVERAGE COLOR WORKING - based off of poster image
+    // getAverageColor() {
+    //   const fac = new FastAverageColor()
+    // }
   },
   created() {
     this.getMovie()
@@ -261,74 +294,74 @@ export default {
 .overlay-container {
   height: 100%;
   width: 100%;
-  background-image: linear-gradient(to right, rgba(12, 10, 9, 0.95) 150px, rgba(32, 28, 20, 0.8) 100%);
+  background-image: linear-gradient(to right, rgba(12, 10, 9, 0.985) 150px, rgba(32, 28, 20, 0.85) 100%);
   align-items: center;
 }
 .movie-div {
-  padding-left: 16px;
+  padding-left: 20px;
 }
 .movie-title-div {
   font-weight: bold;
 }
 .movie-title {
-  font-size: 2.3em;
+  font-size: 2.1em;
+  font-weight: 750;
   margin-right: 8px;
 }
 .released-year {
   color: lightgrey;
-  font-size: 1.8em;
+  font-size: 1.9em;
   font-weight: normal;
+}
+.movie-info {
+  margin-top: -5px;
+  margin-bottom: 5px;
+  padding-left: 4px;
+  display: flex;
+  align-content: center;
+  font-size: 0.96em;
+}
+.movie-info-subdiv {
+  align-self: center;
+}
+.bullet-divider {
+  margin: 0 12px 0 12px;
+  font-size: 1.4em;
 }
 .movie-tagline {
   font-size: 1em;
-  padding-left: 10px;
-  border-left: 3px solid #f5c518;
-}
-.movie-info {
-  margin-top: 20px;
-}
-.movie-info-item {
-  margin-bottom: 10px;
-  vertical-align: center;
-}
-.movie-info-item-data {
-  vertical-align: middle;
-}
-.vote-count {
-  font-size: 0.8em;
+  color: lightgrey;
+  font-style: italic;
 }
 .movie-overview-title {
   font-size: 1.2em;
   font-weight: bold;
-  margin-top: 30px;
+  margin-top: 10px;
   margin-bottom: 10px;
 }
 .movie-overview {
   color: lightgrey;
-  margin-bottom: 25px;
+  margin-bottom: 15px;
   font-size: 0.95em;
 }
-.extra-info {
-  color: lightgrey;
-  margin-bottom: 40px;
-  max-width: 100%;
-  display: block;
-  word-wrap: break-word;
+.link {
+  text-decoration: none;
+  color: white;
 }
-.extra-info-item {
-  padding-bottom: 5px;
+.link:hover {
+  text-decoration: underline;
 }
-.extra-info-title {
-  margin-right: 10px;
-  font-weight: bold;
-}
-.extra-info-data {
-  margin-right: 12px;
-  color: lightgrey !important;
+.link.crew:hover {
   text-decoration: none;
 }
-.extra-info-data:hover {
-  text-decoration: underline;
+.crew-name {
+  font-weight: 715;
+  font-size: 0.97em;
+}
+.crew-role {
+  font-weight: 400;
+  font-size: 0.9em;
+  color: lightgrey;
 }
 .sub-div {
   margin: 40px 0 20px 0

@@ -145,9 +145,9 @@ export default {
 
 <style scoped>
 .heading {
-  font-size: 2.5em;
+  font-size: 2.3em;
   color: #f5c518;
-  font-weight: bold;
+  font-weight: 850;
   margin: 25px 0 20px 0;
 }
 .subheading-link {
@@ -162,16 +162,18 @@ export default {
 }
 .subheading {
   font-size: 1.5em;
+  font-weight: 800;
   padding-left: 10px;
   border-left: 3px solid #f5c518;
 }
 .subheading-arrow-icon {
   color: white;
-  margin-left: 6px;
+  margin-left: 4px;
 }
 .subheading-description {
   color: darkgrey;
   padding-left: 10px;
+  font-size: 1.1em;
 }
 .no-recent-pages {
   color: darkgrey;

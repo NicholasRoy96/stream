@@ -34,7 +34,8 @@ export default {
     { src: "~/plugins/infiniteLoading.js", mode: "client" },
     { src: "~/plugins/vuex-persist.js", mode: "client" },
     { src: "~/plugins/youtubeEmbed.js", mode: "client" },
-    { src: "~/plugins/filters.js", mode: "client" }
+    { src: "~/plugins/filters.js", mode: "client" },
+    { src: "~/plugins/averageColor.js", mode: "client" }
   ],
   /*
    ** Nuxt.js dev-modules

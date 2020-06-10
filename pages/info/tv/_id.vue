@@ -24,14 +24,30 @@
                 <div class="tv-title-div">
                   <span class="tv-title">{{tvShow.name}}</span><span v-if="tvShow.first_air_date" class="released-year">({{ tvShow.first_air_date | formatYear }})</span>
                 </div>
-                <div v-if="tvShow.tagline" class="tv-tagline">"{{tvShow.tagline}}"</div>
+                <div class="tv-info">
+                  <div v-if="tvShow.genres.length" class="tv-info-subdiv">
+                    <nuxt-link v-for="(genre, i) in tvShow.genres" :key="i" :to="{ path: `/list/tv/genres/${genre.id}` }" class="link">
+                      <span>
+                        {{genre.name}}
+                        <span v-if="i !== tvShow.genres.length - 1">,</span>
+                      </span>
+                    </nuxt-link>
+                  </div>
+                  <span v-if="tvShow.episode_run_time.length" class="bullet-divider">&#8226;</span>
+                  <div v-if="tvShow.episode_run_time.length" class="tv-info-subdiv">
+                    <span class="runtime">{{tvShow.episode_run_time[0]}}m</span>
+                  </div>
+                </div>
 
-                <PercentageWheel v-if="tvShow.vote_average" class="mt-3" :rating="this.tvShow.vote_average" />
+                <v-row align="center" class="pl-6 pb-3">
+                  <PercentageWheel v-if="tvShow.vote_average" class="mt-3" :rating="this.tvShow.vote_average" />
+                  <AddWatchlistButton :media="tvShow" :icon="true" class="pt-3 ml-8" />
+                </v-row>
 
                 <!-- OVERVIEW SHORTENED IF 400+ CHARS -->
                 <div v-if="tvShow.overview">
                   <div class="tv-overview-title">Overview</div>
-                  <div v-if="trimmedOverview && !expandOverview">
+                  <div v-if="trimmedOverview && !expandOverview" class="tv-overview">
                       <span class="tv-overview">{{trimmedOverview}}</span>
                       <v-icon @click="expandOverview = true" icon>mdi-chevron-down</v-icon>
                   </div>
@@ -43,19 +59,26 @@
                   </div>
                 </div>
 
-                <div class="extra-info">
-                  <div v-if="tvShow.created_by && tvShow.created_by.length" class="extra-info-item">
-                    <span class="extra-info-title">Created by: </span>
-                    <a class="extra-info-data" v-for="(creator, i) in tvShow.created_by" :key="i" :href="`/info/people/${creator.id}`">{{creator.name}}</a>
-                  </div>
-                  <!-- <div v-if="tvShow.genres.length" class="extra-info-item">
-                    <span class="extra-info-title">Genres: </span>
-                    <a class="extra-info-data" v-for="(genre, i) in tvShow.genres" :key="i" :href="`/genres/${genre.id}`">{{genre.name}}</a>
-                  </div> -->
-                </div>
-                <div>
-                  <AddWatchlistButton :media="tvShow" />
-                </div>
+                <v-row v-if="tvShow.created_by.length">
+                  <v-col cols="6" md="4" v-for="(creator, i) in tvShow.created_by" :key="i">
+                    <nuxt-link :to="{ path: `/info/people/${creator.id}` }" class="link crew">
+                      <div class="crew-name">{{creator.name}}</div>
+                    </nuxt-link>
+                    <div class="crew-role">Creator</div>
+                  </v-col>
+                  <v-col cols="6" md="4" v-if="novel.name">
+                    <nuxt-link :to="{ path: `/info/people/${novel.id}` }" class="link crew">
+                      <div class="crew-name">{{novel.name}}</div>
+                    </nuxt-link>
+                    <div class="crew-role">Novel</div>
+                  </v-col>
+                  <v-col cols="6" md="4" v-if="composer.name">
+                    <nuxt-link :to="{ path: `/info/people/${composer.id}` }" class="link crew">
+                      <div class="crew-name">{{composer.name}}</div>
+                    </nuxt-link>
+                    <div class="crew-role">Original Music</div>
+                  </v-col>
+                </v-row>
               </div>
             </v-col>
 
@@ -130,12 +153,14 @@ export default {
   data() {
     return {
       tvId: this.$route.params.id,
-      tvShow: {},
+      tvShow: {genres: [], episode_run_time: [], created_by: []},
       tvShowPoster: '',
       tvShowBackdrop: '',
       expandOverview: false,
       cast: [],
       crew: [],
+      composer: {},
+      novel: {},
       similarTvShows: []
     }
   },
@@ -170,7 +195,8 @@ export default {
     async getCredits() {
       try {
         const credits = await this.$axios.$get(`https://api.themoviedb.org/3/tv/${this.tvId}/credits?api_key=${process.env.apikey}`)
-        console.log(credits)
+        this.composer = credits.crew.find(crew => crew.job === "Original Music Composer") || {}
+        this.novel = credits.crew.find(crew => crew.job === "Novel") || {}
         this.cast = credits.cast.slice(0, 6)
         this.crew = credits.crew.slice(0, 6)
       } catch(err) {
@@ -181,7 +207,6 @@ export default {
     async getSimilarTvShows () {
       try {
         const tvShows = await this.$axios.$get(`https://api.themoviedb.org/3/tv/${this.tvId}/similar?api_key=${process.env.apikey}&language=en-US&page=1`)
-        console.log(tvShows)
         this.similarTvShows = tvShows.results.slice(0, 18)
       } catch(err) {
         // suppress tv lookup error
@@ -214,74 +239,69 @@ export default {
 .overlay-container {
   height: 100%;
   width: 100%;
-  background-image: linear-gradient(to right, rgba(12, 10, 9, 0.95) 150px, rgba(32, 28, 20, 0.8) 100%);
+  background-image: linear-gradient(to right, rgba(12, 10, 9, 0.985) 150px, rgba(32, 28, 20, 0.85) 100%);
   align-items: center;
 }
 .tv-div {
-  padding-left: 16px;
+  padding-left: 20px;
 }
 .tv-title-div {
   font-weight: bold;
 }
 .tv-title {
-  font-size: 2.3em;
+  font-size: 2.1em;
+  font-weight: 750;
   margin-right: 8px;
 }
 .released-year {
   color: lightgrey;
-  font-size: 1.8em;
+  font-size: 1.9em;
   font-weight: normal;
 }
-.tv-tagline {
-  font-size: 1em;
-  padding-left: 10px;
-  border-left: 3px solid #f5c518;
-}
 .tv-info {
-  margin-top: 20px;
+  margin-top: -5px;
+  margin-bottom: 5px;
+  padding-left: 4px;
+  display: flex;
+  align-content: center;
+  font-size: 0.96em;
 }
-.tv-info-item {
-  margin-bottom: 10px;
-  vertical-align: center;
+.tv-info-subdiv {
+  align-self: center;
 }
-.tv-info-item-data {
-  vertical-align: middle;
-}
-.vote-count {
-  font-size: 0.8em;
+.bullet-divider {
+  margin: 0 12px 0 12px;
+  font-size: 1.4em;
 }
 .tv-overview-title {
   font-size: 1.2em;
   font-weight: bold;
-  margin-top: 30px;
+  margin-top: 10px;
   margin-bottom: 10px;
 }
 .tv-overview {
   color: lightgrey;
-  margin-bottom: 25px;
+  margin-bottom: 15px;
   font-size: 0.95em;
 }
-.extra-info {
-  color: lightgrey;
-  margin-bottom: 40px;
-  max-width: 100%;
-  display: block;
-  word-wrap: break-word;
+.link {
+  text-decoration: none;
+  color: white;
 }
-.extra-info-item {
-  padding-bottom: 5px;
+.link:hover {
+  text-decoration: underline;
 }
-.extra-info-title {
-  margin-right: 10px;
-  font-weight: bold;
-}
-.extra-info-data {
-  margin-right: 12px;
-  color: lightgrey !important;
+.link.crew:hover {
   text-decoration: none;
 }
-.extra-info-data:hover {
-  text-decoration: underline;
+.crew-name {
+  font-weight: 715;
+  font-size: 0.97em;
+}
+.crew-role {
+  font-weight: 400;
+  font-size: 0.9em;
+  color: lightgrey;
 }
 .sub-div {
   margin: 40px 0 20px 0

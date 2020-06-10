@@ -1,5 +1,5 @@
 <template>
-  <v-progress-circular rotate="270" size="60" :value="ratingPercentage" width="5" color="#f5c518">
+  <v-progress-circular rotate="270" size="65" :value="ratingPercentage" width="5" color="#f5c518">
     {{ratingPercentage}} <v-icon size="10">mdi-percent</v-icon>
   </v-progress-circular>
 </template>
@@ -30,7 +30,7 @@ export default {
 }
 .v-progress-circular__info {
   font-weight: 650;
-  font-size: 1.1em;
+  font-size: 1.15em;
   color: white;
 }
 </style>

@@ -35,7 +35,7 @@
                   </div>
                   <span v-if="tvShow.episode_run_time.length" class="bullet-divider">&#8226;</span>
                   <div v-if="tvShow.episode_run_time.length" class="tv-info-subdiv">
-                    <span class="runtime">{{tvShow.episode_run_time[0]}}m</span>
+                    <span class="runtime">{{runtime}}</span>
                   </div>
                 </div>
 
@@ -172,6 +172,17 @@ export default {
         }
         return this.tvShow.overview.slice(0, 400).trim() + "..."
       }
+    },
+    runtime() {
+      if (this.tvShow && this.tvShow.episode_run_time.length) {
+        if (this.tvShow.episode_run_time[0] < 60) return `${this.tvShow.episode_run_time[0]}m`
+        if (this.tvShow.episode_run_time[0] === 60) return "1h"
+        const hours = (this.tvShow.episode_run_time[0] / 60)
+        const rhours = Math.floor(hours)
+        const minutes = (hours - rhours) * 60
+        const rminutes = Math.round(minutes)
+        return `${rhours}h ${rminutes}m`
+      }
     }
   },
   methods: {
@@ -212,6 +223,9 @@ export default {
         // suppress tv lookup error
         // console.log(err)
       }
+    },
+    async getNetworks() {
+
     },
     async addMediaToRecentlyViewed () {
       try {

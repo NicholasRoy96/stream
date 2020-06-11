@@ -153,6 +153,7 @@ import AddWatchlistButton from '@/components/AddWatchlistButton.vue'
 import PersonCard from '@/components/PersonCard.vue'
 import MediaCarousel from '@/components/MediaCarousel.vue'
 import PercentageWheel from '@/components/PercentageWheel.vue'
+import FastAverageColor from 'fast-average-color';
 
 export default {
   components: {
@@ -177,7 +178,8 @@ export default {
       composer: {},
       collection: {},
       collectionExists: false,
-      similarMovies: []
+      similarMovies: [],
+      backgroundColor: ""
     }
   },
   computed: {
@@ -210,6 +212,7 @@ export default {
         }
         if (this.movie.backdrop_path) {
           this.movieBackdrop = `https://image.tmdb.org/t/p/original${this.movie.backdrop_path}`
+          // this.getAverageColor()
         }
         if (this.movie.belongs_to_collection) {
           this.getCollection()
@@ -270,9 +273,41 @@ export default {
         console.log(err)
       }
     },
-    // TRY TO GET AVERAGE COLOR WORKING - based off of poster image
-    // getAverageColor() {
+    // async getAverageColor() {
+    //   function startDownload() {
+    //   let imageURL = this.movieBackdrop;
+    
+    //   downloadedImg = new Image;
+    //   downloadedImg.crossOrigin = "Anonymous";
+    //   downloadedImg.addEventListener("load", imageReceived, false);
+    //   downloadedImg.src = imageURL;
+    // }
+    //   function imageReceived() {
+    //     let canvas = document.createElement("canvas");
+    //     let context = canvas.getContext("2d");
+
+    //     canvas.width = downloadedImg.width;
+    //     canvas.height = downloadedImg.height;
+      
+    //     context.drawImage(downloadedImg, 0, 0);
+    //     imageBox.appendChild(canvas);
+    //     try {
+    //       localStorage.setItem("poster-image", canvas.toDataURL("image/png"));
+    //     }
+    //     catch(err) {
+    //       console.log("Error: " + err);
+    //     }  
+    //   }
     //   const fac = new FastAverageColor()
+    //   fac.getColorAsync(localStorage.poster-image)
+    //     .then(function(color) {
+
+    //         console.log('Average color', color);
+    //     })
+    //     .catch(function(e) {
+    //         console.log(e);
+    //     });
+    //   startDownload()
     // }
   },
   created() {

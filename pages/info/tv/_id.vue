@@ -4,21 +4,40 @@
     <!-- Dynamic banner image -->
     <v-img :src="tvShowBackdrop" class="backdrop-image">
       
-    <!-- Poster image and TV show info -->
+    <!-- Poster image -->
       <v-container fluid fill-height class="overlay-container">
         <v-container>
           <v-row align="center">
             <v-col cols="4" class="d-none d-md-block">
-              <v-img v-if="tvShowPoster" :src="tvShowPoster" class="poster-image">
+              <v-img v-if="tvShowPoster" :src="tvShowPoster" class="poster-image" :class="{ 'poster-image-with-network': networkLink }">
                 <template v-slot:placeholder>
                   <v-row class="fill-height ma-0" align="center" justify="center">
                     <v-progress-circular indeterminate color="grey darken-2"></v-progress-circular>
                   </v-row>
                 </template>
               </v-img>
-              <v-icon v-else size="300" color="grey darken-2">mdi-video-image</v-icon>
+              <div v-if="!tvShowPoster" class="placeholder-poster" :class="{ 'placeholder-poster-with-network': networkLink }">
+                <img :src="require('@/assets/logo.png')" />
+              </div>
+              <v-card v-if="networkLink" tile class="networks-card">
+                <v-container>
+                  <v-row justify="center" align="center">
+                    <div class="network-logo-div">
+                      <img :src="`https://image.tmdb.org/t/p/w92${networksInfo[0].logos[0].file_path}`" class="network-logo" />
+                    </div>
+                  <div class="d-flex-col pl-4">
+                    <h2 class="network-subtitle">Now Streaming</h2>
+                    <a :href="networksInfo[0].homepage" target="_blank" class="network-link">
+                      <h1 class="network-title">Watch Now</h1>
+                    </a>
+                  </div>
+                  </v-row>
+                </v-container>
+              </v-card>
+
             </v-col>
 
+            <!-- TV show info -->
             <v-col cols="12" md="8">
               <div class="tv-div">
                 <div class="tv-title-div">
@@ -41,7 +60,8 @@
 
                 <v-row align="center" class="pl-6 pb-3">
                   <PercentageWheel v-if="tvShow.vote_average" class="mt-3" :rating="this.tvShow.vote_average" />
-                  <AddWatchlistButton :media="tvShow" :icon="true" class="pt-3 ml-8" />
+                  <AddWatchlistButton v-if="tvShow.vote_average" :media="tvShow" :icon="true" class="pt-3 ml-8" />
+                  <AddWatchlistButton v-else :media="tvShow" :icon="true" class="pt-5" />
                 </v-row>
 
                 <!-- OVERVIEW SHORTENED IF 400+ CHARS -->
@@ -161,6 +181,8 @@ export default {
       crew: [],
       composer: {},
       novel: {},
+      networksInfo: [],
+      networkLink: false,
       similarTvShows: []
     }
   },
@@ -183,6 +205,12 @@ export default {
         const rminutes = Math.round(minutes)
         return `${rhours}h ${rminutes}m`
       }
+    },
+    logoWidth() {
+      if (this.networksInfo.length) {
+        const logo = this.networksInfo[0].logos[0]
+        return logo.aspect_ratio * 40
+      }
     }
   },
   methods: {
@@ -190,7 +218,7 @@ export default {
     async getTvShow() {
       try {
         this.tvShow = await this.$axios.$get(`https://api.themoviedb.org/3/tv/${this.tvId}?api_key=${process.env.apikey}&language=en-US`)
-        console.log(this.tvShow)
+        this.getNetworkInfo()
         if (this.tvShow.poster_path) {
           this.tvShowPoster = `https://image.tmdb.org/t/p/w500${this.tvShow.poster_path}`
         }
@@ -224,8 +252,27 @@ export default {
         // console.log(err)
       }
     },
-    async getNetworks() {
-
+    async getNetworkInfo() {
+      try {
+        const request = []
+        const logoRequest = []
+        const requests = this.tvShow.networks.forEach(network => {
+          request.push(this.$axios.$get(`https://api.themoviedb.org/3/network/${network.id}?api_key=${process.env.apikey}`))
+        })
+        const networks = await Promise.all(request)
+        const logoRequests = networks.forEach(network => {
+          logoRequest.push(this.$axios.$get(`https://api.themoviedb.org/3/network/${network.id}/images?api_key=${process.env.apikey}`))
+        })
+        const logos = await Promise.all(logoRequest)
+        logos.forEach(logo => {
+          const matchingObject = networks.find(network => network.id === logo.id)
+          matchingObject["logos"] = logo.logos
+        })
+        this.networksInfo = networks
+        if (this.networksInfo[0].logos[0].file_path) this.networkLink = true
+      } catch(err) {
+        console.log('err', err)
+      }  
     },
     async addMediaToRecentlyViewed () {
       try {
@@ -236,19 +283,87 @@ export default {
     },
   },
   created() {
-    this.getTvShow()
-    this.getCredits()
-    this.getSimilarTvShows()
+    Promise.all([
+      this.getTvShow(),
+      this.getCredits(),
+      this.getSimilarTvShows()
+    ])
   }
 }
 </script>
 
 <style scoped>
 .backdrop-image {
-  height: 700px;
+  height: 725px;
 }
 .poster-image {
   border-radius: 8px;
+}
+.poster-image-with-network {
+  border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  z-index: 2;
+}
+.placeholder-poster {
+  width: 100%;
+  height: 520px;
+  background-color: #171716;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.placeholder-poster-with-network {
+  width: 100%;
+  height: 520px;
+  background: #171716;
+  border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.networks-card {
+  background-color: #032541;
+  border-bottom-right-radius: 8px;
+  border-bottom-left-radius: 8px;
+  margin-top: -1px;
+}
+.network-logo-div {
+  background-color: white;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+}
+.network-logo {
+  height: 28px;
+  width: 28px;
+}
+.network-link {
+  color: white;
+  text-decoration: none;
+}
+.network-link:hover {
+  color: #f5c518;
+}
+.network-title {
+  font-size: 0.95em;
+  font-weight: 600;
+  margin-top: -5px;
+}
+.network-subtitle {
+  font-size: 0.9em;
+  font-weight: 400;
+  opacity: 0.8;
+  letter-spacing: 0.03em;
 }
 .overlay-container {
   height: 100%;

@@ -25,6 +25,7 @@
         </nuxt-link>
         <MediaCarousel :media="topTV" />
 
+        <h3 class="heading">Must-watch movies</h3>
         <nuxt-link :to="{ path: '/list/movies/keywords/popular' }" class="subheading-link">
           <div class="subheading-div">
             <div class="d-flex">

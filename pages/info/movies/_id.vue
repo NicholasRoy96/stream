@@ -16,7 +16,9 @@
                   </v-row>
                 </template>
               </v-img>
-              <v-icon v-else size="300" color="grey darken-2">mdi-video-image</v-icon>
+              <div v-if="!moviePoster" class="placeholder-poster" :class="{ 'placeholder-poster-with-network': networkLink }">
+                <img :src="require('@/assets/logo.png')" />
+              </div>
             </v-col>
 
             <v-col cols="12" md="8">
@@ -41,7 +43,8 @@
 
                 <v-row align="center" class="pl-6 pb-7">
                   <PercentageWheel v-if="movie.vote_average" class="mt-3" :rating="this.movie.vote_average" />
-                  <AddWatchlistButton :media="movie" :icon="true" class="pt-3 ml-8" />
+                  <AddWatchlistButton v-if="movie.vote_average" :media="movie" :icon="true" class="pt-3 ml-8" />
+                  <AddWatchlistButton v-else :media="movie" :icon="true" class="pt-5" />
                 </v-row>
                 
 
@@ -325,6 +328,15 @@ export default {
 }
 .poster-image {
   border-radius: 8px;
+}
+.placeholder-poster {
+  width: 100%;
+  height: 520px;
+  background-color: #171716;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .overlay-container {
   height: 100%;

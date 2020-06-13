@@ -23,7 +23,7 @@
                 <v-container>
                   <v-row justify="center" align="center">
                     <div class="network-logo-div">
-                      <img :src="`https://image.tmdb.org/t/p/w92${networksInfo[0].logos[0].file_path}`" class="network-logo" />
+                      <img :src="`https://image.tmdb.org/t/p/original${networksInfo[0].logos[0].file_path}`" class="network-logo" :style="{width: logoWidth}" />
                     </div>
                   <div class="d-flex-col pl-4">
                     <h2 class="network-subtitle">Now Streaming</h2>
@@ -209,7 +209,7 @@ export default {
     logoWidth() {
       if (this.networksInfo.length) {
         const logo = this.networksInfo[0].logos[0]
-        return logo.aspect_ratio * 40
+        return logo.aspect_ratio * 28
       }
     }
   },
@@ -269,6 +269,7 @@ export default {
           matchingObject["logos"] = logo.logos
         })
         this.networksInfo = networks
+        console.log(this.networksInfo)
         if (this.networksInfo[0].logos[0].file_path) this.networkLink = true
       } catch(err) {
         console.log('err', err)
@@ -336,16 +337,14 @@ export default {
 }
 .network-logo-div {
   background-color: white;
-  width: 40px;
-  height: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 8px;
+  padding: 9px 9px;
 }
 .network-logo {
   height: 28px;
-  width: 28px;
 }
 .network-link {
   color: white;

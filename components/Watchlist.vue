@@ -76,7 +76,7 @@ export default {
       }
     },
     determineMediaType(media) {
-      return media.first_air_date ? "tv" : "movies"
+      return media.first_air_date || media.last_air_date ? "tv" : "movies"
     }
   }
 }

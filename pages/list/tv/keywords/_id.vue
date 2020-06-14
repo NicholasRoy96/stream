@@ -3,7 +3,8 @@
     <v-container>
 
       <!-- Dynamic banner image -->
-      <v-img :src="featuredBackdrop">
+      <v-img v-if="featuredTVShow" :src="`https://image.tmdb.org/t/p/original${featuredTVShow.backdrop_path}`">
+      <BannerOverlay v-if="featuredTVShow" :media="featuredTVShow" :keyword="formattedKeywordUpper" />
         <template v-slot:placeholder>
           <v-row class="fill-height ma-0" align="center" justify="center">
             <v-progress-circular indeterminate color="grey darken-2"></v-progress-circular>
@@ -27,17 +28,19 @@
 </template>
 
 <script>
+import BannerOverlay from '@/components/BannerOverlay.vue'
 import MediaCardResponsive from '@/components/MediaCardResponsive.vue'
 
 export default {
   components: {
+    BannerOverlay,
     MediaCardResponsive
   },
   data() {
     return {
       tvParam: this.$route.params.id,
       tvShows: [],
-      featuredBackdrop: '',
+      featuredTVShow: {},
       page: 2
     }
   },
@@ -69,13 +72,7 @@ export default {
       try {
         const tvShows = await this.$axios.$get(`https://api.themoviedb.org/3/tv/${this.tvParam}?api_key=${process.env.apikey}&language=en-US&page=1`)
         this.tvShows = tvShows.results
-        if (this.tvShows[0].backdrop_path) {
-          const mostPopularBackdrop = this.tvShows[0].backdrop_path
-          this.featuredBackdrop = `https://image.tmdb.org/t/p/original${mostPopularBackdrop}`
-        } else {
-          const mostPopularBackdrop = this.tvShows[1].backdrop_path
-          this.featuredBackdrop = `https://image.tmdb.org/t/p/original${mostPopularBackdrop}`
-        }        
+        this.findMediaWithImages(this.tvShows)
       } catch(err) {
         // suppress TV show lookup error
         // console.log(err)
@@ -96,6 +93,12 @@ export default {
           // suppress TV show lookup error
           // console.log(err)
         })
+    },
+    findMediaWithImages(mediaArray) {
+      const mediaWithImages = mediaArray.find(media => {
+        return media.backdrop_path && media.poster_path
+      })
+      this.featuredTVShow = mediaWithImages
     }
   },
   created() {

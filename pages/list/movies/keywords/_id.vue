@@ -3,13 +3,15 @@
     <v-container>
 
       <!-- Dynamic banner image -->
-      <v-img :src="featuredBackdrop">
+      <v-img v-if="featuredMovie" :src="`https://image.tmdb.org/t/p/original/${featuredMovie.backdrop_path}`">
+        <BannerOverlay v-if="featuredMovie" :media="featuredMovie" :keyword="formattedKeywordUpper" />
         <template v-slot:placeholder>
           <v-row class="fill-height ma-0" align="center" justify="center">
             <v-progress-circular indeterminate color="grey darken-2"></v-progress-circular>
           </v-row>
         </template>
       </v-img>
+      
       <h3 class="movie-heading">{{formattedKeywordUpper}}</h3>
       <h3 class="movie-subheading">Explore {{formattedKeywordLower}} movies</h3>
 
@@ -27,17 +29,19 @@
 </template>
 
 <script>
+import BannerOverlay from "@/components/BannerOverlay.vue"
 import MediaCardResponsive from '@/components/MediaCardResponsive.vue'
 
 export default {
   components: {
+    BannerOverlay,
     MediaCardResponsive
   },
   data() {
     return {
       movieParam: this.$route.params.id,
       movies: [],
-      featuredBackdrop: '',
+      featuredMovie: '',
       page: 2
     }
   },
@@ -69,8 +73,7 @@ export default {
       try {
         const movies = await this.$axios.$get(`https://api.themoviedb.org/3/movie/${this.movieParam}?api_key=${process.env.apikey}&language=en-US&page=1`)
         this.movies = movies.results
-        const mostPopularBackdrop = this.movies[0].backdrop_path
-        this.featuredBackdrop = `https://image.tmdb.org/t/p/original${mostPopularBackdrop}`
+        this.findMediaWithImages()
       } catch(err) {
         // suppress movies lookup error
         // console.log(err)
@@ -91,6 +94,12 @@ export default {
           // suppress movies lookup error
           // console.log(err)
         })
+    },
+    findMediaWithImages() {
+      const mediaWithImages = this.movies.find(media => {
+        return media.backdrop_path && media.poster_path
+      })
+      this.featuredMovie = mediaWithImages
     }
   },
   created() {

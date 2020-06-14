@@ -3,7 +3,8 @@
     <v-container>
 
       <!-- Dynamic banner image -->
-      <v-img :src="featuredBackdrop">
+      <v-img v-if="featuredMovie" :src="`https://image.tmdb.org/t/p/original/${featuredMovie.backdrop_path}`">
+        <BannerOverlay v-if="featuredMovie" :media="featuredMovie" :keyword="genre" />
         <template v-slot:placeholder>
           <v-row class="fill-height ma-0" align="center" justify="center">
             <v-progress-circular indeterminate color="grey darken-2"></v-progress-circular>
@@ -27,10 +28,12 @@
 </template>
 
 <script>
+import BannerOverlay from '@/components/BannerOverlay.vue'
 import MediaCardResponsive from '@/components/MediaCardResponsive.vue'
 
 export default {
   components: {
+    BannerOverlay,
     MediaCardResponsive
   },
   data() {
@@ -38,7 +41,7 @@ export default {
       genreId: this.$route.params.id,
       genre: '',
       movies: [],
-      featuredBackdrop: '',
+      featuredMovie: {},
       page: 2
     }
   },
@@ -47,13 +50,11 @@ export default {
       try {
         const movies = await this.$axios.$get(`https://api.themoviedb.org/3/discover/movie?api_key=${process.env.apikey}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${this.genreId}`)
         this.movies = movies.results
-        const mostPopularBackdrop = this.movies[0].backdrop_path
-        this.featuredBackdrop = `https://image.tmdb.org/t/p/original${mostPopularBackdrop}`
+        this.findMediaWithImages()
       } catch(err) {
         // suppress movies lookup error
         // console.log(err)
       }
-      
     },
     async findGenreName() {
       try {
@@ -64,7 +65,6 @@ export default {
         // suppress genre lookup error
         // console.log(err)
       }
-      
     },
     async getMoreMovies($state) {      
       const movies = await this.$axios.$get(`https://api.themoviedb.org/3/discover/movie?api_key=${process.env.apikey}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${this.page}&with_genres=${this.genreId}`)
@@ -81,6 +81,12 @@ export default {
           // suppress movies lookup error
           // console.log(err)
         })
+    },
+    findMediaWithImages() {
+      const mediaWithImages = this.movies.find(media => {
+        return media.backdrop_path && media.poster_path
+      })
+      this.featuredMovie = mediaWithImages
     }
   },
   created() {

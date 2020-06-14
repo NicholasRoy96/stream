@@ -3,7 +3,7 @@
     <v-container>
 
       <!-- Dynamic banner image -->
-      <v-img v-if="featuredMovie" :src="`https://image.tmdb.org/t/p/original/${featuredMovie.backdrop_path}`">
+      <v-img v-if="featuredMovie" :height="bannerSize" :src="`https://image.tmdb.org/t/p/original/${featuredMovie.backdrop_path}`">
         <BannerOverlay v-if="featuredMovie" :media="featuredMovie" :keyword="genre" />
         <template v-slot:placeholder>
           <v-row class="fill-height ma-0" align="center" justify="center">
@@ -44,6 +44,17 @@ export default {
       featuredMovie: {},
       page: 2
     }
+  },
+  computed: {
+    bannerSize() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs': return '500'
+        case 'sm': return '550'
+        case 'md': return '600'
+        case 'lg': return '650'
+        case 'xl': return '650'
+      }
+    },
   },
   methods: {
     async getMovies() {

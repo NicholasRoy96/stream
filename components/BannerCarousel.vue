@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-carousel height="700" continuous show-arrows-on-hover hide-delimiters>
+    <v-carousel :height="bannerSize" continuous show-arrows-on-hover hide-delimiters>
       <div v-for="(movie,i) in movies" :key="i">
           <v-carousel-item
             :src="`https://image.tmdb.org/t/p/original${movie.backdrop_path}`"
@@ -28,6 +28,17 @@ export default {
   },
   components: {
     BannerOverlay
+  },
+  computed: {
+    bannerSize() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs': return '500'
+        case 'sm': return '550'
+        case 'md': return '600'
+        case 'lg': return '650'
+        case 'xl': return '650'
+      }
+    },
   }
 }
 </script>

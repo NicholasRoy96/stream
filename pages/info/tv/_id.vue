@@ -9,32 +9,7 @@
         <v-container>
           <v-row align="center">
             <v-col cols="4" class="d-none d-md-block">
-              <v-img v-if="tvShowPoster" :src="tvShowPoster" class="poster-image" :class="{ 'poster-image-with-network': networkLink }">
-                <template v-slot:placeholder>
-                  <v-row class="fill-height ma-0" align="center" justify="center">
-                    <v-progress-circular indeterminate color="grey darken-2"></v-progress-circular>
-                  </v-row>
-                </template>
-              </v-img>
-              <div v-if="!tvShowPoster" class="placeholder-poster" :class="{ 'placeholder-poster-with-network': networkLink }">
-                <img :src="require('@/assets/logo.png')" />
-              </div>
-              <v-card v-if="networkLink" tile class="networks-card">
-                <v-container>
-                  <v-row justify="center" align="center">
-                    <div class="network-logo-div">
-                      <img :src="`https://image.tmdb.org/t/p/original${networksInfo[0].logos[0].file_path}`" class="network-logo" :style="{width: logoWidth}" />
-                    </div>
-                  <div class="d-flex-col pl-4">
-                    <h2 class="network-subtitle">Now Streaming</h2>
-                    <a :href="networksInfo[0].homepage" target="_blank" class="network-link">
-                      <h1 class="network-title">Watch Now</h1>
-                    </a>
-                  </div>
-                  </v-row>
-                </v-container>
-              </v-card>
-
+              <MediaPoster v-if="posterProps" :posterProps="posterProps" />
             </v-col>
 
             <!-- TV show info -->
@@ -154,6 +129,7 @@
 
 <script>
 import { mapActions } from 'vuex'
+import MediaPoster from '@/components/MediaPoster.vue'
 import AddWatchlistButton from '@/components/AddWatchlistButton.vue'
 import PersonCard from '@/components/PersonCard.vue'
 import MediaCard from '@/components/MediaCard.vue'
@@ -163,6 +139,7 @@ import PercentageWheel from '@/components/PercentageWheel.vue'
 
 export default {
   components: {
+    MediaPoster,
     AddWatchlistButton,
     PersonCard,
     MediaCard,
@@ -182,8 +159,7 @@ export default {
       composer: {},
       novel: {},
       networksInfo: [],
-      networkLink: false,
-      similarTvShows: []
+      similarTvShows: [],
     }
   },
   computed: {
@@ -206,10 +182,12 @@ export default {
         return `${rhours}h ${rminutes}m`
       }
     },
-    logoWidth() {
-      if (this.networksInfo.length) {
-        const logo = this.networksInfo[0].logos[0]
-        return logo.aspect_ratio * 28
+    posterProps() {
+      if (this.tvShow && this.networksInfo.length) {
+        return {
+          media: this.tvShow,
+          networksInfo: this.networksInfo
+        }
       }
     }
   },
@@ -219,9 +197,6 @@ export default {
       try {
         this.tvShow = await this.$axios.$get(`https://api.themoviedb.org/3/tv/${this.tvId}?api_key=${process.env.apikey}&language=en-US`)
         this.getNetworkInfo()
-        if (this.tvShow.poster_path) {
-          this.tvShowPoster = `https://image.tmdb.org/t/p/w500${this.tvShow.poster_path}`
-        }
         if (this.tvShow.backdrop_path) {
           this.tvShowBackdrop = `https://image.tmdb.org/t/p/original${this.tvShow.backdrop_path}`
         }
@@ -252,8 +227,16 @@ export default {
         // console.log(err)
       }
     },
+    async addMediaToRecentlyViewed () {
+      try {
+        await this.addToRecentlyViewed(this.tvShow)
+      } catch(err) {
+        console.log(err)
+      }
+    },
     async getNetworkInfo() {
       try {
+        console.log('loggin this function')
         const request = []
         const logoRequest = []
         const requests = this.tvShow.networks.forEach(network => {
@@ -269,18 +252,11 @@ export default {
           matchingObject["logos"] = logo.logos
         })
         this.networksInfo = networks
+        if (this.networksInfo[0].logos[0].file_path) this.networksInfo[0]["link"] = true
         console.log(this.networksInfo)
-        if (this.networksInfo[0].logos[0].file_path) this.networkLink = true
       } catch(err) {
         console.log('err', err)
       }  
-    },
-    async addMediaToRecentlyViewed () {
-      try {
-        await this.addToRecentlyViewed(this.tvShow)
-      } catch(err) {
-        console.log(err)
-      }
     },
   },
   created() {
@@ -296,73 +272,6 @@ export default {
 <style scoped>
 .backdrop-image {
   height: 725px;
-}
-.poster-image {
-  border-radius: 8px;
-}
-.poster-image-with-network {
-  border-top-right-radius: 8px;
-  border-top-left-radius: 8px;
-  border-bottom-right-radius: 0px;
-  border-bottom-left-radius: 0px;
-  z-index: 2;
-}
-.placeholder-poster {
-  width: 100%;
-  height: 520px;
-  background-color: #171716;
-  border-radius: 8px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.placeholder-poster-with-network {
-  width: 100%;
-  height: 520px;
-  background: #171716;
-  border-top-right-radius: 8px;
-  border-top-left-radius: 8px;
-  border-bottom-right-radius: 0px;
-  border-bottom-left-radius: 0px;
-  z-index: 2;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.networks-card {
-  background-color: #032541;
-  border-bottom-right-radius: 8px;
-  border-bottom-left-radius: 8px;
-  margin-top: -1px;
-}
-.network-logo-div {
-  background-color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 8px;
-  padding: 9px 9px;
-}
-.network-logo {
-  height: 28px;
-}
-.network-link {
-  color: white;
-  text-decoration: none;
-}
-.network-link:hover {
-  color: #f5c518;
-}
-.network-title {
-  font-size: 0.95em;
-  font-weight: 600;
-  margin-top: -5px;
-}
-.network-subtitle {
-  font-size: 0.9em;
-  font-weight: 400;
-  opacity: 0.8;
-  letter-spacing: 0.03em;
 }
 .overlay-container {
   height: 100%;

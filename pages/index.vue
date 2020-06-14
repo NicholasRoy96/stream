@@ -135,11 +135,14 @@ export default {
     }
   },
   created() {
-    this.getPopularTV()
-    this.getTopTV()
-    this.getPopularMovies()
-    this.getTopMovies()
-    this.getTrendingActors()
+    Promise.all([
+      this.getPopularTV(),
+      this.getTopTV(),
+      this.getPopularMovies(),
+      this.getTopMovies(),
+      this.getTrendingActors()
+    ])
+    
   }
 }
 </script>

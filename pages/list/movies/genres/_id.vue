@@ -84,8 +84,11 @@ export default {
     }
   },
   created() {
-    this.getMovies()
-    this.findGenreName()
+    Promise.all([
+      this.getMovies(),
+      this.findGenreName()
+    ])
+    
   }
 }
 </script>

@@ -9,16 +9,7 @@
         <v-container>
           <v-row align="center">
             <v-col cols="4" class="d-none d-md-block">
-              <v-img v-if="moviePoster" :src="moviePoster" class="poster-image">
-                <template v-slot:placeholder>
-                  <v-row class="fill-height ma-0" align="center" justify="center">
-                    <v-progress-circular indeterminate color="grey darken-2"></v-progress-circular>
-                  </v-row>
-                </template>
-              </v-img>
-              <div v-if="!moviePoster" class="placeholder-poster" :class="{ 'placeholder-poster-with-network': networkLink }">
-                <img :src="require('@/assets/logo.png')" />
-              </div>
+              <MediaPoster v-if="movie" :posterProps="{ media: movie }" />
             </v-col>
 
             <v-col cols="12" md="8">
@@ -151,6 +142,7 @@
 
 <script>
 import { mapActions } from 'vuex'
+import MediaPoster from '@/components/MediaPoster.vue'
 import MediaCard from '@/components/MediaCard.vue'
 import AddWatchlistButton from '@/components/AddWatchlistButton.vue'
 import PersonCard from '@/components/PersonCard.vue'
@@ -160,6 +152,7 @@ import FastAverageColor from 'fast-average-color';
 
 export default {
   components: {
+    MediaPoster,
     MediaCard,
     AddWatchlistButton,
     PersonCard,
@@ -314,10 +307,13 @@ export default {
     // }
   },
   created() {
-    this.getMovie()
-    this.getCredits()
-    this.getTrailers()
-    this.getSimilarMovies()
+    Promise.all([
+      this.getMovie(),
+      this.getCredits(),
+      this.getTrailers(),
+      this.getSimilarMovies(),
+    ])
+    
   }
 }
 </script>

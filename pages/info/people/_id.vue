@@ -196,8 +196,11 @@ export default {
     }
   },
   created() {
-    this.getPerson()
-    this.getCredits()
+    Promise.all([
+      this.getPerson(),
+      this.getCredits()
+    ])
+    
   }
 }
 </script>

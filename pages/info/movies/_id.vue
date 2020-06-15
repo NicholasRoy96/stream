@@ -19,10 +19,10 @@
                 </div>
                 <div class="movie-info">
                   <div v-if="movie.genres.length" class="movie-info-subdiv">
-                    <nuxt-link v-for="(genre, i) in movie.genres" :key="i" :to="{ path: `/list/movies/genres/${genre.id}` }" class="link">
+                    <nuxt-link v-for="(genre, i) in genreList" :key="i" :to="{ path: `/list/movies/genres/${genre.id}` }" class="link">
                       <span>
                         {{genre.name}}
-                        <span v-if="i !== movie.genres.length - 1">,</span>
+                        <span v-if="i !== genreList.length - 1">,</span>
                       </span>
                     </nuxt-link>
                   </div>
@@ -90,7 +90,7 @@
       </div>
       <v-row>
         <v-col cols="6" sm="4" lg="2" v-for="(actor, i) in cast" :key="i" align-self="center">
-          <PersonCard :person="actor" />
+          <PersonCard :person="actor" :subheading="true" />
         </v-col>
       </v-row>
 
@@ -101,7 +101,7 @@
       </div>
       <v-row>
         <v-col cols="6" sm="4" lg="2" v-for="(crew, i) in crew" :key="i" align-self="center">
-          <PersonCard :person="crew" />
+          <PersonCard :person="crew" :subheading="true" />
         </v-col>
       </v-row>
 
@@ -195,6 +195,14 @@ export default {
         const minutes = (hours - rhours) * 60
         const rminutes = Math.round(minutes)
         return `${rhours}h ${rminutes}m`
+      }
+    },
+    genreList() {
+      if (this.movie && this.movie.genres.length) {
+        if (this.movie.genres.length > 5) {
+          return this.movie.genres.slice(0, 5)
+        }
+        return this.movie.genres
       }
     }
   },

@@ -1,6 +1,6 @@
 <template>
   <nuxt-link :to="{ path: `/info/people/${person.id}` }" class="person-card-link">
-    <div class="person-div">
+    <div class="person-div" :style="{ minHeight: `${personDivSize}px` }">
       <v-avatar :size="avatarSize" color="grey darken-4">
         <v-img v-if="person.profile_path" :src="`https://image.tmdb.org/t/p/w185${person.profile_path}`">
           <template v-slot:placeholder>
@@ -25,6 +25,10 @@ export default {
     person: {
       type: Object,
       required: true
+    },
+    subheading: {
+      type: Boolean,
+      required: true
     }
   },
   computed: {
@@ -37,6 +41,12 @@ export default {
         case 'xl': return '160'
       }
     },
+    personDivSize() {
+      if (this.subheading && this.$vuetify.breakpoint.name !== 'xs') return 240
+      if (this.subheading && this.$vuetify.breakpoint.name === 'xs') return 200
+      if (!this.subheading && this.$vuetify.breakpoint.name === 'xs') return 175
+      return 200
+    }
   }
 }
 </script>
@@ -47,7 +57,6 @@ export default {
   text-decoration: none;
 }
 .person-div {
-  min-height: 240px;
   text-align: center;
 }
 .person-name {

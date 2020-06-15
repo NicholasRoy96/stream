@@ -40,6 +40,8 @@ export default {
 .media-card-poster {
   height: 214px;
   width: 100%;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 .media-card-poster:hover {
   opacity: 0.8;
@@ -86,6 +88,7 @@ export default {
   .media-card {
     width: 130px;
     height: 255px;
+    margin: 8px;
   }
   .media-card-poster {
     height: 194.03px;
@@ -101,6 +104,7 @@ export default {
   .media-card {
     width: 120px;
     height: 240px;
+    margin: 7px;
   }
   .media-card-poster {
     height: 179.1px;
@@ -116,6 +120,7 @@ export default {
   .media-card {
     width: 100px;
     height: 210px;
+    margin: 6px;
   }
   .media-card-poster {
     height: 149.25px;

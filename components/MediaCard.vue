@@ -63,7 +63,8 @@ export default {
 .media-card-poster {
   height: 261.19px;
   width: 100%;
-  border-radius: 5px;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
 }
 .media-card-poster:hover {
   opacity: 0.8;
@@ -110,4 +111,30 @@ export default {
 }
 
 /* TO WORK OUT IMAGE SIZE IN FUTURE, DIVIDE ANY WIDTH BY .67 TO GET POSTER HEIGHT, THEN / .7 TO GET CARD HEIGHT */
+/* MEDIA QUERIES */
+/* XS */
+@media(max-width: 599px) {
+  .media-card {
+    width: 145px;
+    height: 325px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  .media-card-poster {
+    height: 216.42px;
+    width: 100%;
+  }
+  .placeholder-icon-div {
+    height: 216.42px;
+  }
+  .media-card-title {
+    font-size: 0.81em;
+  }
+  .media-card-rating {
+    font-size: 0.76em;
+  }
+  .media-card-rating-div{
+    padding-top: 0;
+  }
+}
 </style>

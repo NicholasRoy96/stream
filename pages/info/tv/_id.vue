@@ -20,10 +20,10 @@
                 </div>
                 <div class="tv-info">
                   <div v-if="tvShow.genres.length" class="tv-info-subdiv">
-                    <nuxt-link v-for="(genre, i) in tvShow.genres" :key="i" :to="{ path: `/list/tv/genres/${genre.id}` }" class="link">
+                    <nuxt-link v-for="(genre, i) in genreList" :key="i" :to="{ path: `/list/tv/genres/${genre.id}` }" class="link">
                       <span>
                         {{genre.name}}
-                        <span v-if="i !== tvShow.genres.length - 1">,</span>
+                        <span v-if="i !== genreList.length - 1">,</span>
                       </span>
                     </nuxt-link>
                   </div>
@@ -88,7 +88,7 @@
         <h3 class="sub-heading">Seasons ({{tvShow.seasons.length}})</h3>
         <h3 class="sub-heading-description">Explore every season</h3>
       </div>
-      <v-row>
+      <v-row class="pl-4">
         <MediaCardSmall v-for="(season, i) in tvShow.seasons" :key="i" :media="season" />
       </v-row>
 
@@ -99,7 +99,7 @@
       </div>
       <v-row>
         <v-col cols="6" sm="4" lg="2" v-for="(actor, i) in cast" :key="i" align-self="center">
-          <PersonCard :person="actor" />
+          <PersonCard :person="actor" :subheading="true" />
         </v-col>
       </v-row>
 
@@ -110,7 +110,7 @@
       </div>
       <v-row>
         <v-col cols="6" sm="4" lg="2" v-for="(crew, i) in crew" :key="i" align-self="center">
-          <PersonCard :person="crew" />
+          <PersonCard :person="crew" :subheading="true" />
         </v-col>
       </v-row>
 
@@ -189,6 +189,14 @@ export default {
           media: this.tvShow,
           networksInfo: this.networksInfo
         }
+      }
+    },
+    genreList() {
+      if (this.tvShow && this.tvShow.genres.length) {
+        if (this.tvShow.genres.length > 5) {
+          return this.tvShow.genres.slice(0, 5)
+        }
+        return this.tvShow.genres
       }
     }
   },

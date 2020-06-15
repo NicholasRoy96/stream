@@ -67,7 +67,7 @@
           </nuxt-link>
           <v-row>
             <v-col cols="6" sm="4" lg="2" v-for="(actor, i) in trendingActors" :key="i" align-self="center">
-              <PersonCard :person="actor" />
+              <PersonCard :person="actor" :subheading="false" />
             </v-col>
           </v-row>
 

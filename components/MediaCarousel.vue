@@ -1,6 +1,6 @@
 <template>
   <client-only>
-    <RecycleScroller class="scroller" :minItemSize="190" direction="horizontal" :items="media">
+    <RecycleScroller class="scroller" :minItemSize="minimumSize" direction="horizontal" :items="media">
       <template :style="{ width: `${totalWidth}px` }" v-slot="{ item }">
           <MediaCard v-if="!useRecentCard" :media="item" />
           <MediaCardRecent v-else :media="item" />
@@ -29,9 +29,15 @@ export default {
     }
   },
   computed: {
+    minimumSize() {
+      if (this.media) {
+        if (this.$vuetify.breakpoint.name === 'xs') return 155
+        return 190
+      }
+    },
     totalWidth() {
       if (this.media) {
-        return this.media.length * 190
+        return this.minimumSize * 190
       }
     }
   }
@@ -51,8 +57,12 @@ export default {
 #app > div > div.container > div.vue-recycle-scroller.scroller.ready.direction-horizontal {
   max-height: 400px;
 }
-</style>
 
-<style scoped>
-
+/* MEDIA QUERIES */
+/* XS */
+@media(max-width: 599px) {
+.vue-recycle-scroller__item-wrapper {
+  height: 345px !important;
+}
+}
 </style>

@@ -144,8 +144,10 @@ export default {
         }
         this.addMediaToRecentlyViewed()
       } catch(err) {
-        // suppress person lookup error
-        // console.log(err)
+        if (err.response.status === 404) {
+          return this.$nuxt.error({ statusCode: 404, message: err.message })
+        }
+        return this.$nuxt.error({ statusCode: 500, message: err.message })
       }
     },
     async getCredits() {

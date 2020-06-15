@@ -32,7 +32,7 @@
                   </div>
                 </div>
 
-                <v-row align="center" class="pl-6 pb-7">
+                <v-row v-if="movie" align="center" class="pl-6 pb-7">
                   <PercentageWheel v-if="movie.vote_average" class="mt-3" :rating="this.movie.vote_average" />
                   <AddWatchlistButton v-if="movie.vote_average" :media="movie" :icon="true" class="pt-3 ml-8" />
                   <AddWatchlistButton v-else :media="movie" :icon="true" class="pt-5" />
@@ -216,8 +216,10 @@ export default {
         }
         this.addMediaToRecentlyViewed()
       } catch (err) {
-        // suppress movie lookup error
-        // console.log(err)
+        if (err.response.status === 404) {
+          return this.$nuxt.error({ statusCode: 404, message: err.message })
+        }
+        return this.$nuxt.error({ statusCode: 500, message: err.message })
       }
     },
     async getTrailers() {

@@ -33,7 +33,7 @@
                   </div>
                 </div>
 
-                <v-row align="center" class="pl-6 pb-3">
+                <v-row v-if="tvShow" align="center" class="pl-6 pb-3">
                   <PercentageWheel v-if="tvShow.vote_average" class="mt-3" :rating="this.tvShow.vote_average" />
                   <AddWatchlistButton v-if="tvShow.vote_average" :media="tvShow" :icon="true" class="pt-3 ml-8" />
                   <AddWatchlistButton v-else :media="tvShow" :icon="true" class="pt-5" />
@@ -203,8 +203,10 @@ export default {
         }
         this.addMediaToRecentlyViewed()
       } catch (err) {
-        // suppress tv lookup error
-        // console.log(err)
+        if (err.response.status === 404) {
+          return this.$nuxt.error({ statusCode: 404, message: err.message })
+        }
+        return this.$nuxt.error({ statusCode: 500, message: err.message })
       }
     },
     async getCredits() {

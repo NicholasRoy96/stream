@@ -138,7 +138,6 @@ export default {
     async getPerson() {
       try {
         this.personInfo = await this.$axios.$get(`https://api.themoviedb.org/3/person/${this.personId}?api_key=${process.env.apikey}&language=en-US`)
-        console.log(this.personInfo)
         if (this.personInfo.profile_path) {
           this.personImage = `https://image.tmdb.org/t/p/original${this.personInfo.profile_path}`
         }

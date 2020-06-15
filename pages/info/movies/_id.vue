@@ -26,7 +26,7 @@
                       </span>
                     </nuxt-link>
                   </div>
-                  <span v-if="movie.runtime" class="bullet-divider">&#8226;</span>
+                  <span v-if="movie.runtime && movie.genres.length" class="bullet-divider">&#8226;</span>
                   <div v-if="movie.runtime" class="movie-info-subdiv">
                     <span>{{runtime}}</span>
                   </div>
@@ -190,6 +190,8 @@ export default {
     },
     runtime() {
       if (this.movie && this.movie.runtime) {
+        if (this.movie.runtime < 60) return `${this.movie.runtime}m`
+        if (this.movie.runtime === 60) return "1h"
         const hours = (this.movie.runtime / 60)
         const rhours = Math.floor(hours)
         const minutes = (hours - rhours) * 60
@@ -211,7 +213,6 @@ export default {
     async getMovie() {
       try {
         this.movie = await this.$axios.$get(`https://api.themoviedb.org/3/movie/${this.movieId}?api_key=${process.env.apikey}&language=en-US`)
-        console.log(this.movie)
         if (this.movie.poster_path) {
           this.moviePoster = `https://image.tmdb.org/t/p/w500${this.movie.poster_path}`
         }
@@ -261,7 +262,6 @@ export default {
     async getCredits() {
       try {
         const credits = await this.$axios.$get(`https://api.themoviedb.org/3/movie/${this.movieId}/credits?api_key=${process.env.apikey}`)
-        console.log(credits.crew)
         this.director = credits.crew.find(crew => crew.job === "Director") || {}
         this.composer = credits.crew.find(crew => crew.job === "Original Music Composer") || {}
         this.novel = credits.crew.find(crew => crew.job === "Novel") || {}

@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app v-if="loaded">
       
     <!-- Dynamic banner image -->
     <v-img :src="movieBackdrop" class="backdrop-image">
@@ -161,6 +161,7 @@ export default {
   },
   data () {
     return {
+      loaded: false,
       movieId: this.$route.params.id,
       movie: {genres: []},
       moviePoster: '',
@@ -313,7 +314,7 @@ export default {
       this.getTrailers(),
       this.getSimilarMovies(),
     ])
-    
+    this.loaded = true
   }
 }
 </script>

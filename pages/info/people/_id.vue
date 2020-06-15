@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app v-if="loaded">
     <v-container>
 
       <v-row>
@@ -83,10 +83,13 @@ export default {
   },
   data() {
     return {
+      loaded: false,
       personId: this.$route.params.id,
       personInfo: {},
       personImage: "",
       expandBio: false,
+      castCreditsLength: 0,
+      crewCreditsLength: 0,
       castCredits: [],
       crewCredits: [],
     }
@@ -149,6 +152,7 @@ export default {
       try {
         const credits = await this.$axios.$get(`https://api.themoviedb.org/3/person/${this.personId}/combined_credits?api_key=${process.env.apikey}&language=en-US`)
         if (credits.cast.length) {
+          this.crewCreditsLength = credits.cast.length
           const sortedArray = credits.cast.sort((a, b) => b.popularity - a.popularity)
           const modSortedArray = sortedArray.map(media => {
             return {
@@ -162,6 +166,7 @@ export default {
           this.castCredits = uniqueCredits.slice(0, 18)
         }
         if (credits.crew.length) {
+          this.castCreditsLength = credits.crew.length
           const sortedArray = credits.crew.sort((a, b) => b.popularity - a.popularity)
           const modSortedArray = sortedArray.map(media => {
             return {
@@ -200,7 +205,7 @@ export default {
       this.getPerson(),
       this.getCredits()
     ])
-    
+    this.loaded = true
   }
 }
 </script>

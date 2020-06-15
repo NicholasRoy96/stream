@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app v-if="loaded">
     
     <!-- Dynamic banner image -->
     <v-img :src="tvShowBackdrop" class="backdrop-image">
@@ -149,6 +149,7 @@ export default {
   },
   data() {
     return {
+      loaded: false,
       tvId: this.$route.params.id,
       tvShow: {genres: [], episode_run_time: [], created_by: []},
       tvShowPoster: '',
@@ -265,6 +266,7 @@ export default {
       this.getCredits(),
       this.getSimilarTvShows()
     ])
+    this.loaded = true
   }
 }
 </script>

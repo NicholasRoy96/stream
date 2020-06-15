@@ -22,6 +22,9 @@ export const mutations = {
   },
   updateRecentlyViewed: (state, params) => {
     state.recentlyViewed = params;
+  },
+  shiftRecentlyViewed: (state) => {
+    state.recentlyViewed.shift()
   }
 };
 
@@ -48,6 +51,9 @@ export const actions = {
   addToRecentlyViewed({ commit, state }, params) {
     if (!state.recentlyViewed.some(media => media.id === params.id)) {
       commit("setRecentlyViewed", params);
+    }
+    if (state.recentlyViewed.length > 18) {
+      commit("shiftRecentlyViewed")
     }
   },
   emptyRecentlyViewed({ commit }) {

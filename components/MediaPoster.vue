@@ -1,34 +1,54 @@
 <template>
   <div>
-    <v-img v-if="posterProps.media.poster_path" :src="`https://image.tmdb.org/t/p/w500${posterProps.media.poster_path}`" class="poster-image">
-      <template v-slot:placeholder>
-        <v-row class="fill-height ma-0" align="center" justify="center">
-          <v-progress-circular indeterminate color="grey darken-2"></v-progress-circular>
-        </v-row>
-      </template>
-    </v-img>
-    <div v-if="!posterProps.media.poster_path && posterProps.networksInfo" class="placeholder-poster" :class="{ 'placeholder-poster-with-network': posterProps.networksInfo[0].link }">
-      <img :src="require('@/assets/logo.png')" />
-    </div>
-    <div v-if="!posterProps.media.poster_path && !posterProps.networksInfo" class="placeholder-poster">
-      <img :src="require('@/assets/logo.png')" />
-    </div>
-    <div v-if="posterProps.networksInfo">
-      <v-card v-if="posterProps.networksInfo[0].link" tile class="networks-card">
-        <v-container>
-          <v-row justify="center" align="center">
-            <div class="network-logo-div">
-              <img :src="`https://image.tmdb.org/t/p/w300${posterProps.networksInfo[0].logos[0].file_path}`" class="network-logo" />
-            </div>
-            <div class="d-flex-col pl-4">
-              <h2 class="network-subtitle">Now Streaming</h2>
-              <a :href="posterProps.networksInfo[0].homepage" target="_blank" class="network-link">
-                <h1 class="network-title">Watch Now</h1>
-              </a>
-            </div>
+    <div v-if="!posterProps.networksInfo">
+      <v-img v-if="posterProps.media.poster_path" :src="`https://image.tmdb.org/t/p/w500${posterProps.media.poster_path}`" class="poster-image">
+        <template v-slot:placeholder>
+          <v-row class="fill-height ma-0" align="center" justify="center">
+            <v-progress-circular indeterminate color="grey darken-2"></v-progress-circular>
           </v-row>
-        </v-container>
-      </v-card>
+        </template>
+      </v-img>
+      <div v-else class="placeholder-poster">
+        <img :src="require('@/assets/logo.png')" />
+      </div>
+    </div>
+
+    <div v-if="posterProps.networksInfo">
+      <v-img v-if="posterProps.media.poster_path && ( posterProps.networksInfo.length == 0 || !posterProps.networksInfo[0].homepage )" :src="`https://image.tmdb.org/t/p/w500${posterProps.media.poster_path}`" class="poster-image">
+        <template v-slot:placeholder>
+          <v-row class="fill-height ma-0" align="center" justify="center">
+            <v-progress-circular indeterminate color="grey darken-2"></v-progress-circular>
+          </v-row>
+        </template>
+      </v-img>
+      <v-img v-if="posterProps.media.poster_path && posterProps.networksInfo.length >= 1 && posterProps.networksInfo[0].homepage" :src="`https://image.tmdb.org/t/p/w500${posterProps.media.poster_path}`" class="poster-image-with-network">
+        <template v-slot:placeholder>
+          <v-row class="fill-height ma-0" align="center" justify="center">
+            <v-progress-circular indeterminate color="grey darken-2"></v-progress-circular>
+          </v-row>
+        </template>
+      </v-img>  
+      <div v-if="!posterProps.media.poster_path" class="placeholder-poster">
+        <img :src="require('@/assets/logo.png')" />
+      </div>
+      
+      <div v-if="posterProps.networksInfo.length >= 1 && posterProps.networksInfo[0].homepage">
+        <v-card tile class="networks-card">
+          <v-container>
+            <v-row justify="center" align="center">
+              <div class="network-logo-div">
+                <img :src="`https://image.tmdb.org/t/p/w300${posterProps.networksInfo[0].logos[0].file_path}`" class="network-logo" />
+              </div>
+              <div class="d-flex-col pl-4">
+                <h2 class="network-subtitle">Now Streaming</h2>
+                <a :href="posterProps.networksInfo[0].homepage" target="_blank" class="network-link">
+                  <h1 class="network-title">Watch Now</h1>
+                </a>
+              </div>
+            </v-row>
+          </v-container>
+        </v-card>
+      </div>
     </div>
   </div>
 </template>
@@ -41,6 +61,9 @@ export default {
       type: Object,
       required: true
     }
+  },
+  created() {
+    console.log("Poster props here", this.posterProps)
   }
 }
 </script>
@@ -61,19 +84,6 @@ export default {
   height: 520px;
   background-color: #171716;
   border-radius: 8px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.placeholder-poster-with-network {
-  width: 100%;
-  height: 520px;
-  background: #171716;
-  border-top-right-radius: 8px;
-  border-top-left-radius: 8px;
-  border-bottom-right-radius: 0px;
-  border-bottom-left-radius: 0px;
-  z-index: 2;
   display: flex;
   justify-content: center;
   align-items: center;

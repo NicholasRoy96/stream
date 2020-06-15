@@ -15,7 +15,6 @@
       <span class="d-none d-md-flex media-card-released-year">{{ media.air_date | formatYear }}, </span>
       <span>{{media.episode_count}} Episodes</span>
     </div>
-    <v-card-text v-else class="media-card-subtitle pt-0">Coming soon</v-card-text>
   </v-card>
 </template>
 

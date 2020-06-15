@@ -36,7 +36,7 @@ export default {
   computed: {
     mediaType() {
       if (this.media) {
-        return this.media.title ? "movies" : this.media.first_air_date || this.media.last_air_date ? "tv" : "people"
+        return this.media.title ? "movies" : this.media.type ? "tv" : "people"
       }
     }
   }

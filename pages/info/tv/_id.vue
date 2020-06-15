@@ -27,7 +27,7 @@
                       </span>
                     </nuxt-link>
                   </div>
-                  <span v-if="tvShow.episode_run_time.length" class="bullet-divider">&#8226;</span>
+                  <span v-if="tvShow.episode_run_time.length && tvShow.genres.length" class="bullet-divider">&#8226;</span>
                   <div v-if="tvShow.episode_run_time.length" class="tv-info-subdiv">
                     <span class="runtime">{{runtime}}</span>
                   </div>
@@ -160,6 +160,7 @@ export default {
       composer: {},
       novel: {},
       networksInfo: [],
+      gotNetworkInfo: false,
       similarTvShows: [],
     }
   },
@@ -184,7 +185,7 @@ export default {
       }
     },
     posterProps() {
-      if (this.tvShow && this.networksInfo.length) {
+      if (this.tvShow && this.gotNetworkInfo) {
         return {
           media: this.tvShow,
           networksInfo: this.networksInfo
@@ -205,6 +206,7 @@ export default {
     async getTvShow() {
       try {
         this.tvShow = await this.$axios.$get(`https://api.themoviedb.org/3/tv/${this.tvId}?api_key=${process.env.apikey}&language=en-US`)
+        console.log("logging show itself", this.tvShow)
         this.getNetworkInfo()
         if (this.tvShow.backdrop_path) {
           this.tvShowBackdrop = `https://image.tmdb.org/t/p/original${this.tvShow.backdrop_path}`
@@ -254,17 +256,24 @@ export default {
           request.push(this.$axios.$get(`https://api.themoviedb.org/3/network/${network.id}?api_key=${process.env.apikey}`))
         })
         const networks = await Promise.all(request)
+        if (!networks.length) {
+          console.log("Should be empty array", networks)
+          this.gotNetworkInfo = true
+        }
+        console.log("Is this empty array?", this.networksInfo)
         const logoRequests = networks.forEach(network => {
           logoRequest.push(this.$axios.$get(`https://api.themoviedb.org/3/network/${network.id}/images?api_key=${process.env.apikey}`))
         })
         const logos = await Promise.all(logoRequest)
+        console.log("logging just logos", logos)
         logos.forEach(logo => {
           const matchingObject = networks.find(network => network.id === logo.id)
           matchingObject["logos"] = logo.logos
         })
         this.networksInfo = networks
-        if (this.networksInfo[0].logos[0].file_path) this.networksInfo[0]["link"] = true
-        console.log(this.networksInfo)
+        this.gotNetworkInfo = true
+        console.log("network info before assigning link true", this.networksInfo)
+        console.log("network info after assigning if link true", this.networksInfo)
       } catch(err) {
         console.log('err', err)
       }  

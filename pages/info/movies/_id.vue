@@ -13,6 +13,7 @@
             </v-col>
 
             <v-col cols="12" md="8">
+              <!-- GENRES AND RELEASE DATE -->
               <div class="movie-div">
                 <div class="movie-title-div">
                   <span class="movie-title">{{movie.title}}</span><span v-if="movie.release_date" class="released-year">({{ movie.release_date | formatYear }})</span>
@@ -32,10 +33,12 @@
                   </div>
                 </div>
 
+                <!-- BUTTON ROW -->
                 <v-row v-if="movie" align="center" class="pl-6 pb-7">
                   <PercentageWheel v-if="movie.vote_average" class="mt-3" :rating="this.movie.vote_average" />
                   <AddWatchlistButton v-if="movie.vote_average" :media="movie" :icon="true" class="pt-3 ml-8" />
                   <AddWatchlistButton v-else :media="movie" :icon="true" class="pt-5" />
+                  <TrailerDialog v-if="trailers.length" :trailer="trailers[0]" class="mt-3 ml-6" />
                 </v-row>
                 
 
@@ -55,6 +58,7 @@
                   </div>
                 </div>
 
+                <!-- CREW LINKS -->
                 <v-row>
                   <v-col cols="6" md="4" v-if="director.name">
                     <nuxt-link :to="{ path: `/info/people/${director.id}` }" class="link crew">
@@ -148,6 +152,7 @@ import AddWatchlistButton from '@/components/AddWatchlistButton.vue'
 import PersonCard from '@/components/PersonCard.vue'
 import MediaCarousel from '@/components/MediaCarousel.vue'
 import PercentageWheel from '@/components/PercentageWheel.vue'
+import TrailerDialog from '@/components/TrailerDialog.vue'
 import FastAverageColor from 'fast-average-color';
 
 export default {
@@ -157,7 +162,8 @@ export default {
     AddWatchlistButton,
     PersonCard,
     MediaCarousel,
-    PercentageWheel
+    PercentageWheel,
+    TrailerDialog
   },
   data () {
     return {
@@ -176,7 +182,6 @@ export default {
       collection: {},
       collectionExists: false,
       similarMovies: [],
-      backgroundColor: ""
     }
   },
   computed: {
@@ -235,6 +240,7 @@ export default {
       try {
         const trailers = await this.$axios.$get(`https://api.themoviedb.org/3/movie/${this.movieId}/videos?api_key=${process.env.apikey}&language=en-US`)
         this.trailers = trailers.results.slice(0, 2)
+        console.log(this.trailers[0])
       } catch(err) {
         // suppress trailer lookup error
         // console.log(err)

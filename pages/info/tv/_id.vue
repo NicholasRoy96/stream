@@ -12,7 +12,7 @@
               <MediaPoster v-if="posterProps" :posterProps="posterProps" />
             </v-col>
 
-            <!-- TV show info -->
+            <!-- Genres and release date -->
             <v-col cols="12" md="8">
               <div class="tv-div">
                 <div class="tv-title-div">
@@ -33,10 +33,12 @@
                   </div>
                 </div>
 
-                <v-row v-if="tvShow" align="center" class="pl-6 pb-3">
+                <!-- Button row -->
+                <v-row v-if="tvShow" align="center" class="pl-6 pb-7">
                   <PercentageWheel v-if="tvShow.vote_average" class="mt-3" :rating="this.tvShow.vote_average" />
                   <AddWatchlistButton v-if="tvShow.vote_average" :media="tvShow" :icon="true" class="pt-3 ml-8" />
                   <AddWatchlistButton v-else :media="tvShow" :icon="true" class="pt-5" />
+                  <TrailerDialog v-if="trailers.length" :trailer="trailers[0]" class="mt-3 ml-6" />
                 </v-row>
 
                 <!-- OVERVIEW SHORTENED IF 400+ CHARS -->
@@ -136,6 +138,7 @@ import MediaCard from '@/components/MediaCard.vue'
 import MediaCardSmall from '@/components/MediaCardSmall.vue'
 import MediaCarousel from '@/components/MediaCarousel.vue'
 import PercentageWheel from '@/components/PercentageWheel.vue'
+import TrailerDialog from '@/components/TrailerDialog.vue'
 
 export default {
   components: {
@@ -145,7 +148,8 @@ export default {
     MediaCard,
     MediaCardSmall,
     MediaCarousel,
-    PercentageWheel
+    PercentageWheel,
+    TrailerDialog
   },
   data() {
     return {
@@ -155,6 +159,7 @@ export default {
       tvShowPoster: '',
       tvShowBackdrop: '',
       expandOverview: false,
+      trailers: [],
       cast: [],
       crew: [],
       composer: {},
@@ -218,6 +223,15 @@ export default {
         return this.$nuxt.error({ statusCode: 500, message: err.message })
       }
     },
+    async getTrailers() {
+      try {
+        const trailers = await this.$axios.$get(`https://api.themoviedb.org/3/tv/${this.tvId}/videos?api_key=${process.env.apikey}&language=en-US`)
+        this.trailers = trailers.results.slice(0, 2)
+      } catch(err) {
+        // suppress trailer lookup error
+        // console.log(err)
+      } 
+    },
     async getCredits() {
       try {
         const credits = await this.$axios.$get(`https://api.themoviedb.org/3/tv/${this.tvId}/credits?api_key=${process.env.apikey}`)
@@ -275,6 +289,7 @@ export default {
   created() {
     Promise.all([
       this.getTvShow(),
+      this.getTrailers(),
       this.getCredits(),
       this.getSimilarTvShows()
     ])

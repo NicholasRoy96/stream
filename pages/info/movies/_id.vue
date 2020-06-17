@@ -29,7 +29,7 @@
                   </div>
                   <span v-if="movie.runtime && movie.genres.length" class="bullet-divider">&#8226;</span>
                   <div v-if="movie.runtime" class="movie-info-subdiv">
-                    <span>{{runtime}}</span>
+                    <span>{{ movie.runtime | formatRuntime }}</span>
                   </div>
                 </div>
 
@@ -38,7 +38,7 @@
                   <PercentageWheel v-if="movie.vote_average" class="mt-3" :rating="this.movie.vote_average" />
                   <AddWatchlistButton v-if="movie.vote_average" :media="movie" :icon="true" class="pt-3 ml-8" />
                   <AddWatchlistButton v-else :media="movie" :icon="true" class="pt-5" />
-                  <TrailerDialog v-if="trailers.length" :trailer="trailers[0]" class="mt-3 ml-6" />
+                  <TrailerDialog v-if="trailer" :trailer="trailer" class="mt-3 ml-6" />
                 </v-row>
                 
 
@@ -109,7 +109,7 @@
         </v-col>
       </v-row>
 
-      <!-- Trailers -->
+      <!-- Trailers
       <div v-if="trailers.length" class="sub-div">
         <h3 class="sub-heading">Trailers</h3>
         <h3 class="sub-heading-description">Get a preview</h3>
@@ -120,7 +120,7 @@
             <youtube :video-id="trailer.key" player-height="350" player-width="100%"></youtube>
           </client-only>
         </v-col>
-      </v-row>
+      </v-row> -->
 
       <!-- Collection cards -->
       <div v-if="collectionExists">
@@ -172,7 +172,7 @@ export default {
       movie: {genres: []},
       moviePoster: '',
       movieBackdrop: '',
-      trailers: [],
+      trailer: {},
       expandOverview: false,
       cast: [],
       crew: [],
@@ -191,17 +191,6 @@ export default {
           return ''
         }
         return this.movie.overview.slice(0, 400).trim() + "..."
-      }
-    },
-    runtime() {
-      if (this.movie && this.movie.runtime) {
-        if (this.movie.runtime < 60) return `${this.movie.runtime}m`
-        if (this.movie.runtime === 60) return "1h"
-        const hours = (this.movie.runtime / 60)
-        const rhours = Math.floor(hours)
-        const minutes = (hours - rhours) * 60
-        const rminutes = Math.round(minutes)
-        return `${rhours}h ${rminutes}m`
       }
     },
     genreList() {
@@ -239,8 +228,10 @@ export default {
     async getTrailers() {
       try {
         const trailers = await this.$axios.$get(`https://api.themoviedb.org/3/movie/${this.movieId}/videos?api_key=${process.env.apikey}&language=en-US`)
-        this.trailers = trailers.results.slice(0, 2)
-        console.log(this.trailers[0])
+        const trailer = trailers.results.find(trailer => {
+          return trailer.type === "Trailer"
+        })
+        this.trailer = trailer
       } catch(err) {
         // suppress trailer lookup error
         // console.log(err)

@@ -48,36 +48,29 @@
         </nuxt-link>
         <MediaCarousel :media="topMovies" />
 
-        <!-- <h3 class="heading">Explore genres</h3>
-          <v-row>
-            <v-col cols="4" md="3" v-for="(genre, i) in genres" :key="i">
-              <GenreCard :genre="genre" />
-            </v-col>
-          </v-row> -->
-
-          <h3 class="heading">Explore more</h3>
-          <nuxt-link :to="{ path: '/list/people/keywords/popular' }" class="subheading-link">
-            <div class="subheading-div">
-              <div class="d-flex">
-                <h3 class="subheading">Trending today</h3>
-                <v-icon size="38" class="subheading-arrow-icon">mdi-chevron-right</v-icon>
-              </div>
-              <h3 class="subheading-description">Most popular actors</h3>
+        <h3 class="heading">Explore more</h3>
+        <nuxt-link :to="{ path: '/list/people/keywords/popular' }" class="subheading-link">
+          <div class="subheading-div">
+            <div class="d-flex">
+              <h3 class="subheading">Trending today</h3>
+              <v-icon size="38" class="subheading-arrow-icon">mdi-chevron-right</v-icon>
             </div>
-          </nuxt-link>
-          <v-row>
-            <v-col cols="6" sm="4" lg="2" v-for="(actor, i) in trendingActors" :key="i" align-self="center">
-              <PersonCard :person="actor" :subheading="false" />
-            </v-col>
-          </v-row>
+            <h3 class="subheading-description">Most popular actors</h3>
+          </div>
+        </nuxt-link>
+        <v-row>
+          <v-col cols="6" sm="4" lg="2" v-for="(actor, i) in trendingActors" :key="i" align-self="center">
+            <PersonCard :person="actor" :subheading="false" />
+          </v-col>
+        </v-row>
 
-          <v-row class="subheading-div" align="center">
-            <h3 class="subheading">Recently Viewed</h3>
-            <v-spacer></v-spacer>
-            <v-btn text class="text-capitalize empty-recent-button" @click="emptyRecentlyViewed">Clear All</v-btn>
-          </v-row>
-          <MediaCarousel v-if="recentlyViewed.length" :media="recentlyViewed" :useRecentCard="true" />
-          <h3 v-else class="no-recent-pages">You have no recently viewed pages.</h3>
+        <v-row class="subheading-div" align="center">
+          <h3 class="subheading">Recently Viewed</h3>
+          <v-spacer></v-spacer>
+          <v-btn text class="text-capitalize empty-recent-button" @click="emptyRecentlyViewed">Clear All</v-btn>
+        </v-row>
+        <MediaCarousel v-if="recentlyViewed.length" :media="recentlyViewed" :useRecentCard="true" />
+        <h3 v-else class="no-recent-pages">You have no recently viewed pages.</h3>
         
       </v-container>
     </div>

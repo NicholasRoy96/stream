@@ -29,7 +29,7 @@
                   </div>
                   <span v-if="tvShow.episode_run_time.length && tvShow.genres.length" class="bullet-divider">&#8226;</span>
                   <div v-if="tvShow.episode_run_time.length" class="tv-info-subdiv">
-                    <span class="runtime">{{runtime}}</span>
+                    <span class="runtime">{{ tvShow.episode_run_time[0] | formatRuntime }}</span>
                   </div>
                 </div>
 
@@ -38,7 +38,7 @@
                   <PercentageWheel v-if="tvShow.vote_average" class="mt-3" :rating="this.tvShow.vote_average" />
                   <AddWatchlistButton v-if="tvShow.vote_average" :media="tvShow" :icon="true" class="pt-3 ml-8" />
                   <AddWatchlistButton v-else :media="tvShow" :icon="true" class="pt-5" />
-                  <TrailerDialog v-if="trailers.length" :trailer="trailers[0]" class="mt-3 ml-6" />
+                  <TrailerDialog v-if="trailer" :trailer="trailer" class="mt-3 ml-6" />
                 </v-row>
 
                 <!-- OVERVIEW SHORTENED IF 400+ CHARS -->
@@ -159,7 +159,7 @@ export default {
       tvShowPoster: '',
       tvShowBackdrop: '',
       expandOverview: false,
-      trailers: [],
+      trailer: {},
       cast: [],
       crew: [],
       composer: {},
@@ -176,17 +176,6 @@ export default {
           return ''
         }
         return this.tvShow.overview.slice(0, 400).trim() + "..."
-      }
-    },
-    runtime() {
-      if (this.tvShow && this.tvShow.episode_run_time.length) {
-        if (this.tvShow.episode_run_time[0] < 60) return `${this.tvShow.episode_run_time[0]}m`
-        if (this.tvShow.episode_run_time[0] === 60) return "1h"
-        const hours = (this.tvShow.episode_run_time[0] / 60)
-        const rhours = Math.floor(hours)
-        const minutes = (hours - rhours) * 60
-        const rminutes = Math.round(minutes)
-        return `${rhours}h ${rminutes}m`
       }
     },
     posterProps() {
@@ -226,7 +215,10 @@ export default {
     async getTrailers() {
       try {
         const trailers = await this.$axios.$get(`https://api.themoviedb.org/3/tv/${this.tvId}/videos?api_key=${process.env.apikey}&language=en-US`)
-        this.trailers = trailers.results.slice(0, 2)
+        const trailer = trailers.results.find(trailer => {
+          return trailer.type === "Trailer"
+        })
+        this.trailer = trailer
       } catch(err) {
         // suppress trailer lookup error
         // console.log(err)

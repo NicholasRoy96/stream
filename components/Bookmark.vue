@@ -75,4 +75,13 @@ export default {
 .add-watchlist-icon.checked {
   color: black;
 }
+
+/* MEDIA QUERIES */
+/* XS */
+/* XS */
+@media(max-width: 599px) {
+  .bookmark-div {
+    margin-top: -8px;
+  }
+}
 </style>

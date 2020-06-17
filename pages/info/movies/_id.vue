@@ -22,8 +22,7 @@
                   <div v-if="movie.genres.length" class="movie-info-subdiv">
                     <nuxt-link v-for="(genre, i) in genreList" :key="i" :to="{ path: `/list/movies/genres/${genre.id}` }" class="link">
                       <span>
-                        {{genre.name}}
-                        <span v-if="i !== genreList.length - 1">,</span>
+                        {{genre.formattedName}}
                       </span>
                     </nuxt-link>
                   </div>
@@ -109,19 +108,6 @@
         </v-col>
       </v-row>
 
-      <!-- Trailers
-      <div v-if="trailers.length" class="sub-div">
-        <h3 class="sub-heading">Trailers</h3>
-        <h3 class="sub-heading-description">Get a preview</h3>
-      </div>
-      <v-row v-if="trailers.length">
-        <v-col cols="12" md="6" v-for="(trailer, i) in trailers" :key="i">
-          <client-only>
-            <youtube :video-id="trailer.key" player-height="350" player-width="100%"></youtube>
-          </client-only>
-        </v-col>
-      </v-row> -->
-
       <!-- Collection cards -->
       <div v-if="collectionExists">
         <div class="sub-div">
@@ -195,10 +181,17 @@ export default {
     },
     genreList() {
       if (this.movie && this.movie.genres.length) {
-        if (this.movie.genres.length > 5) {
-          return this.movie.genres.slice(0, 5)
-        }
-        return this.movie.genres
+        let genres = this.movie.genres
+        if (genres.length > 5) genres = genres.slice(0, 5)
+        const formattedGenres = genres.map((genre, index) => {
+          if (index === genres.length -1) {
+            genre["formattedName"] = genre.name
+            return genre
+          }
+          genre["formattedName"] = `${genre.name},`
+          return genre
+        })
+        return formattedGenres
       }
     }
   },

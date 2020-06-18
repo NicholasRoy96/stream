@@ -43,18 +43,9 @@
 
                 <div v-if="movie.tagline" class="movie-tagline">"{{movie.tagline}}"</div>
 
-                <!-- OVERVIEW SHORTENED IF 400+ CHARS -->
+                <!-- OVERVIEW -->
                 <div v-if="movie.overview">
-                  <div class="movie-overview-title">Overview</div>
-                  <div v-if="trimmedOverview && !expandOverview" class="movie-overview">
-                    <span class="movie-overview">{{trimmedOverview}}</span>
-                    <v-icon @click="expandOverview = true" icon>mdi-chevron-down</v-icon>
-                  </div>
-                  
-                  <!-- OVERVIEW EXPANDED -->
-                  <div v-if="!trimmedOverview || expandOverview" class="movie-overview">{{movie.overview}}
-                    <v-icon v-if="expandOverview" @click="expandOverview = false">mdi-chevron-up</v-icon>
-                  </div>
+                  <Overview :overview="movie.overview" />
                 </div>
 
                 <!-- CREW LINKS -->
@@ -139,7 +130,8 @@ import PersonCard from '@/components/PersonCard.vue'
 import MediaCarousel from '@/components/MediaCarousel.vue'
 import PercentageWheel from '@/components/PercentageWheel.vue'
 import TrailerDialog from '@/components/TrailerDialog.vue'
-import FastAverageColor from 'fast-average-color';
+import Overview from '@/components/Overview.vue'
+import FastAverageColor from 'fast-average-color'
 
 export default {
   components: {
@@ -149,7 +141,8 @@ export default {
     PersonCard,
     MediaCarousel,
     PercentageWheel,
-    TrailerDialog
+    TrailerDialog,
+    Overview
   },
   data () {
     return {
@@ -159,7 +152,6 @@ export default {
       moviePoster: '',
       movieBackdrop: '',
       trailer: {},
-      expandOverview: false,
       cast: [],
       crew: [],
       director: {},
@@ -171,14 +163,6 @@ export default {
     }
   },
   computed: {
-    trimmedOverview() {
-      if (this.movie && this.movie.overview) {
-        if (this.movie.overview.length < 400) {
-          return ''
-        }
-        return this.movie.overview.slice(0, 400).trim() + "..."
-      }
-    },
     genreList() {
       if (this.movie && this.movie.genres.length) {
         let genres = this.movie.genres
@@ -318,6 +302,12 @@ export default {
   }
 }
 </script>
+
+<style>
+#readmore {
+  color: lightgray;
+}
+</style>
 
 <style scoped>
 .backdrop-image {

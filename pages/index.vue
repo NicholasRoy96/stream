@@ -162,6 +162,7 @@ export default {
   font-weight: 800;
   padding-left: 10px;
   border-left: 3px solid #f5c518;
+  align-self: center;
 }
 .subheading-arrow-icon {
   color: white;
@@ -181,5 +182,61 @@ export default {
 }
 .empty-recent-button:hover {
   text-decoration: underline;
+}
+
+/* MEDIA QUERIES */
+/* MD */
+@media(max-width: 1263px) {
+  .heading {
+    font-size: 2.1em;
+    margin: 20px 0 20px 0;
+  }
+  .subheading {
+    font-size: 1.4em;
+  }
+  .subheading-description {
+    font-size: 1.05em;
+  }
+  .no-recent-pages {
+    font-size: 0.97em;
+  }
+}
+
+/* SM */
+@media(max-width: 959px) {
+  .heading {
+    font-size: 1.9em;
+  }
+  .subheading-div {
+    margin: 17px 0 17px 0
+  }
+  .subheading {
+    font-size: 1.3em;
+  }
+  .subheading-description {
+    font-size: 1em;
+  }
+}
+
+/* XS */
+@media(max-width: 599px) {
+  .heading {
+    font-size: 1.5em;
+    font-weight: 750;
+    margin: 15px 0 0 0;
+  }
+  .subheading-div {
+    margin: 10px 0 10px 0
+  }
+  .subheading {
+    font-size: 1.05em;
+    font-weight: 680;
+  }
+  .subheading-description {
+    font-size: 0.9em;
+  }
+  .no-recent-pages {
+    font-size: 0.85em;
+  }
 }
 </style>

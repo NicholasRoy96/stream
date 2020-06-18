@@ -34,14 +34,9 @@
               </div>
             </div>
 
-            <!-- BIO SHORTENED IF 400+ CHARS -->
-            <div v-if="trimmedBio && !expandBio" class="person-overview">{{trimmedBio}}
-              <v-icon @click="expandBio = true" icon>mdi-chevron-down</v-icon>
-            </div>
-            
-            <!-- BIO EXPANDED -->
-            <div v-if="!trimmedBio || expandBio" class="person-overview">{{personInfo.biography}}
-              <v-icon v-if="expandBio" @click="expandBio = false">mdi-chevron-up</v-icon>
+            <!-- BIO -->
+            <div v-if="personInfo.biography">
+              <Overview :overview="personInfo.biography" class="pt-4" />
             </div>
 
             <div v-if="alsoKnownAs" class="aka-info">
@@ -76,10 +71,12 @@
 <script>
 import { mapActions } from 'vuex'
 import MediaCarousel from '@/components/MediaCarousel.vue'
+import Overview from '@/components/Overview.vue'
 
 export default {
   components: {
-    MediaCarousel
+    MediaCarousel,
+    Overview
   },
   data() {
     return {
@@ -87,7 +84,6 @@ export default {
       personId: this.$route.params.id,
       personInfo: {},
       personImage: "",
-      expandBio: false,
       castCreditsLength: 0,
       crewCreditsLength: 0,
       castCredits: [],
@@ -119,13 +115,6 @@ export default {
           personAge--
         }
         return personAge
-      }
-    },
-    trimmedBio() {
-      if (this.personInfo && this.personInfo.biography) {
-        if (this.personInfo.biography.length > 400) {
-          return this.personInfo.biography.slice(0, 400).trim() + "..."
-        }
       }
     },
     alsoKnownAs() {

@@ -40,20 +40,11 @@
                   <TrailerDialog v-if="trailer" :trailer="trailer" class="mt-3 ml-6" />
                 </v-row>
 
-                <!-- OVERVIEW SHORTENED IF 400+ CHARS -->
+                <!-- Overview -->
                 <div v-if="tvShow.overview">
-                  <div class="tv-overview-title">Overview</div>
-                  <div v-if="trimmedOverview && !expandOverview" class="tv-overview">
-                      <span class="tv-overview">{{trimmedOverview}}</span>
-                      <v-icon @click="expandOverview = true" icon>mdi-chevron-down</v-icon>
-                  </div>
-                  
-                  <!-- OVERVIEW EXPANDED -->
-                  <div v-if="!trimmedOverview || expandOverview" class="tv-overview">
-                      <span class="tv-overview">{{tvShow.overview}}</span>
-                      <v-icon v-if="expandOverview" @click="expandOverview = false">mdi-chevron-up</v-icon>
-                  </div>
+                  <Overview :overview="tvShow.overview" />
                 </div>
+
 
                 <v-row v-if="tvShow.created_by.length">
                   <v-col cols="6" md="4" v-for="(creator, i) in tvShow.created_by" :key="i">
@@ -138,6 +129,7 @@ import MediaCardSmall from '@/components/MediaCardSmall.vue'
 import MediaCarousel from '@/components/MediaCarousel.vue'
 import PercentageWheel from '@/components/PercentageWheel.vue'
 import TrailerDialog from '@/components/TrailerDialog.vue'
+import Overview from '@/components/Overview.vue'
 
 export default {
   components: {
@@ -148,7 +140,8 @@ export default {
     MediaCardSmall,
     MediaCarousel,
     PercentageWheel,
-    TrailerDialog
+    TrailerDialog,
+    Overview
   },
   data() {
     return {
@@ -157,7 +150,6 @@ export default {
       tvShow: {genres: [], episode_run_time: [], created_by: []},
       tvShowPoster: '',
       tvShowBackdrop: '',
-      expandOverview: false,
       trailer: {},
       cast: [],
       crew: [],
@@ -169,14 +161,6 @@ export default {
     }
   },
   computed: {
-    trimmedOverview() {
-      if (this.tvShow && this.tvShow.overview) {
-        if (this.tvShow.overview.length < 400) {
-          return ''
-        }
-        return this.tvShow.overview.slice(0, 400).trim() + "..."
-      }
-    },
     posterProps() {
       if (this.tvShow && this.gotNetworkInfo) {
         return {
@@ -337,17 +321,7 @@ export default {
   margin: 0 12px 0 12px;
   font-size: 1.4em;
 }
-.tv-overview-title {
-  font-size: 1.2em;
-  font-weight: bold;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-.tv-overview {
-  color: lightgrey;
-  margin-bottom: 15px;
-  font-size: 0.95em;
-}
+
 .link {
   text-decoration: none;
   color: white;

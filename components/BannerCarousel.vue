@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-carousel :height="bannerSize" cycle interval="4800" continuous show-arrows-on-hover hide-delimiters>
+    <v-carousel :height="bannerSize" cycle interval="5000" continuous show-arrows-on-hover hide-delimiters>
       <div v-for="(movie,i) in movies" :key="i">
           <v-carousel-item
             :src="`https://image.tmdb.org/t/p/original${movie.backdrop_path}`"

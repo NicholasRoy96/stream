@@ -106,10 +106,10 @@ export default {
 /* XS */
 @media (max-width: 599px) {
   .media-title {
-    font-size: 1.5em;
+    font-size: 1.35em;
   }
   .media-subtitle {
-    font-size: 1em;
+    font-size: 0.95em;
   }
 }
 </style>

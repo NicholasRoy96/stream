@@ -58,11 +58,12 @@
             <h3 class="subheading-description">Most popular actors</h3>
           </div>
         </nuxt-link>
-        <v-row>
+        <!-- <v-row>
           <v-col cols="6" sm="4" lg="2" v-for="(actor, i) in trendingActors" :key="i" align-self="center">
             <PersonCard :person="actor" :subheading="false" />
           </v-col>
-        </v-row>
+        </v-row> -->
+        <PersonCarousel :people="trendingActors" />
 
         <v-row class="subheading-div" align="center">
           <h3 class="subheading">Recently Viewed</h3>
@@ -82,7 +83,7 @@ import BannerCarousel from "@/components/BannerCarousel.vue"
 import MediaCarousel from "@/components/MediaCarousel.vue"
 import MediaCard from "@/components/MediaCard.vue"
 import GenreCard from "@/components/GenreCard.vue"
-import PersonCard from '@/components/PersonCard.vue'
+import PersonCarousel from "@/components/PersonCarousel.vue"
 
 export default {
   components: {
@@ -90,7 +91,7 @@ export default {
     MediaCarousel,
     MediaCard,
     GenreCard,
-    PersonCard,
+    PersonCarousel
   },
   data() {
     return {
@@ -141,38 +142,6 @@ export default {
 </script>
 
 <style scoped>
-.heading {
-  font-size: 2.3em;
-  color: #f5c518;
-  font-weight: 850;
-  margin: 25px 0 20px 0;
-}
-.subheading-link {
-  text-decoration: none;
-  color: white;
-}
-.subheading-div {
-  margin: 20px 0 20px 0
-}
-.subheading-div:hover .subheading-arrow-icon {
-  color: #f5c518;
-}
-.subheading {
-  font-size: 1.5em;
-  font-weight: 800;
-  padding-left: 10px;
-  border-left: 3px solid #f5c518;
-  align-self: center;
-}
-.subheading-arrow-icon {
-  color: white;
-  margin-left: 4px;
-}
-.subheading-description {
-  color: darkgrey;
-  padding-left: 10px;
-  font-size: 1.1em;
-}
 .no-recent-pages {
   color: darkgrey;
   font-size: 1em;
@@ -187,54 +156,13 @@ export default {
 /* MEDIA QUERIES */
 /* MD */
 @media(max-width: 1263px) {
-  .heading {
-    font-size: 2.1em;
-    margin: 20px 0 20px 0;
-  }
-  .subheading {
-    font-size: 1.4em;
-  }
-  .subheading-description {
-    font-size: 1.05em;
-  }
   .no-recent-pages {
     font-size: 0.97em;
   }
 }
 
-/* SM */
-@media(max-width: 959px) {
-  .heading {
-    font-size: 1.9em;
-  }
-  .subheading-div {
-    margin: 17px 0 17px 0
-  }
-  .subheading {
-    font-size: 1.3em;
-  }
-  .subheading-description {
-    font-size: 1em;
-  }
-}
-
 /* XS */
 @media(max-width: 599px) {
-  .heading {
-    font-size: 1.5em;
-    font-weight: 750;
-    margin: 15px 0 0 0;
-  }
-  .subheading-div {
-    margin: 10px 0 10px 0
-  }
-  .subheading {
-    font-size: 1.05em;
-    font-weight: 680;
-  }
-  .subheading-description {
-    font-size: 0.9em;
-  }
   .no-recent-pages {
     font-size: 0.85em;
   }

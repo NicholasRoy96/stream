@@ -1,6 +1,6 @@
 <template>
   <client-only>
-    <RecycleScroller class="scroller" :minItemSize="minimumSize" direction="horizontal" :items="media">
+    <RecycleScroller class="scroller media" :minItemSize="minimumSize" direction="horizontal" :items="media">
       <template :style="{ width: `${totalWidth}px` }" v-slot="{ item }">
           <MediaCard v-if="!useRecentCard" :media="item" />
           <MediaCardRecent v-else :media="item" />
@@ -37,7 +37,7 @@ export default {
     },
     totalWidth() {
       if (this.media) {
-        return this.minimumSize * 190
+        return this.minimumSize * this.media.length
       }
     }
   }
@@ -45,24 +45,20 @@ export default {
 </script>
 
 <style>
-.VueCarousel-navigation-button {
-  color: white !important;
-}
 .vue-recycle-scroller__item-wrapper {
-  height: 400px !important;
+  height: 393px !important;
 }
 .scroller {
   height: 100%;
 }
 #app > div > div.container > div.vue-recycle-scroller.scroller.ready.direction-horizontal {
-  max-height: 400px;
+  max-height: 393px;
 }
-
 /* MEDIA QUERIES */
 /* XS */
 @media(max-width: 599px) {
-.vue-recycle-scroller__item-wrapper {
-  height: 345px !important;
-}
+  .vue-recycle-scroller__item-wrapper {
+    height: 345px !important;
+  }
 }
 </style>

@@ -78,41 +78,26 @@
       
     <v-container>
       <!-- Cast cards -->
-      <div v-if="cast && cast.length" class="sub-div">
-        <h3 class="sub-heading">Cast</h3>
-        <h3 class="sub-heading-description">Meet the stars</h3>
+      <div v-if="cast && cast.length" class="subheading-div">
+        <h3 class="subheading">Cast</h3>
+        <h3 class="subheading-description">Meet the stars</h3>
       </div>
-      <v-row>
-        <v-col cols="6" sm="4" lg="2" v-for="(actor, i) in cast" :key="i" align-self="center">
-          <PersonCard :person="actor" :subheading="true" />
-        </v-col>
-      </v-row>
-
-      <!-- Crew cards -->
-      <div v-if="crew && crew.length" class="sub-div">
-        <h3 class="sub-heading">Crew</h3>
-        <h3 class="sub-heading-description">Meet the production team</h3>
-      </div>
-      <v-row>
-        <v-col cols="6" sm="4" lg="2" v-for="(crew, i) in crew" :key="i" align-self="center">
-          <PersonCard :person="crew" :subheading="true" />
-        </v-col>
-      </v-row>
+      <PersonCarousel :people="cast" subheading="true" />
 
       <!-- Collection cards -->
       <div v-if="collectionExists">
-        <div class="sub-div">
-          <h3 class="sub-heading">{{collection.name}}</h3>
-          <h3 class="sub-heading-description">Explore the entire collection</h3>
+        <div class="subheading-div">
+          <h3 class="subheading">{{collection.name}}</h3>
+          <h3 class="subheading-description">Explore the entire collection</h3>
         </div>
         <MediaCarousel :media="collection.parts" />
       </div>
 
       <!-- Similar movies cards -->
       <div v-if="similarMovies.length">
-        <div class="sub-div">
-          <h3 class="sub-heading">Similar movies</h3>
-          <h3 class="sub-heading-description">We found more movies you might like</h3>
+        <div class="subheading-div">
+          <h3 class="subheading">Similar movies</h3>
+          <h3 class="subheading-description">We found more movies you might like</h3>
         </div>
         <MediaCarousel :media="similarMovies" />
       </div>
@@ -131,6 +116,7 @@ import MediaCarousel from '@/components/MediaCarousel.vue'
 import PercentageWheel from '@/components/PercentageWheel.vue'
 import TrailerDialog from '@/components/TrailerDialog.vue'
 import Overview from '@/components/Overview.vue'
+import PersonCarousel from '@/components/PersonCarousel.vue'
 import FastAverageColor from 'fast-average-color'
 
 export default {
@@ -142,7 +128,8 @@ export default {
     MediaCarousel,
     PercentageWheel,
     TrailerDialog,
-    Overview
+    Overview,
+    PersonCarousel
   },
   data () {
     return {
@@ -239,7 +226,7 @@ export default {
         this.director = credits.crew.find(crew => crew.job === "Director") || {}
         this.composer = credits.crew.find(crew => crew.job === "Original Music Composer") || {}
         this.novel = credits.crew.find(crew => crew.job === "Novel") || {}
-        this.cast = credits.cast.slice(0, 6)
+        this.cast = credits.cast.slice(0, 24)
         this.crew = credits.crew.slice(0, 6)
         
       } catch(err) {
@@ -302,12 +289,6 @@ export default {
   }
 }
 </script>
-
-<style>
-#readmore {
-  color: lightgray;
-}
-</style>
 
 <style scoped>
 .backdrop-image {
@@ -397,19 +378,6 @@ export default {
   font-size: 0.9em;
   color: lightgrey;
 }
-.sub-div {
-  margin: 40px 0 20px 0
-}
-.sub-heading {
-  font-size: 1.5em;
-  padding-left: 10px;
-  border-left: 3px solid #f5c518;
-}
-.sub-heading-description {
-  color: darkgrey;
-  padding-left: 10px;
-}
-
 /* MEDIA QUERIES */
 
 /* SM */

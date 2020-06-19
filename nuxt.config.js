@@ -10,6 +10,7 @@ export default {
     meta: [
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "theme-color", content: "#121212" },
       {
         hid: "stream",
         name: "stream",
@@ -35,7 +36,7 @@ export default {
     { src: "~/plugins/vuex-persist.js", mode: "client" },
     { src: "~/plugins/youtubeEmbed.js", mode: "client" },
     { src: "~/plugins/filters.js", mode: "client" },
-    { src: "~/plugins/averageColor.js", mode: "client" },
+    { src: "~/plugins/averageColor.js", mode: "client" }
   ],
   /*
    ** Nuxt.js dev-modules

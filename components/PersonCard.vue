@@ -34,17 +34,17 @@ export default {
   computed: {
     avatarSize() {
       switch (this.$vuetify.breakpoint.name) {
-        case 'xs': return '135'
-        case 'sm': return '170'
-        case 'md': return '180'
+        case 'xs': return '150'
+        case 'sm': return '155'
+        case 'md': return '160'
         case 'lg': return '160'
         case 'xl': return '160'
       }
     },
     personDivSize() {
-      if (this.subheading && this.$vuetify.breakpoint.name !== 'xs') return 240
-      if (this.subheading && this.$vuetify.breakpoint.name === 'xs') return 200
-      if (!this.subheading && this.$vuetify.breakpoint.name === 'xs') return 175
+      if (this.subheading && this.$vuetify.breakpoint.name !== 'xs') return 220
+      if (this.subheading && this.$vuetify.breakpoint.name === 'xs') return 195
+      if (!this.subheading && this.$vuetify.breakpoint.name === 'xs') return 180
       return 200
     }
   }
@@ -58,6 +58,7 @@ export default {
 }
 .person-div {
   text-align: center;
+  width: 180px;
 }
 .person-name {
   font-size: 1em;
@@ -67,5 +68,29 @@ export default {
 .person-character {
   font-size: 0.8em;
   color: darkgrey;
+}
+
+/* MEDIA QUERIES */
+/* SM */
+@media(max-width: 959px) {
+  .person-div {
+    width: 165px;
+  }
+  .person-name {
+    font-size: 0.9em;
+  }
+  .person-character {
+    font-size: 0.75em;
+  }
+}
+
+/* XS */
+@media(max-width: 599px) {
+  .person-name {
+    font-size: 0.8em;
+  }
+  .person-character {
+    font-size: 0.7em;
+  }
 }
 </style>

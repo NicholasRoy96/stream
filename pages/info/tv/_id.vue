@@ -45,7 +45,6 @@
                   <Overview :overview="tvShow.overview" />
                 </div>
 
-
                 <v-row v-if="tvShow.created_by.length">
                   <v-col cols="6" md="4" v-for="(creator, i) in tvShow.created_by" :key="i">
                     <nuxt-link :to="{ path: `/info/people/${creator.id}` }" class="link crew">
@@ -76,41 +75,26 @@
 
     <v-container>
       <!-- Seasons cards -->
-      <div v-if="tvShow.seasons && tvShow.seasons.length" class="sub-div">
-        <h3 class="sub-heading">Seasons ({{tvShow.seasons.length}})</h3>
-        <h3 class="sub-heading-description">Explore every season</h3>
+      <div v-if="tvShow.seasons && tvShow.seasons.length" class="subheading-div">
+        <h3 class="subheading">Seasons ({{tvShow.seasons.length}})</h3>
+        <h3 class="subheading-description">Explore every season</h3>
       </div>
       <v-row class="pl-4">
         <MediaCardSmall v-for="(season, i) in tvShow.seasons" :key="i" :media="season" />
       </v-row>
 
       <!-- Cast cards -->
-      <div v-if="cast && cast.length" class="sub-div">
-        <h3 class="sub-heading">Cast</h3>
-        <h3 class="sub-heading-description">Meet the stars</h3>
+      <div v-if="cast && cast.length" class="subheading-div">
+        <h3 class="subheading">Cast</h3>
+        <h3 class="subheading-description">Meet the stars</h3>
       </div>
-      <v-row>
-        <v-col cols="6" sm="4" lg="2" v-for="(actor, i) in cast" :key="i" align-self="center">
-          <PersonCard :person="actor" :subheading="true" />
-        </v-col>
-      </v-row>
-
-      <!-- Crew cards -->
-      <div v-if="crew && crew.length" class="sub-div">
-        <h3 class="sub-heading">Crew</h3>
-        <h3 class="sub-heading-description">Meet the production team</h3>
-      </div>
-      <v-row>
-        <v-col cols="6" sm="4" lg="2" v-for="(crew, i) in crew" :key="i" align-self="center">
-          <PersonCard :person="crew" :subheading="true" />
-        </v-col>
-      </v-row>
+      <PersonCarousel :people="cast" subheading="true" />
 
       <!-- Similar TV show cards -->
       <div v-if="similarTvShows.length">
-        <div class="sub-div">
-          <h3 class="sub-heading">Similar Shows</h3>
-          <h3 class="sub-heading-description">We found more TV shows you might like</h3>
+        <div class="subheading-div">
+          <h3 class="subheading">Similar Shows</h3>
+          <h3 class="subheading-description">We found more TV shows you might like</h3>
         </div>
         <MediaCarousel :media="similarTvShows" />
       </div>
@@ -130,6 +114,7 @@ import MediaCarousel from '@/components/MediaCarousel.vue'
 import PercentageWheel from '@/components/PercentageWheel.vue'
 import TrailerDialog from '@/components/TrailerDialog.vue'
 import Overview from '@/components/Overview.vue'
+import PersonCarousel from '@/components/PersonCarousel.vue'
 
 export default {
   components: {
@@ -141,7 +126,8 @@ export default {
     MediaCarousel,
     PercentageWheel,
     TrailerDialog,
-    Overview
+    Overview,
+    PersonCarousel
   },
   data() {
     return {
@@ -321,7 +307,6 @@ export default {
   margin: 0 12px 0 12px;
   font-size: 1.4em;
 }
-
 .link {
   text-decoration: none;
   color: white;
@@ -340,18 +325,6 @@ export default {
   font-weight: 400;
   font-size: 0.9em;
   color: lightgrey;
-}
-.sub-div {
-  margin: 40px 0 20px 0
-}
-.sub-heading {
-  font-size: 1.5em;
-  padding-left: 10px;
-  border-left: 3px solid #f5c518;
-}
-.sub-heading-description {
-  color: darkgrey;
-  padding-left: 10px;
 }
 
 /* MEDIA QUERIES */

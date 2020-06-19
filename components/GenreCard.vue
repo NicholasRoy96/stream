@@ -53,4 +53,19 @@ span.v-card--reveal-name {
   font-weight: bold;
   font-size: 2rem;
 }
+
+/* MEDIA QUERIES */
+/* SM */
+@media(max-width: 959px) {
+  span.v-card--reveal-name {
+    font-size: 1.7rem;
+  }
+}
+
+/* XS */
+@media(max-width: 599px) {
+  span.v-card--reveal-name {
+    font-size: 1.3rem;
+  }
+}
 </style>

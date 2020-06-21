@@ -7,7 +7,7 @@
     
     <v-dialog hide-overlay v-model="dialog" :width="videoWidth" @click:outside="stop">
       <client-only>
-        <youtube :video-id="trailer.key" :player-vars="{ autoplay: 1 }" @ready="ready" :player-height="videoHeight" :player-width="videoWidth"></youtube>
+        <youtube :video-id="storeMedia.trailer.key" :player-vars="{ autoplay: 1 }" @ready="ready" :player-height="videoHeight" :player-width="videoWidth"></youtube>
       </client-only>
     </v-dialog>
   </div>
@@ -16,18 +16,15 @@
 <script>
 export default {
   name: 'TrailerDialog',
-  props: {
-    trailer: {
-      type: Object,
-      required: true
-    }
-  },
   data () {
     return {
       dialog: false,
     }
   },
   computed: {
+    storeMedia() {
+      return this.$store.state.media.media
+    },
     videoWidth() {
       switch (this.$vuetify.breakpoint.name) {
         case 'xs': return '350'

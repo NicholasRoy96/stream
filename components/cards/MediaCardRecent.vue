@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import Bookmark from '@/components/Bookmark'
+import Bookmark from '@/components/cards/Bookmark'
 
 export default {
   name: 'MediaCardRecent',

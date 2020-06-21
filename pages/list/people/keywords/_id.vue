@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import MediaCardRecent from '@/components/MediaCardRecent.vue'
+import MediaCardRecent from '@/components/cards/MediaCardRecent.vue'
 
 export default {
   components: {

@@ -21,18 +21,19 @@
       <span v-if="media.vote_average" class="media-card-rating">{{media.vote_average}}</span>
       <span v-else class="media-card-rating">N/A</span>
     </div>
-    <v-card-actions class="card-actions d-none d-sm-block">
+    
+    <v-card-actions class="card-actions d-block">
       <AddWatchlistButton :media="media" />
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
-import AddWatchlistButton from '@/components/AddWatchlistButton'
-import Bookmark from '@/components/Bookmark'
+import AddWatchlistButton from '@/components/buttons/AddWatchlistButton'
+import Bookmark from '@/components/cards/Bookmark'
 
 export default {
-  name: 'MediaCardResponsive',
+  name: 'MediaCard',
   props: {
     media: {
       type: Object,
@@ -62,8 +63,8 @@ export default {
 .media-card-poster {
   height: 261.19px;
   width: 100%;
-  border-top-left-radius: 5px;
   border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
 }
 .media-card-poster:hover {
   opacity: 0.8;
@@ -110,62 +111,30 @@ export default {
 }
 
 /* TO WORK OUT IMAGE SIZE IN FUTURE, DIVIDE ANY WIDTH BY .67 TO GET POSTER HEIGHT, THEN / .7 TO GET CARD HEIGHT */
-
 /* MEDIA QUERIES */
-/* MD */
-@media(max-width: 1263px) {
-  .media-card {
-    height: 345.28px;
-    width: 155px;
-    margin: 8px;
-  }
-  .media-card-poster {
-    height: 231.34px;
-    width: 100%;
-  }
-  .placeholder-icon-div {
-    height: 231.134px;
-  }
-}
-
-/* SM */
-@media(max-width: 959px) {
-  .media-card {
-    height: 310px;
-    width: 135px;
-    margin: 6px;
-  }
-  .media-card-poster {
-    height: 201.49px;
-    width: 100%;
-  }
-  .media-card-rating-div {
-    padding-top: 0;
-  }
-  .placeholder-icon-div {
-    height: 201.49px;
-  }
-}
-
 /* XS */
 @media(max-width: 599px) {
   .media-card {
-    height: 234px;
-    width: 115px;
-    margin: 4px;
+    width: 145px;
+    height: 325px;
+    margin-top: 5px;
+    margin-bottom: 5px;
   }
   .media-card-poster {
-    height: 171.64px;
+    height: 216.42px;
     width: 100%;
   }
   .placeholder-icon-div {
-    height: 171.64px;
+    height: 216.42px;
   }
   .media-card-title {
-    font-size: 0.7em;
+    font-size: 0.81em;
   }
   .media-card-rating {
-    font-size: 0.72em;
+    font-size: 0.76em;
+  }
+  .media-card-rating-div{
+    padding-top: 0;
   }
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <client-only>
-    <RecycleScroller class="scroller people" :minItemSize="minimumSize" direction="horizontal" :items="people">
+    <RecycleScroller class="scroller people" :minItemSize="minimumSize" direction="horizontal" :items="scrollerItems">
       <template :style="{ width: `${totalWidth}px` }" v-slot="{ item }" class="person">
         <PersonCard :person="item" :subheading="false" />
       </template>
@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import PersonCard from '@/components/PersonCard.vue'
+import PersonCard from '@/components/cards/PersonCard.vue'
 
 export default {
   name: 'PersonCarousel',
@@ -19,19 +19,33 @@ export default {
   props: {
     people: {
       type: Array,
-      required: true
+      required: false
+    },
+    useStateCast: {
+      type: Boolean,
+      required: false
     }
   },
   computed: {
-    minimumSize() {
-      if (this.people) {
-        if (this.$vuetify.breakpoint.name === 'xs') return 183
-        return 198
+    storeMedia() {
+      return this.$store.state.media.media
+    },
+    scrollerItems() {
+      if (this.people) return this.people
+      if (!this.storeMedia) return []
+      if (this.useStateCast) {
+        console.log(this.storeMedia.cast)
+        return this.storeMedia.cast
       }
+      return []
+    },
+    minimumSize() {
+      if (this.$vuetify.breakpoint.name === 'xs') return 183
+      return 198
     },
     totalWidth() {
-      if (this.people) {
-        return this.minimumSize * this.people.length
+      if (this.scrollerItems) {
+        return this.minimumSize * this.scrollerItems.length
       }
     }
   }

@@ -2,69 +2,69 @@
   <v-app v-if="loaded">
       
     <!-- Dynamic banner image -->
-    <v-img :src="movieBackdrop" class="backdrop-image">
+    <v-img :src="`https://image.tmdb.org/t/p/original${storeMovie.info.backdrop_path}`" class="backdrop-image">
 
       <!-- Poster image and movie info -->
       <v-container fluid fill-height class="overlay-container">
         <v-container>
           <v-row align="center">
             <v-col cols="4" class="d-none d-md-block">
-              <MediaPoster v-if="movie" :posterProps="{ media: movie }" />
+              <MediaPoster v-if="storeMovie.info" :posterProps="{ media: movie }" />
             </v-col>
 
             <v-col cols="12" md="8">
               <!-- GENRES AND RELEASE DATE -->
               <div class="movie-div">
                 <div class="movie-title-div">
-                  <span class="movie-title">{{movie.title}}</span><span v-if="movie.release_date" class="released-year">({{ movie.release_date | formatYear }})</span>
+                  <span class="movie-title">{{storeMovie.info.title}}</span><span v-if="storeMovie.info.release_date" class="released-year">({{ storeMovie.info.release_date | formatYear }})</span>
                 </div>
                 <div class="movie-info">
-                  <div v-if="movie.genres.length" class="movie-info-subdiv">
+                  <div v-if="storeMovie.info.genres.length" class="movie-info-subdiv">
                     <nuxt-link v-for="(genre, i) in genreList" :key="i" :to="{ path: `/list/movies/genres/${genre.id}` }" class="link">
                       <span>
                         {{genre.formattedName}}
                       </span>
                     </nuxt-link>
                   </div>
-                  <span v-if="movie.runtime && movie.genres.length" class="bullet-divider">&#8226;</span>
-                  <div v-if="movie.runtime" class="movie-info-subdiv">
-                    <span>{{ movie.runtime | formatRuntime }}</span>
+                  <span v-if="storeMovie.info.runtime && storeMovie.info.genres.length" class="bullet-divider">&#8226;</span>
+                  <div v-if="storeMovie.info.runtime" class="movie-info-subdiv">
+                    <span>{{ storeMovie.info.runtime | formatRuntime }}</span>
                   </div>
                 </div>
 
                 <!-- BUTTON ROW -->
-                <v-row v-if="movie" align="center" class="pl-6 pb-7">
-                  <PercentageWheel v-if="movie.vote_average" class="mt-3" :rating="this.movie.vote_average" />
-                  <AddWatchlistButton v-if="movie.vote_average" :media="movie" :icon="true" class="pt-3 ml-8" />
-                  <AddWatchlistButton v-else :media="movie" :icon="true" class="pt-5" />
+                <v-row v-if="storeMovie.info" align="center" class="pl-6 pb-7">
+                  <PercentageWheel v-if="storeMovie.info.vote_average" class="mt-3" :rating="storeMovie.info.vote_average" />
+                  <AddWatchlistIcon v-if="storeMovie.info.vote_average" :media="movie" :icon="true" class="pt-3 ml-8" />
+                  <AddWatchlistIcon v-else :media="movie" :icon="true" class="pt-5" />
                   <TrailerDialog v-if="trailer" :trailer="trailer" class="mt-3 ml-6" />
                 </v-row>
                 
 
-                <div v-if="movie.tagline" class="movie-tagline">"{{movie.tagline}}"</div>
+                <div v-if="storeMovie.info.tagline" class="movie-tagline">"{{storeMovie.info.tagline}}"</div>
 
                 <!-- OVERVIEW -->
-                <div v-if="movie.overview">
-                  <Overview :overview="movie.overview" />
+                <div v-if="storeMovie.info.overview">
+                  <Overview :overview="storeMovie.info.overview" />
                 </div>
 
                 <!-- CREW LINKS -->
                 <v-row>
-                  <v-col cols="6" md="4" v-if="director.name">
-                    <nuxt-link :to="{ path: `/info/people/${director.id}` }" class="link crew">
-                      <div class="crew-name">{{director.name}}</div>
+                  <v-col cols="6" md="4" v-if="storeMovie.crew.director.name">
+                    <nuxt-link :to="{ path: `/info/people/${storeMovie.crew.director.id}` }" class="link crew">
+                      <div class="crew-name">{{storeMovie.crew.director.name}}</div>
                     </nuxt-link>
                     <div class="crew-role">Director</div>
                   </v-col>
-                  <v-col cols="6" md="4" v-if="novel.name">
-                    <nuxt-link :to="{ path: `/info/people/${novel.id}` }" class="link crew">
-                      <div class="crew-name">{{novel.name}}</div>
+                  <v-col cols="6" md="4" v-if="storeMovie.crew.novel.name">
+                    <nuxt-link :to="{ path: `/info/people/${storeMovie.crew.novel.id}` }" class="link crew">
+                      <div class="crew-name">{{storeMovie.crew.novel.name}}</div>
                     </nuxt-link>
                     <div class="crew-role">Novel</div>
                   </v-col>
-                  <v-col cols="6" md="4" v-if="composer.name">
-                    <nuxt-link :to="{ path: `/info/people/${composer.id}` }" class="link crew">
-                      <div class="crew-name">{{composer.name}}</div>
+                  <v-col cols="6" md="4" v-if="storeMovie.crew.composer.name">
+                    <nuxt-link :to="{ path: `/info/people/${storeMovie.crew.composer.id}` }" class="link crew">
+                      <div class="crew-name">{{storeMovie.crew.composer.name}}</div>
                     </nuxt-link>
                     <div class="crew-role">Original Music</div>
                   </v-col>
@@ -78,28 +78,28 @@
       
     <v-container>
       <!-- Cast cards -->
-      <div v-if="cast && cast.length" class="subheading-div">
+      <div v-if="storeMovie.cast && storeMovie.cast.length" class="subheading-div">
         <h3 class="subheading">Cast</h3>
         <h3 class="subheading-description">Meet the stars</h3>
       </div>
-      <PersonCarousel :people="cast" subheading="true" />
+      <PersonCarousel :useStateCast="true" subheading="true" />
 
       <!-- Collection cards -->
-      <div v-if="collectionExists">
+      <div v-if="storeMovie.collection && storeMovie.collection.parts">
         <div class="subheading-div">
-          <h3 class="subheading">{{collection.name}}</h3>
+          <h3 class="subheading">{{storeMovie.collection.name}}</h3>
           <h3 class="subheading-description">Explore the entire collection</h3>
         </div>
-        <MediaCarousel :media="collection.parts" />
+        <MediaCarousel :useStateCollection="true" />
       </div>
 
       <!-- Similar movies cards -->
-      <div v-if="similarMovies.length">
+      <div v-if="storeMovie.similarMedia.length">
         <div class="subheading-div">
           <h3 class="subheading">Similar movies</h3>
           <h3 class="subheading-description">We found more movies you might like</h3>
         </div>
-        <MediaCarousel :media="similarMovies" />
+        <MediaCarousel :useStateSimilarMedia="true" />
       </div>
 
     </v-container>
@@ -107,23 +107,23 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
-import MediaPoster from '@/components/MediaPoster.vue'
-import MediaCard from '@/components/MediaCard.vue'
-import AddWatchlistButton from '@/components/AddWatchlistButton.vue'
-import PersonCard from '@/components/PersonCard.vue'
-import MediaCarousel from '@/components/MediaCarousel.vue'
-import PercentageWheel from '@/components/PercentageWheel.vue'
-import TrailerDialog from '@/components/TrailerDialog.vue'
-import Overview from '@/components/Overview.vue'
-import PersonCarousel from '@/components/PersonCarousel.vue'
+import { mapState, mapActions } from 'vuex'
+import MediaPoster from '@/components/infoPages/MediaPoster.vue'
+import MediaCard from '@/components/cards/MediaCard.vue'
+import AddWatchlistIcon from '@/components/buttons/AddWatchlistIcon.vue'
+import PersonCard from '@/components/cards/PersonCard.vue'
+import MediaCarousel from '@/components/sliders||carousels/MediaCarousel.vue'
+import PercentageWheel from '@/components/infoPages/PercentageWheel.vue'
+import TrailerDialog from '@/components/infoPages/TrailerDialog.vue'
+import Overview from '@/components/infoPages/Overview.vue'
+import PersonCarousel from '@/components/sliders||carousels/PersonCarousel.vue'
 import FastAverageColor from 'fast-average-color'
 
 export default {
   components: {
     MediaPoster,
     MediaCard,
-    AddWatchlistButton,
+    AddWatchlistIcon,
     PersonCard,
     MediaCarousel,
     PercentageWheel,
@@ -136,23 +136,20 @@ export default {
       loaded: false,
       movieId: this.$route.params.id,
       movie: {genres: []},
-      moviePoster: '',
-      movieBackdrop: '',
       trailer: {},
       cast: [],
-      crew: [],
-      director: {},
-      novel: {},
-      composer: {},
+      crew: {},
       collection: {},
-      collectionExists: false,
       similarMovies: [],
     }
   },
   computed: {
+    storeMovie() {
+      return this.$store.state.media.media
+    },
     genreList() {
-      if (this.movie && this.movie.genres.length) {
-        let genres = this.movie.genres
+      if (this.storeMovie.info && this.storeMovie.info.genres.length) {
+        let genres = this.storeMovie.info.genres
         if (genres.length > 5) genres = genres.slice(0, 5)
         const formattedGenres = genres.map((genre, index) => {
           if (index === genres.length -1) {
@@ -171,9 +168,6 @@ export default {
     async getMovie() {
       try {
         this.movie = await this.$axios.$get(`https://api.themoviedb.org/3/movie/${this.movieId}?api_key=${process.env.apikey}&language=en-US`)
-        if (this.movie.poster_path) {
-          this.moviePoster = `https://image.tmdb.org/t/p/w500${this.movie.poster_path}`
-        }
         if (this.movie.backdrop_path) {
           this.movieBackdrop = `https://image.tmdb.org/t/p/original${this.movie.backdrop_path}`
           // this.getAverageColor()
@@ -203,9 +197,7 @@ export default {
     },
     async getCollection() {
       try {
-        const collection = await this.$axios.$get (`https://api.themoviedb.org/3/collection/${this.movie.belongs_to_collection.id}?api_key=${process.env.apikey}&language=en-US`)
-        this.collection = collection
-        this.collectionExists = true
+        this.collection = await this.$axios.$get (`https://api.themoviedb.org/3/collection/${this.movie.belongs_to_collection.id}?api_key=${process.env.apikey}&language=en-US`)
       } catch(err) {
         // supress collection lookup error
         // console.log(err)
@@ -223,12 +215,13 @@ export default {
     async getCredits() {
       try {
         const credits = await this.$axios.$get(`https://api.themoviedb.org/3/movie/${this.movieId}/credits?api_key=${process.env.apikey}`)
-        this.director = credits.crew.find(crew => crew.job === "Director") || {}
-        this.composer = credits.crew.find(crew => crew.job === "Original Music Composer") || {}
-        this.novel = credits.crew.find(crew => crew.job === "Novel") || {}
         this.cast = credits.cast.slice(0, 24)
-        this.crew = credits.crew.slice(0, 6)
-        
+        const director = credits.crew.find(crew => crew.job === "Director") || {}
+        if (director) this.crew["director"] = director
+        const composer = credits.crew.find(crew => crew.job === "Original Music Composer") || {}
+        if (composer) this.crew["composer"] = composer
+        const novel = credits.crew.find(crew => crew.job === "Novel") || {}
+        if (novel) this.crew["novel"] = novel
       } catch(err) {
         // suppress cast lookup error
         // console.log(err)
@@ -241,6 +234,21 @@ export default {
         console.log(err)
       }
     },
+    async addMovieToStore() {
+      try {
+        await this.$store.dispatch('media/updateMedia', {
+          info: this.movie,
+          trailer: this.trailer,
+          cast: this.cast,
+          crew: this.crew,
+          collection: this.collection,
+          similarMedia: this.similarMovies
+        })
+        console.log(this.storeMovie)
+      } catch(err) {
+        console.log(err)
+      }
+    }
     // async getAverageColor() {
     //   function startDownload() {
     //   let imageURL = this.movieBackdrop;
@@ -285,8 +293,14 @@ export default {
       this.getTrailers(),
       this.getSimilarMovies(),
     ])
-    this.loaded = true
-  }
+    .then(() => {
+      this.addMovieToStore()
+      this.loaded = true
+    })
+    .catch(err => {
+      console.log(err)
+    }) 
+  },
 }
 </script>
 

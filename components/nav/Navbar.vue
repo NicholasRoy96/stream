@@ -41,10 +41,10 @@
 </template>
 
 <script>
-import Watchlist from '@/components/Watchlist.vue'
-import Search from '@/components/search/Search.vue'
-import SearchSmall from '@/components/search/SearchSmall.vue'
-import NavMenu from '@/components/NavMenu.vue'
+import Watchlist from '@/components/nav/Watchlist.vue'
+import Search from '@/components/nav/search/Search.vue'
+import SearchSmall from '@/components/nav/search/SearchSmall.vue'
+import NavMenu from '@/components/nav/NavMenu.vue'
 import { mapState } from 'vuex'
 
 export default {

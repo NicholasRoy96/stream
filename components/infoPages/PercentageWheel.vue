@@ -7,16 +7,13 @@
 <script>
 export default {
   name: 'PercentageWheel',
-  props: {
-    rating: {
-      type: Number,
-      required: true
-    }
-  },
   computed: {
+    storeMedia() {
+      return this.$store.state.media.media
+    },
     ratingPercentage() {
-      if (this.rating) {
-        return Math.round((this.rating / 10) * 100)
+      if (this.storeMedia.info.vote_average) {
+        return Math.round((this.storeMedia.info.vote_average / 10) * 100)
       }
     }
   }

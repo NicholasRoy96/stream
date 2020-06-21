@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import BannerOverlay from '@/components/BannerOverlay.vue'
+import BannerOverlay from '@/components/misc/BannerOverlay.vue'
 
 export default {
   name: 'BannerCarousel',

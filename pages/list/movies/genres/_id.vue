@@ -28,8 +28,8 @@
 </template>
 
 <script>
-import BannerOverlay from '@/components/BannerOverlay.vue'
-import MediaCardResponsive from '@/components/MediaCardResponsive.vue'
+import BannerOverlay from '@/components/misc/BannerOverlay.vue'
+import MediaCardResponsive from '@/components/cards/MediaCardResponsive.vue'
 
 export default {
   components: {

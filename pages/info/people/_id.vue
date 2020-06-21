@@ -70,8 +70,8 @@
 
 <script>
 import { mapActions } from 'vuex'
-import MediaCarousel from '@/components/MediaCarousel.vue'
-import Overview from '@/components/Overview.vue'
+import MediaCarousel from '@/components/sliders||carousels/MediaCarousel.vue'
+import Overview from '@/components/infoPages/Overview.vue'
 
 export default {
   components: {

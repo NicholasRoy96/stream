@@ -2,14 +2,14 @@
   <div>
     <!-- OVERVIEW SHORTENED IF 400+ CHARS -->
     <div class="overview-title">Overview</div>
-      <div v-if="!expandOverview && overview.length >= 400" class="overview">
+      <div v-if="!expandOverview && storeMedia.info.overview.length >= 400" class="overview">
         <span>{{formattedOverview}}</span>
         <span class="read-button" @click="expandOverview = true">read more</span>
       </div>
     
     <!-- OVERVIEW EXPANDED -->
-      <div v-if="expandOverview || overview.length < 400" class="overview">
-        <span>{{overview}}</span>
+      <div v-if="expandOverview || storeMedia.info.overview.length < 400" class="overview">
+        <span>{{storeMedia.info.overview}}</span>
       </div>
   </div>
 </template>
@@ -17,21 +17,18 @@
 <script>
 export default {
   name: 'Overview',
-  props: {
-    overview: {
-      type: String,
-      required: true
-    }
-  },
   data() {
     return {
       expandOverview: false,
     }
   },
   computed: {
+    storeMedia() {
+      return this.$store.state.media.media
+    },
     formattedOverview() {
-      if (this.overview && this.overview.length >= 400) {
-        return this.overview.slice(0, 400).trim() + "..."
+      if (this.storeMedia.info.overview && this.storeMedia.info.overview.length >= 400) {
+        return this.storeMedia.info.overview.slice(0, 400).trim() + "..."
       }
     }
   }

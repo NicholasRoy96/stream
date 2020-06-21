@@ -79,11 +79,11 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import BannerCarousel from "@/components/BannerCarousel.vue"
-import MediaCarousel from "@/components/MediaCarousel.vue"
-import MediaCard from "@/components/MediaCard.vue"
-import GenreCard from "@/components/GenreCard.vue"
-import PersonCarousel from "@/components/PersonCarousel.vue"
+import BannerCarousel from "@/components/sliders||carousels/BannerCarousel.vue"
+import MediaCarousel from "@/components/sliders||carousels/MediaCarousel.vue"
+import MediaCard from "@/components/cards/MediaCard.vue"
+import GenreCard from "@/components/cards/GenreCard.vue"
+import PersonCarousel from "@/components/sliders||carousels/PersonCarousel.vue"
 
 export default {
   components: {

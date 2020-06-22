@@ -13,7 +13,7 @@
       </div>
     </div>
 
-    <div v-if="storeMedia.networksInfo">
+    <div v-if="storeMedia.networksInfo && showNetworksCard">
       <v-card tile class="networks-card">
         <v-container>
           <v-row justify="center" align="center">
@@ -39,6 +39,15 @@ export default {
   computed: {
     storeMedia() {
       return this.$store.state.media.media
+    },
+    showNetworksCard() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs': return false
+        case 'sm': return false
+        case 'md': return true
+        case 'lg': return true
+        case 'xl': return true
+      }
     }
   }
 }
@@ -47,6 +56,8 @@ export default {
 <style scoped>
 .poster-image {
   border-radius: 8px;
+  height: 522.39px;
+  width: 350px;
 }
 .poster-image-with-network {
   border-top-right-radius: 8px;
@@ -56,8 +67,8 @@ export default {
   z-index: 2;
 }
 .placeholder-poster {
-  width: 100%;
-  height: 520px;
+  width: 350px;
+  height: 522.39px;
   background-color: #171716;
   border-radius: 8px;
   display: flex;
@@ -110,5 +121,42 @@ export default {
   font-weight: 400;
   opacity: 0.8;
   letter-spacing: 0.03em;
+}
+
+/* MEDIA QUERIES */
+/* MD */
+@media(max-width: 1263px) {
+  .poster-image {
+    width: 300px;
+    height: 447.76px;
+  }
+  .placeholder-poster {
+    width: 300px;
+    height: 447.76px;
+  }
+}
+
+/* SM */
+@media(max-width: 959px) {
+  .poster-image {
+    width: 180.9px;
+    height: 270px;
+  }
+  .placeholder-poster {
+    width: 180.9px;
+    height: 270px;
+  }
+}
+
+/* XS */
+@media(max-width: 599px) {
+  .poster-image {
+    width: 117.25px;
+    height: 175px;
+  }
+  .placeholder-poster {
+    width: 117.25px;
+    height: 175px;
+  }
 }
 </style>

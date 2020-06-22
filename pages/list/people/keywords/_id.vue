@@ -10,11 +10,11 @@
           </v-row>
         </template>
       </v-img> -->
-      <h3 class="person-heading">{{formattedKeywordUpper}}</h3>
-      <h3 class="person-subheading">Explore {{formattedKeywordLower}} celebs</h3>
+      <h3 class="heading">{{formattedKeywordUpper}}</h3>
+      <h3 class="subheading">Explore {{formattedKeywordLower}} celebs</h3>
 
       <!-- Cards start -->
-      <v-row justify="center">
+      <v-row justify="center" class="pt-5">
         <MediaCardRecent v-for="(person, i) in people" :key="i" :media="person"/>
       </v-row>
 
@@ -96,19 +96,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.person-heading {
-  font-size: 2.5em;
-  color: #f5c518;
-  font-weight: bold;
-  margin: 35px 0 2px 0;
-  
-}
-.person-subheading {
-  font-size: 1.5em;
-  margin-bottom: 30px;
-  padding-left: 10px;
-  border-left: 3px solid #f5c518;
-}
-</style>

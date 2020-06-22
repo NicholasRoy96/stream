@@ -2,19 +2,11 @@
   <v-app>
     <v-container>
 
-      <!-- Dynamic banner image -->
-      <!-- <v-img :src="featuredBackdrop">
-        <template v-slot:placeholder>
-          <v-row class="fill-height ma-0" align="center" justify="center">
-            <v-progress-circular indeterminate color="grey darken-2"></v-progress-circular>
-          </v-row>
-        </template>
-      </v-img> -->
-      <h3 class="genre-heading">Genres</h3>
-      <h3 class="genre-subheading">Explore all movie genres</h3>
+      <h3 class="heading">Genres</h3>
+      <h3 class="subheading">Explore all movie genres</h3>
 
       <!-- Cards start -->
-      <v-row>
+      <v-row class="pt-5">
         <v-col cols="6" md="4" v-for="(genre, i) in genres" :key="i"> 
           <GenreCard :genre="genre" :mediaType="mediaType" />
         </v-col>
@@ -58,19 +50,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-.genre-heading {
-  font-size: 2.5em;
-  color: #f5c518;
-  font-weight: bold;
-  margin: 35px 0 2px 0;
-  
-}
-.genre-subheading {
-  font-size: 1.5em;
-  margin-bottom: 30px;
-  padding-left: 10px;
-  border-left: 3px solid #f5c518;
-}
-</style>

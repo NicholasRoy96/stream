@@ -66,7 +66,7 @@ export default {
   margin: 10px 0px 5px 0px;
 }
 .person-character {
-  font-size: 0.8em;
+  font-size: 0.85em;
   color: darkgrey;
 }
 
@@ -80,7 +80,7 @@ export default {
     font-size: 0.9em;
   }
   .person-character {
-    font-size: 0.75em;
+    font-size: 0.8em;
   }
 }
 
@@ -90,7 +90,7 @@ export default {
     font-size: 0.8em;
   }
   .person-character {
-    font-size: 0.7em;
+    font-size: 0.75em;
   }
 }
 </style>

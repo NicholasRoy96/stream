@@ -12,13 +12,13 @@
     </v-img>
             
 
-    <!-- GENRES AND RELEASE DATE -->
+    <!-- Title and Release Date -->
     <v-container>
       <div class="tv-title-div">
         <span class="tv-title">{{storeTv.info.name}}</span><span v-if="storeTv.info.first_air_date" class="released-year">({{ storeTv.info.first_air_date | formatYear }})</span>
       </div>
 
-      <!-- BUTTON ROW -->
+      <!-- Rating and Trailer Button -->
       <v-row v-if="storeTv.info" align="center" justify="space-around" class="pl-4 pr-4">
         <div class="rating-div">
           <PercentageWheel v-if="storeTv.info.vote_average" class="mt-3" :rating="storeTv.info.vote_average" />
@@ -27,7 +27,8 @@
         <TrailerDialog v-if="storeTv.trailer" class="mt-3 ml-6" />
       </v-row>
     </v-container>
-        
+    
+    <!-- Genres and Runtime -->
     <div class="tv-info black-background">
       <div v-if="storeTv.info.genres.length" class="tv-info-subdiv">
         <nuxt-link v-for="(genre, i) in genreList" :key="i" :to="{ path: `/list/tv/genres/${genre.id}` }" class="link">
@@ -45,12 +46,12 @@
     <v-container>
       <div class="pl-4 pr-4">
 
-        <!-- OVERVIEW -->
+        <!-- Overview -->
         <div v-if="storeTv.info.overview">
           <Overview :overview="storeTv.info.overview" />
         </div>
 
-        <!-- CREW LINKS -->
+        <!-- Creator and Crew Links -->
         <v-row v-if="storeTv.crew || storeTv.info.created_by.length">
           <v-col cols="6" md="4" v-for="(creator, i) in storeTv.info.created_by" :key="i">
             <nuxt-link :to="{ path: `/info/people/${creator.id}` }" class="link crew">

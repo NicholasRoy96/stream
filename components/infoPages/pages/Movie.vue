@@ -10,11 +10,11 @@
             
             <MediaPoster v-if="storeMovie.info" />
 
+            <!-- Title, Release Date, Genres, Runtime -->
             <v-col cols="8" align-self="center">
-              <!-- GENRES AND RELEASE DATE -->
               <div class="movie-div">
                 <div class="movie-title-div">
-                  <span class="movie-title">{{storeMovie.info.title}}</span><span v-if="storeMovie.info.release_date" class="released-year">({{ storeMovie.info.release_date | formatYear }})</span>
+                  <span class="movie-title">{{storeMovie.info.title}}<span v-if="storeMovie.info.release_date" class="released-year">({{ storeMovie.info.release_date | formatYear }})</span></span>
                 </div>
                 <div class="movie-info">
                   <div v-if="storeMovie.info.genres.length" class="movie-info-subdiv">
@@ -30,7 +30,7 @@
                   </div>
                 </div>
 
-                <!-- BUTTON ROW -->
+                <!-- Button Row -->
                 <v-row v-if="storeMovie.info" align="center" class="pl-6 pb-7">
                   <PercentageWheel v-if="storeMovie.info.vote_average" class="mt-3" :rating="storeMovie.info.vote_average" />
                   <AddWatchlistIcon v-if="storeMovie.info.vote_average" class="pt-3 ml-8" />
@@ -41,12 +41,12 @@
 
                 <div v-if="storeMovie.info.tagline" class="movie-tagline">"{{storeMovie.info.tagline}}"</div>
 
-                <!-- OVERVIEW -->
+                <!-- Overview -->
                 <div v-if="storeMovie.info.overview">
                   <Overview :overview="storeMovie.info.overview" />
                 </div>
 
-                <!-- CREW LINKS -->
+                <!-- Crew Links -->
                 <v-row>
                   <v-col cols="6" md="4" v-if="storeMovie.crew.director.name">
                     <nuxt-link :to="{ path: `/info/people/${storeMovie.crew.director.id}` }" class="link crew">
@@ -164,9 +164,6 @@ export default {
   align-items: center;
   display: flex;
 }
-.movie-div {
-  padding-left: 20px;
-}
 .movie-title-div {
   font-weight: bold;
   display:flex;
@@ -175,12 +172,12 @@ export default {
 .movie-title {
   font-size: 2.1em;
   font-weight: 750;
-  margin-right: 8px;
 }
 .released-year {
   color: lightgrey;
-  font-size: 1.9em;
+  font-size: 1.9rem !important;
   font-weight: normal;
+  padding-left: 8px;
 }
 .movie-info {
   margin-top: -5px;
@@ -221,12 +218,20 @@ export default {
   font-size: 0.9em;
   color: lightgrey;
 }
+
 /* MEDIA QUERIES */
 
-/* SM */
-@media (max-width: 959px) {
+/* MD */
+@media (max-width: 1263px) {
   .movie-div {
-    padding-left: 0;
+    padding-left: 25px;
+  }
+  .movie-title {
+    font-size: 2em;
+    font-weight: 700;
+  }
+  .released-year {
+    font-size: 1.8rem;
   }
 }
 </style>

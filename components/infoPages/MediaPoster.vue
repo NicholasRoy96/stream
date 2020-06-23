@@ -13,14 +13,14 @@
       </div>
     </div>
 
-    <div v-if="storeMedia.networksInfo && showNetworksCard">
+    <div v-if="storeMedia.networksInfo && storeMedia.networksInfo.length && showNetworksCard">
       <v-card tile class="networks-card">
         <v-container>
           <v-row justify="center" align="center">
-            <div class="network-logo-div">
+            <div v-if="storeMedia.networksInfo[0].logos && storeMedia.networksInfo[0].logos[0].file_path" class="network-logo-div">
               <img :src="`https://image.tmdb.org/t/p/w300${storeMedia.networksInfo[0].logos[0].file_path}`" class="network-logo" />
             </div>
-            <div class="d-flex-col pl-4">
+            <div v-if="storeMedia.networksInfo[0].homepage" class="d-flex-col pl-4">
               <h2 class="network-subtitle">Now Streaming</h2>
               <a :href="storeMedia.networksInfo[0].homepage" target="_blank" class="network-link">
                 <h1 class="network-title">Watch Now</h1>
@@ -45,7 +45,7 @@ export default {
         case 'xs': return false
         case 'sm': return false
         case 'md': return true
-        case 'lg': return true
+        case 'lg': console.log(this.storeMedia);return true
         case 'xl': return true
       }
     }

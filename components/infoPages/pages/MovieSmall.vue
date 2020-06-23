@@ -12,14 +12,14 @@
     </v-img>
             
 
-    <!-- GENRES AND RELEASE DATE -->
+    <!-- Title and release date -->
     <v-container>
       <div class="movie-title-div">
         <span class="movie-title">{{storeMovie.info.title}}</span><span v-if="storeMovie.info.release_date" class="released-year">({{ storeMovie.info.release_date | formatYear }})</span>
       </div>
       
 
-      <!-- BUTTON ROW -->
+      <!-- Rating and Trailer Button -->
       <v-row v-if="storeMovie.info" align="center" justify="space-around" class="pl-4 pr-4">
         <div class="rating-div">
           <PercentageWheel v-if="storeMovie.info.vote_average" class="mt-3" :rating="storeMovie.info.vote_average" />
@@ -28,7 +28,8 @@
         <TrailerDialog v-if="storeMovie.trailer" class="mt-3 ml-6" />
       </v-row>
     </v-container>
-        
+      
+    <!-- Genres and Runtime -->
     <div class="movie-info black-background">
       <div v-if="storeMovie.info.genres.length" class="movie-info-subdiv">
         <nuxt-link v-for="(genre, i) in genreList" :key="i" :to="{ path: `/list/movies/genres/${genre.id}` }" class="link">
@@ -47,12 +48,12 @@
       <div class="pl-4 pr-4">
         <div v-if="storeMovie.info.tagline" class="movie-tagline">"{{storeMovie.info.tagline}}"</div>
 
-        <!-- OVERVIEW -->
+        <!-- Overview -->
         <div v-if="storeMovie.info.overview">
           <Overview :overview="storeMovie.info.overview" />
         </div>
 
-        <!-- CREW LINKS -->
+        <!-- Crew Links -->
         <v-row>
           <v-col cols="6" md="4" v-if="storeMovie.crew.director.name">
             <nuxt-link :to="{ path: `/info/people/${storeMovie.crew.director.id}` }" class="link crew">
@@ -75,7 +76,7 @@
         </v-row>
       </div>
     </v-container>
-        
+    
     
     <div class="black-background">
       <v-container>

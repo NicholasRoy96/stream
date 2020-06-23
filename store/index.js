@@ -18,13 +18,13 @@ export const mutations = {
   },
   // Recently Viewed
   setRecentlyViewed: (state, params) => {
-    state.recentlyViewed.push(params);
+    state.recentlyViewed.unshift(params);
   },
   updateRecentlyViewed: (state, params) => {
     state.recentlyViewed = params;
   },
-  shiftRecentlyViewed: (state) => {
-    state.recentlyViewed.shift()
+  popRecentlyViewed: (state) => {
+    state.recentlyViewed.pop()
   }
 };
 
@@ -53,7 +53,7 @@ export const actions = {
       commit("setRecentlyViewed", params);
     }
     if (state.recentlyViewed.length > 18) {
-      commit("shiftRecentlyViewed")
+      commit("popRecentlyViewed")
     }
   },
   emptyRecentlyViewed({ commit }) {

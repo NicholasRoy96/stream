@@ -1,20 +1,20 @@
 <template>
   <div>
-  <!-- Dynamic banner image -->
-    <v-img v-if="storeTv.info.backdrop_path" :src="`https://image.tmdb.org/t/p/original${storeTv.info.backdrop_path}`" class="backdrop-image">
+    <!-- Dynamic banner image -->
+    <v-img :src="`https://image.tmdb.org/t/p/original${storeTv.info.backdrop_path}`" class="backdrop-image">
       
-    <!-- Poster image -->
+      <!-- Poster image -->
       <v-container fluid fill-height class="overlay-container">
         <v-container>
           <v-row align="center" justify="space-between">
             
-            <MediaPoster />
+            <MediaPoster v-if="storeTv.info"/>
 
-            <!-- Genres and release date -->
-            <v-col cols="8">
+            <!-- Title, Release Date, Genres, Runtime -->
+            <v-col cols="8" align-self="center">
               <div class="tv-div">
                 <div class="tv-title-div">
-                  <span class="tv-title">{{storeTv.info.name}}</span><span v-if="storeTv.info.first_air_date" class="released-year">({{ storeTv.info.first_air_date | formatYear }})</span>
+                  <span class="tv-title">{{storeTv.info.name}}<span v-if="storeTv.info.first_air_date" class="released-year">({{ storeTv.info.first_air_date | formatYear }})</span></span>
                 </div>
                 <div class="tv-info">
                   <div v-if="storeTv.info.genres.length" class="tv-info-subdiv">
@@ -26,7 +26,7 @@
                   </div>
                   <span v-if="storeTv.info.episode_run_time.length && storeTv.info.genres.length" class="bullet-divider">&#8226;</span>
                   <div v-if="storeTv.info.episode_run_time.length" class="tv-info-subdiv">
-                    <span class="runtime">{{ storeTv.info.episode_run_time[0] | formatRuntime }}</span>
+                    <span>{{ storeTv.info.episode_run_time[0] | formatRuntime }}</span>
                   </div>
                 </div>
 
@@ -162,9 +162,6 @@ export default {
   align-items: center;
   display: flex;
 }
-.tv-div {
-  padding-left: 20px;
-}
 .tv-title-div {
   font-weight: bold;
   display: flex;
@@ -173,12 +170,12 @@ export default {
 .tv-title {
   font-size: 2.1em;
   font-weight: 750;
-  margin-right: 8px;
 }
 .released-year {
   color: lightgrey;
-  font-size: 1.9em;
+  font-size: 1.9rem;
   font-weight: normal;
+  padding-left: 8px;
 }
 .tv-info {
   margin-top: -5px;
@@ -213,5 +210,20 @@ export default {
   font-weight: 400;
   font-size: 0.9em;
   color: lightgrey;
+}
+
+/* MEDIA QUERIES */
+/* MD */
+@media (max-width: 1263px) {
+  .tv-div {
+    padding-left: 25px;
+  }
+  .tv-title {
+    font-size: 2em;
+    font-weight: 700;
+  }
+  .released-year {
+    font-size: 1.8rem;
+  }
 }
 </style>

@@ -1,6 +1,7 @@
 <template>
   <div>
     <v-autocomplete
+    id="search-autocomplete"
     v-model="result"
     :items="formattedResults"
     item-text="title"
@@ -41,10 +42,14 @@
           <div class="title-div">
             <v-list-item-title class="item-title">{{media.item.title}}</v-list-item-title>
             <v-list-item-subtitle class="item-subtitle" v-if="media.item.media_type === 'movie'">
-              Movie, {{ media.item.release_date | formatYear }}
+              Movie 
+              <span v-if="media.item.release_date" class="comma">,</span>
+              {{ media.item.release_date | formatYear }}
             </v-list-item-subtitle>
             <v-list-item-subtitle class="item-subtitle" v-if="media.item.media_type === 'tv'">
-              TV Series, {{ media.item.first_air_date | formatYear }}
+              TV Series
+              <span v-if="media.item.first_air_date" class="comma">,</span>
+              {{ media.item.first_air_date | formatYear }}
             </v-list-item-subtitle>
           </div>
         </div>
@@ -101,6 +106,7 @@ export default {
       if (role === 'Sound') return 'Composer'
       if (role === 'Writing') return 'Writer'
       if (role === 'Production') return 'Producer'
+      if (role === 'Editing') return 'Editor'
       return role
     }
   },
@@ -113,6 +119,7 @@ export default {
       const type = this.determineMediaType(matchedMedia)
       this.$router.push({ path: `/info/${type}/${matchedMedia.id}` })
       this.searchString = null
+      document.getElementById("search-autocomplete").blur()
     }
   }
 }
@@ -152,5 +159,8 @@ export default {
 }
 .item-subtitle {
   font-size: 0.9em !important;
+}
+.comma {
+  margin-left: -2.5px;
 }
 </style>

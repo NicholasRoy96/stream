@@ -2,8 +2,8 @@
   <div>
     <v-container>
 
-      <v-row>
-        <v-col cols="8" sm="4" md="3" offset="2" offset-sm="0">
+      <v-row justify="center">
+        <v-col cols="8" sm="4" md="3">
           <v-img v-if="storePerson.info.profile_path" :src="`https://image.tmdb.org/t/p/original${storePerson.info.profile_path}`" class="person-image">
             <template v-slot:placeholder>
               <v-row class="fill-height ma-0" align="center" justify="center">
@@ -11,7 +11,7 @@
               </v-row>
             </template>
           </v-img>
-          <v-icon v-else size="300" color="grey darken-2">mdi-account</v-icon>
+          <v-icon v-else :size="placeholderIconSize" color="grey darken-2">mdi-account</v-icon>
         </v-col>
 
         <v-col cols="12" sm="8" md="9">
@@ -83,6 +83,15 @@ export default {
     storePerson() {
       return this.$store.state.media.media
     },
+    placeholderIconSize() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs': return '150'
+        case 'sm': return '180'
+        case 'md': return '200'
+        case 'lg': return '230'
+        case 'xl': return '230'
+      }
+    },
     formatBirthday() {
       if (this.storePerson.info && this.storePerson.info.birthday) {
         const dateArray = this.storePerson.info.birthday.split('-')
@@ -101,6 +110,7 @@ export default {
       if (this.storePerson.info.known_for_department === 'Sound') return 'Composer'
       if (this.storePerson.info.known_for_department === 'Writing') return 'Writer'
       if (this.storePerson.info.known_for_department === 'Production') return 'Producer'
+      if (this.storePerson.info.known_for_department === 'Editing') return 'Editor'
       return this.storePerson.info.known_for_department
     },
     calculateAge() {

@@ -34,7 +34,6 @@ export default {
       if (this.people) return this.people
       if (!this.storeMedia) return []
       if (this.useStateCast) {
-        console.log(this.storeMedia.cast)
         return this.storeMedia.cast
       }
       return []

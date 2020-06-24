@@ -2,14 +2,14 @@
   <div>
     <!-- OVERVIEW SHORTENED IF 400+ CHARS -->
     <div class="overview-title">Overview</div>
-      <div v-if="!expandOverview && storeMedia.info.overview.length >= 400" class="overview">
+      <div v-if="!expandOverview && overview && overview.length >= 400" class="overview">
         <span>{{formattedOverview}}</span>
         <span class="read-button" @click="expandOverview = true">read more</span>
       </div>
     
     <!-- OVERVIEW EXPANDED -->
-      <div v-if="expandOverview || storeMedia.info.overview.length < 400" class="overview">
-        <span>{{storeMedia.info.overview}}</span>
+      <div v-if="expandOverview || overview && overview.length < 400" class="overview">
+        <span>{{overview}}</span>
       </div>
   </div>
 </template>
@@ -19,18 +19,31 @@ export default {
   name: 'Overview',
   data() {
     return {
+      overview: '',
       expandOverview: false,
     }
   },
   computed: {
-    storeMedia() {
-      return this.$store.state.media.media
-    },
     formattedOverview() {
-      if (this.storeMedia.info.overview && this.storeMedia.info.overview.length >= 400) {
-        return this.storeMedia.info.overview.slice(0, 400).trim() + "..."
+      if (this.overview && this.overview.length >= 400) {
+        return this.overview.slice(0, 400).trim() + "..."
       }
     }
+  },
+  methods: {
+    setOverviewVariable() {
+      const media = this.$store.state.media.media
+      if (media.info.overview) {
+        this.overview = media.info.overview
+      }
+      if (media.info.biography) {
+        this.overview = media.info.biography
+      }
+      return ''
+    }
+  },
+  created() {
+    this.setOverviewVariable()
   }
 }
 </script>

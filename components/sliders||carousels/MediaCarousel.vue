@@ -35,6 +35,14 @@ export default {
     useStateSimilarMedia: {
       type: Boolean,
       required: false
+    },
+    useStateCastCredits: {
+      type: Boolean,
+      required: false
+    },
+    useStateCrewCredits: {
+      type: Boolean,
+      required: false
     }
   },
   computed: {
@@ -49,6 +57,12 @@ export default {
       }
       if (this.useStateSimilarMedia) {
         return this.storeMedia.similarMedia
+      }
+      if (this.useStateCastCredits) {
+        return this.storeMedia.castCredits
+      }
+      if (this.useStateCrewCredits) {
+        return this.storeMedia.crewCredits
       }
       return []
     },

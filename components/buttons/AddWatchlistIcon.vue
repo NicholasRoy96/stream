@@ -52,6 +52,6 @@ export default {
 .watchlist-button-icon {
   width: 45px;
   height: 45px;
-  background-color: #032541;
+  background-color: #262625;
 }
 </style>

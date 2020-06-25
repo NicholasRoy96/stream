@@ -44,7 +44,7 @@
     </div>
         
     <v-container>
-      <div class="pl-4 pr-4">
+      <div class="pl-3 pr-3">
 
         <!-- Overview -->
         <div v-if="storeTv.info.overview">
@@ -79,11 +79,11 @@
     <div class="black-background">
       <v-container>
         <!-- Cast cards -->
-        <div v-if="storeTv.cast && storeTv.cast.length" class="subheading-div">
+        <div v-if="storeTv.cast.length" class="subheading-div">
           <h3 class="subheading">Cast</h3>
           <h3 class="subheading-description">Meet the stars</h3>
         </div>
-        <PersonCarousel :useStateCast="true" subheading="true" />
+        <PersonCarousel v-if="storeTv.cast.length" :useStateCast="true" subheading="true" />
 
         <!-- Similar Tv cards -->
         <div v-if="storeTv.similarMedia.length">

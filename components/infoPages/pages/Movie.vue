@@ -76,11 +76,11 @@
       
     <v-container>
       <!-- Cast cards -->
-      <div v-if="storeMovie.cast && storeMovie.cast.length" class="subheading-div">
+      <div v-if="storeMovie.cast.length" class="subheading-div">
         <h3 class="subheading">Cast</h3>
         <h3 class="subheading-description">Meet the stars</h3>
       </div>
-      <PersonCarousel :useStateCast="true" subheading="true" />
+      <PersonCarousel v-if="storeMovie.cast.length" :useStateCast="true" subheading="true" />
 
       <!-- Collection cards -->
       <div v-if="storeMovie.collection && storeMovie.collection.parts">

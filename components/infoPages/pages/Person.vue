@@ -49,17 +49,17 @@
       </v-row>
 
       <div v-if="storePerson.castCredits.length">
-        <div class="sub-div">
-          <h3 class="sub-heading">Appears in</h3>
-          <h3 class="sub-heading-description">Most notable acting credits</h3>
+        <div class="subheading-div">
+          <h3 class="subheading">Appears in</h3>
+          <h3 class="subheading-description">Most notable acting credits</h3>
         </div>
         <MediaCarousel :useStateCastCredits="true" />
       </div>
       
       <div v-if="storePerson.crewCredits.length">
-        <div class="sub-div">
-          <h3 class="sub-heading">Worked on</h3>
-          <h3 class="sub-heading-description">Most notable crew credits</h3>
+        <div class="subheading-div">
+          <h3 class="subheading">Worked on</h3>
+          <h3 class="subheading-description">Most notable crew credits</h3>
         </div>
         <MediaCarousel :useStateCrewCredits="true" />
       </div>
@@ -152,7 +152,6 @@ export default {
 .person-info {
   margin-top: 20px;
   padding-left: 10px;
-  border-left: 3px solid #f5c518;
 }
 .person-info-item {
   margin-bottom: 10px;

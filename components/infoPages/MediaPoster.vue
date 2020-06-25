@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="storeMedia">
-      <v-img v-if="storeMedia.info.poster_path" :src="`https://image.tmdb.org/t/p/w500${storeMedia.info.poster_path}`" class="poster-image" :class="{'poster-image-with-network': storeMedia.networksInfo}">
+      <v-img v-if="storeMedia.info.poster_path" :src="`https://image.tmdb.org/t/p/w500${storeMedia.info.poster_path}`" class="poster-image" :class="{'poster-image-with-network': storeMedia.networksInfo && showNetworksCard}">
         <template v-slot:placeholder>
           <v-row class="fill-height ma-0" align="center" justify="center">
             <v-progress-circular indeterminate color="grey darken-2"></v-progress-circular>
@@ -45,7 +45,7 @@ export default {
         case 'xs': return false
         case 'sm': return false
         case 'md': return true
-        case 'lg': console.log(this.storeMedia);return true
+        case 'lg': return true
         case 'xl': return true
       }
     }

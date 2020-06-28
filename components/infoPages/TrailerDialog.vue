@@ -1,11 +1,19 @@
 <template>
   <div>
-    <v-btn text class="text-capitalize play-button" :ripple="false" @click="dialog = true">
+    <v-btn v-if="!bottomBar" text class="text-capitalize play-button" :ripple="false" @click="toggleDialog">
       <v-icon left>mdi-play</v-icon>
       Play Trailer
     </v-btn>
+
+    <v-btn v-if="bottomBar && !trailerDialog" icon @click="toggleDialog">
+      <v-icon size="28">mdi-play</v-icon>
+    </v-btn>
+
+    <v-btn v-if="bottomBar && trailerDialog" icon disabled>
+      <v-icon size="28">mdi-play</v-icon>
+    </v-btn>
     
-    <v-dialog hide-overlay v-model="dialog" :width="videoWidth" @click:outside="stop">
+    <v-dialog hide-overlay v-model="trailerDialog" :width="videoWidth" @click:outside="stop">
       <client-only>
         <youtube :video-id="storeMedia.trailer.key" :player-vars="{ autoplay: 1 }" @ready="ready" :player-height="videoHeight" :player-width="videoWidth"></youtube>
       </client-only>
@@ -14,16 +22,22 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
+
 export default {
   name: 'TrailerDialog',
-  data () {
-    return {
-      dialog: false,
+  props: {
+    bottomBar: {
+      type: Boolean,
+      required: false
     }
   },
   computed: {
     storeMedia() {
       return this.$store.state.media.media
+    },
+    trailerDialog() {
+      return this.$store.state.trailer.trailerDialog
     },
     videoWidth() {
       switch (this.$vuetify.breakpoint.name) {
@@ -45,11 +59,15 @@ export default {
     }
   },
   methods: {
+    toggleDialog() {
+      this.$store.dispatch('trailer/toggleTrailerDialog')
+    },
     ready (event) {
       this.player = event.target
     },
     stop() {
       this.player.stopVideo()
+      this.toggleDialog()
     }
   }
 }

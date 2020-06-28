@@ -11,11 +11,10 @@
       </v-container>
     </v-img>
             
-
     <!-- Title and Release Date -->
     <v-container>
       <div class="tv-title-div">
-        <span class="tv-title">{{storeTv.info.name}}</span><span v-if="storeTv.info.first_air_date" class="released-year">({{ storeTv.info.first_air_date | formatYear }})</span>
+        <span class="tv-title">{{storeTv.info.name}}<span v-if="storeTv.info.first_air_date" class="released-year">({{ storeTv.info.first_air_date | formatYear }})</span></span>
       </div>
 
       <!-- Rating and Trailer Button -->
@@ -88,13 +87,16 @@
         <!-- Similar Tv cards -->
         <div v-if="storeTv.similarMedia.length">
           <div class="subheading-div">
-            <h3 class="subheading">Similar shows</h3>
-            <h3 class="subheading-description">We found more TV shows you might like</h3>
+            <h3 class="subheading">More like this</h3>
+            <h3 class="subheading-description">Similar TV shows you might like</h3>
           </div>
           <MediaCarousel :useStateSimilarMedia="true" />
         </div>
 
       </v-container>
+
+      <BottomBar />
+      
     </div>
   </div>
 </template>
@@ -103,13 +105,13 @@
 import { mapState } from 'vuex'
 import MediaPoster from '@/components/infoPages/MediaPoster.vue'
 import MediaCard from '@/components/cards/MediaCard.vue'
-import AddWatchlistIcon from '@/components/buttons/AddWatchlistIcon.vue'
 import PersonCard from '@/components/cards/PersonCard.vue'
 import MediaCarousel from '@/components/sliders||carousels/MediaCarousel.vue'
 import PercentageWheel from '@/components/infoPages/PercentageWheel.vue'
 import TrailerDialog from '@/components/infoPages/TrailerDialog.vue'
 import Overview from '@/components/infoPages/Overview.vue'
 import PersonCarousel from '@/components/sliders||carousels/PersonCarousel.vue'
+import BottomBar from '@/components/infoPages/BottomBar.vue'
 import FastAverageColor from 'fast-average-color'
 
 export default {
@@ -117,13 +119,13 @@ export default {
   components: {
     MediaPoster,
     MediaCard,
-    AddWatchlistIcon,
     PersonCard,
     MediaCarousel,
     PercentageWheel,
     TrailerDialog,
     Overview,
-    PersonCarousel
+    PersonCarousel,
+    BottomBar
   },
   computed: {
     storeTv() {
@@ -168,17 +170,18 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
   padding: 10px 16px 10px 16px;
 }
 .tv-title {
   font-size: 1.4em;
   font-weight: 750;
-  margin-right: 8px;
 }
 .released-year {
   color: lightgrey;
   font-size: 1.1em;
   font-weight: normal;
+  padding-left: 6px;
 }
 .rating-div {
   display:flex;

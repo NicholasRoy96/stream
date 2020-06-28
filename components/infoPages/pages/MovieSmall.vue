@@ -15,7 +15,7 @@
     <!-- Title and release date -->
     <v-container>
       <div class="movie-title-div">
-        <span class="movie-title">{{storeMovie.info.title}}</span><span v-if="storeMovie.info.release_date" class="released-year">({{ storeMovie.info.release_date | formatYear }})</span>
+        <span class="movie-title">{{storeMovie.info.title}}<span v-if="storeMovie.info.release_date" class="released-year">({{ storeMovie.info.release_date | formatYear }})</span></span>
       </div>
       
 
@@ -99,13 +99,16 @@
         <!-- Similar movies cards -->
         <div v-if="storeMovie.similarMedia.length">
           <div class="subheading-div">
-            <h3 class="subheading">Similar movies</h3>
-            <h3 class="subheading-description">We found more movies you might like</h3>
+            <h3 class="subheading">More like this</h3>
+            <h3 class="subheading-description">Similar movies you might like</h3>
           </div>
           <MediaCarousel :useStateSimilarMedia="true" />
         </div>
 
       </v-container>
+
+      <BottomBar />
+
     </div>
   </div>
 </template>
@@ -114,13 +117,13 @@
 import { mapState } from 'vuex'
 import MediaPoster from '@/components/infoPages/MediaPoster.vue'
 import MediaCard from '@/components/cards/MediaCard.vue'
-import AddWatchlistIcon from '@/components/buttons/AddWatchlistIcon.vue'
 import PersonCard from '@/components/cards/PersonCard.vue'
 import MediaCarousel from '@/components/sliders||carousels/MediaCarousel.vue'
 import PercentageWheel from '@/components/infoPages/PercentageWheel.vue'
 import TrailerDialog from '@/components/infoPages/TrailerDialog.vue'
 import Overview from '@/components/infoPages/Overview.vue'
 import PersonCarousel from '@/components/sliders||carousels/PersonCarousel.vue'
+import BottomBar from '@/components/infoPages/BottomBar.vue'
 import FastAverageColor from 'fast-average-color'
 
 export default {
@@ -128,13 +131,13 @@ export default {
   components: {
     MediaPoster,
     MediaCard,
-    AddWatchlistIcon,
     PersonCard,
     MediaCarousel,
     PercentageWheel,
     TrailerDialog,
     Overview,
-    PersonCarousel
+    PersonCarousel,
+    BottomBar
   },
   computed: {
     storeMovie() {
@@ -179,17 +182,18 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
   padding: 10px 16px 10px 16px;
 }
 .movie-title {
   font-size: 1.4em;
   font-weight: 750;
-  margin-right: 8px;
 }
 .released-year {
   color: lightgrey;
   font-size: 1.1em;
   font-weight: normal;
+  padding-left: 6px;
 }
 .rating-div {
   display:flex;

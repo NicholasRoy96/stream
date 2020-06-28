@@ -94,8 +94,8 @@
       <!-- Similar movies cards -->
       <div v-if="storeMovie.similarMedia.length">
         <div class="subheading-div">
-          <h3 class="subheading">Similar movies</h3>
-          <h3 class="subheading-description">We found more movies you might like</h3>
+          <h3 class="subheading">More like this</h3>
+          <h3 class="subheading-description">Similar movies you might like</h3>
         </div>
         <MediaCarousel :useStateSimilarMedia="true" />
       </div>

@@ -91,8 +91,8 @@
       <!-- Similar TV show cards -->
       <div v-if="storeTv.similarMedia.length">
         <div class="subheading-div">
-          <h3 class="subheading">Similar shows</h3>
-          <h3 class="subheading-description">We found more TV shows you might like</h3>
+          <h3 class="subheading">More like this</h3>
+          <h3 class="subheading-description">Similar TV shows you might like</h3>
         </div>
         <MediaCarousel v-if="storeTv.similarMedia.length" :useStateSimilarMedia="true" />
       </div>

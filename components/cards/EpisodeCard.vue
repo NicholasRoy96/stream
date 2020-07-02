@@ -10,6 +10,7 @@
     </v-img>
     <div v-if="!episode.still_path" class="placeholder-div">
       <img :src="require('@/assets/logo.png')" class="placeholder-logo" />
+      <h3 class="episode-number">{{episode.episode_number}}</h3>
     </div>
     <h3 class="episode-name">{{episode.name}}</h3>
     <p class="episode-overview">{{episode.overview}}</p>
@@ -44,6 +45,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 .placeholder-logo {
   width: 150px;

@@ -112,6 +112,18 @@ export default {
         console.log(err)
       }  
     },
+    async getSeasons() {
+      try {
+        const request = []
+        this.tvShow.seasons.forEach(season => {
+          request.push(this.$axios.$get(`https://api.themoviedb.org/3/tv/${this.tvId}/season/${season.season_number}?api_key=${process.env.apikey}`))
+        })
+        this.seasons = await Promise.all(request)
+      } catch(err) {
+        // suppress episode lookup error
+        // console.log(err)
+      }
+    },
     async addTvToStore() {
       try {
         await this.$store.dispatch('media/updateMedia', {
@@ -120,25 +132,32 @@ export default {
           cast: this.cast,
           crew: this.crew,
           similarMedia: this.similarTvShows,
-          networksInfo: this.networksInfo
+          networksInfo: this.networksInfo,
+          seasons: this.seasons
         })
       } catch(err) {
         console.log(err)
       }
     }
   },
-  created() {
-    Promise.all([
+  async created() {
+    await Promise.all([
       this.getTvShow(),
       this.getTrailers(),
       this.getCredits(),
       this.getSimilarTvShows()
     ])
     .then(async() => {
-      await this.getNetworkInfo()
+      await Promise.all([
+        this.getNetworkInfo(),
+        this.getSeasons()
+      ])
+    })
+    .then(() => {
       this.addMediaToRecentlyViewed()
       this.addTvToStore()
       this.loaded = true
+      console.log(this.tvShow)
     })
     .catch(err => {
       console.log(err)

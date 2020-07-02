@@ -79,16 +79,14 @@
       <v-container>
         <!-- Cast cards -->
         <div v-if="storeTv.cast.length" class="subheading-div">
-          <h3 class="subheading">Cast</h3>
-          <h3 class="subheading-description">Meet the stars</h3>
+          <h3 class="info-subheading-description">Meet the stars</h3>
         </div>
         <PersonCarousel v-if="storeTv.cast.length" :useStateCast="true" subheading="true" />
 
         <!-- Similar Tv cards -->
         <div v-if="storeTv.similarMedia.length">
           <div class="subheading-div">
-            <h3 class="subheading">More like this</h3>
-            <h3 class="subheading-description">Similar TV shows you might like</h3>
+            <h3 class="info-subheading-description">More like this</h3>
           </div>
           <MediaCarousel :useStateSimilarMedia="true" />
         </div>
@@ -104,8 +102,6 @@
 <script>
 import { mapState } from 'vuex'
 import MediaPoster from '@/components/infoPages/MediaPoster.vue'
-import MediaCard from '@/components/cards/MediaCard.vue'
-import PersonCard from '@/components/cards/PersonCard.vue'
 import MediaCarousel from '@/components/sliders||carousels/MediaCarousel.vue'
 import PercentageWheel from '@/components/infoPages/PercentageWheel.vue'
 import TrailerDialog from '@/components/infoPages/TrailerDialog.vue'
@@ -118,8 +114,6 @@ export default {
   name: 'TvSmall',
   components: {
     MediaPoster,
-    MediaCard,
-    PersonCard,
     MediaCarousel,
     PercentageWheel,
     TrailerDialog,

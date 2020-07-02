@@ -56,7 +56,12 @@ export default {
   padding-left: 10px;
   font-size: 1.1em;
 }
-
+.info-subheading-description {
+  color: lightgray;
+  padding-left: 10px;
+  font-size: 1.35em;
+  padding-bottom: 4px;
+}
 /* MEDIA QUERIES */
 /* XL */
 
@@ -81,6 +86,10 @@ export default {
   .subheading-description {
     font-size: 1.05em;
   }
+  .info-subheading-description {
+    font-size: 1.3em;
+    padding-bottom: 3px;
+  }
 }
 
 /* SM */
@@ -96,6 +105,9 @@ export default {
   }
   .subheading-description {
     font-size: 1em;
+  }
+  .info-subheading-description {
+    font-size: 1.25em;
   }
 }
 
@@ -115,6 +127,10 @@ export default {
   }
   .subheading-description {
     font-size: 0.9em;
+  }
+  .info-subheading-description {
+    font-size: 1.2em;
+    padding-bottom: 2px;
   }
 }
 </style>

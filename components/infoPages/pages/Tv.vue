@@ -73,26 +73,26 @@
 
     <v-container>
       <!-- Seasons cards -->
-      <div v-if="storeTv.info.seasons.length" class="subheading-div">
-        <h3 class="subheading">Seasons ({{storeTv.info.seasons.length}})</h3>
-        <h3 class="subheading-description">Explore every season</h3>
+      <div v-if="storeTv.seasons.length">
+        <v-row>
+          <v-col cols="3" lg="2">
+            <v-select :items="seasonSelectItems" item-text="name" item-value="index" v-model="season" outlined></v-select>
+          </v-col>
+        </v-row>
+        <EpisodeSlider v-if="storeTv.seasons[season].episodes" :episodes="storeTv.seasons[season].episodes" />
       </div>
-      <v-row class="pl-4">
-        <MediaCardSmall v-for="(season, i) in storeTv.info.seasons" :key="i" :media="season" />
-      </v-row>
+      
 
       <!-- Cast cards -->
       <div v-if="storeTv.cast.length" class="subheading-div">
-        <h3 class="subheading">Cast</h3>
-        <h3 class="subheading-description">Meet the stars</h3>
+        <h3 class="info-subheading-description">Meet the stars</h3>
       </div>
       <PersonCarousel v-if="storeTv.cast.length" :useStateCast="true" />
 
       <!-- Similar TV show cards -->
       <div v-if="storeTv.similarMedia.length">
         <div class="subheading-div">
-          <h3 class="subheading">More like this</h3>
-          <h3 class="subheading-description">Similar TV shows you might like</h3>
+          <h3 class="info-subheading-description">More like this</h3>
         </div>
         <MediaCarousel v-if="storeTv.similarMedia.length" :useStateSimilarMedia="true" />
       </div>
@@ -105,28 +105,29 @@
 import { mapState } from 'vuex'
 import MediaPoster from '@/components/infoPages/MediaPoster.vue'
 import AddWatchlistIcon from '@/components/buttons/AddWatchlistIcon.vue'
-import PersonCard from '@/components/cards/PersonCard.vue'
-import MediaCard from '@/components/cards/MediaCard.vue'
-import MediaCardSmall from '@/components/cards/MediaCardSmall.vue'
 import MediaCarousel from '@/components/sliders||carousels/MediaCarousel.vue'
 import PercentageWheel from '@/components/infoPages/PercentageWheel.vue'
 import TrailerDialog from '@/components/infoPages/TrailerDialog.vue'
 import Overview from '@/components/infoPages/Overview.vue'
 import PersonCarousel from '@/components/sliders||carousels/PersonCarousel.vue'
+import EpisodeSlider from '@/components/sliders||carousels/EpisodeSlider.vue'
 
 export default {
   name: 'Tv',
   components: {
     MediaPoster,
     AddWatchlistIcon,
-    PersonCard,
-    MediaCard,
-    MediaCardSmall,
     MediaCarousel,
     PercentageWheel,
     TrailerDialog,
     Overview,
-    PersonCarousel
+    PersonCarousel,
+    EpisodeSlider
+  },
+  data() {
+    return {
+      season: 0
+    }
   },
   computed: {
     storeTv() {
@@ -145,6 +146,16 @@ export default {
           return genre
         })
         return formattedGenres
+      }
+    },
+    seasonSelectItems() {
+      if (this.storeTv.seasons && this.storeTv.seasons.length) {
+        return this.storeTv.seasons.map((season, index) => {
+          return {
+            name: season.name,
+            index
+          }
+        })
       }
     }
   }

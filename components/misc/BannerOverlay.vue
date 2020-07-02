@@ -33,7 +33,8 @@ export default {
       required: true
     },
     keyword: {
-      type: String
+      type: String,
+      required: false
     }
   },
   methods: {

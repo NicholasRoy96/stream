@@ -77,16 +77,14 @@
     <v-container>
       <!-- Cast cards -->
       <div v-if="storeMovie.cast.length" class="subheading-div">
-        <h3 class="subheading">Cast</h3>
-        <h3 class="subheading-description">Meet the stars</h3>
+        <h3 class="info-subheading-description">Meet the stars</h3>
       </div>
       <PersonCarousel v-if="storeMovie.cast.length" :useStateCast="true" subheading="true" />
 
       <!-- Collection cards -->
       <div v-if="storeMovie.collection && storeMovie.collection.parts">
         <div class="subheading-div">
-          <h3 class="subheading">{{storeMovie.collection.name}}</h3>
-          <h3 class="subheading-description">Explore the entire collection</h3>
+          <h3 class="info-subheading-description">{{storeMovie.collection.name}}</h3>
         </div>
         <MediaCarousel :useStateCollection="true" />
       </div>
@@ -94,8 +92,7 @@
       <!-- Similar movies cards -->
       <div v-if="storeMovie.similarMedia.length">
         <div class="subheading-div">
-          <h3 class="subheading">More like this</h3>
-          <h3 class="subheading-description">Similar movies you might like</h3>
+          <h3 class="info-subheading-description">More like this</h3>
         </div>
         <MediaCarousel :useStateSimilarMedia="true" />
       </div>
@@ -107,9 +104,7 @@
 <script>
 import { mapState } from 'vuex'
 import MediaPoster from '@/components/infoPages/MediaPoster.vue'
-import MediaCard from '@/components/cards/MediaCard.vue'
 import AddWatchlistIcon from '@/components/buttons/AddWatchlistIcon.vue'
-import PersonCard from '@/components/cards/PersonCard.vue'
 import MediaCarousel from '@/components/sliders||carousels/MediaCarousel.vue'
 import PercentageWheel from '@/components/infoPages/PercentageWheel.vue'
 import TrailerDialog from '@/components/infoPages/TrailerDialog.vue'
@@ -121,9 +116,7 @@ export default {
   name: 'Movie',
   components: {
     MediaPoster,
-    MediaCard,
     AddWatchlistIcon,
-    PersonCard,
     MediaCarousel,
     PercentageWheel,
     TrailerDialog,

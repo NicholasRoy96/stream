@@ -94,7 +94,8 @@ export default {
 }
 .media-card-rating-div{
   padding: 4px 16px 16px 16px;
-  align-content: center;
+  display: flex;
+  align-items: center;
 }
 .media-card-rating-star {
   color: #f5c518;
@@ -103,6 +104,7 @@ export default {
 .media-card-rating {
   font-size: 0.8em;
   color: darkgrey;
+  padding-left: 2px;
 }
 .card-actions {
   position: absolute;
@@ -132,6 +134,7 @@ export default {
   }
   .media-card-rating {
     font-size: 0.76em;
+    padding-top: 2px;
   }
   .media-card-rating-div{
     padding-top: 0;

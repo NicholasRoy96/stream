@@ -2,7 +2,7 @@
   <client-only>
     <RecycleScroller class="scroller episodes" :minItemSize="minimumSize" direction="horizontal" :items="episodes">
       <template :style="{ width: `${totalWidth}px` }" v-slot="{ item }" class="person">
-        <EpisodeCard :episode="item" />
+        <component :is="cardComponent" :episode="item"></component>
       </template>
     </RecycleScroller>
   </client-only>
@@ -10,11 +10,13 @@
 
 <script>
 import EpisodeCard from '@/components/cards/EpisodeCard.vue'
+import EpisodeCardSmall from '@/components/cards/EpisodeCardSmall.vue'
 
 export default {
   name: 'EpisodeSlider',
   components: {
-    EpisodeCard
+    EpisodeCard,
+    EpisodeCardSmall
   },
   props: {
     episodes: {
@@ -23,6 +25,10 @@ export default {
     }
   },
   computed: {
+    cardComponent() {
+      if (this.$vuetify.breakpoint.name === 'xs' || this.$vuetify.breakpoint.name === 'sm') return EpisodeCardSmall
+      return EpisodeCard
+    },
     minimumSize() {
       if (this.$vuetify.breakpoint.name === 'xs') return 330
       return 330

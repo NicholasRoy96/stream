@@ -81,7 +81,6 @@
         </v-row>
         <EpisodeSlider v-if="storeTv.seasons[season].episodes" :episodes="storeTv.seasons[season].episodes" />
       </div>
-      
 
       <!-- Cast cards -->
       <div v-if="storeTv.cast.length" class="subheading-div">

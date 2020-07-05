@@ -77,6 +77,16 @@
     
     <div class="black-background">
       <v-container>
+        <!-- Seasons cards -->
+        <div v-if="storeTv.seasons.length">
+          <v-row>
+            <v-col cols="6" sm="4">
+              <v-select :items="seasonSelectItems" item-text="name" item-value="index" v-model="season" outlined></v-select>
+            </v-col>
+          </v-row>
+          <EpisodeSlider v-if="storeTv.seasons[season].episodes" :episodes="storeTv.seasons[season].episodes" />
+        </div>
+
         <!-- Cast cards -->
         <div v-if="storeTv.cast.length" class="subheading-div">
           <h3 class="info-subheading-description">Meet the stars</h3>
@@ -107,6 +117,7 @@ import PercentageWheel from '@/components/infoPages/PercentageWheel.vue'
 import TrailerDialog from '@/components/infoPages/TrailerDialog.vue'
 import Overview from '@/components/infoPages/Overview.vue'
 import PersonCarousel from '@/components/sliders||carousels/PersonCarousel.vue'
+import EpisodeSlider from '@/components/sliders||carousels/EpisodeSlider.vue'
 import BottomBar from '@/components/infoPages/BottomBar.vue'
 import FastAverageColor from 'fast-average-color'
 
@@ -119,7 +130,13 @@ export default {
     TrailerDialog,
     Overview,
     PersonCarousel,
+    EpisodeSlider,
     BottomBar
+  },
+  data() {
+    return {
+      season: 0
+    }
   },
   computed: {
     storeTv() {
@@ -138,6 +155,16 @@ export default {
           return genre
         })
         return formattedGenres
+      }
+    },
+    seasonSelectItems() {
+      if (this.storeTv.seasons && this.storeTv.seasons.length) {
+        return this.storeTv.seasons.map((season, index) => {
+          return {
+            name: season.name,
+            index
+          }
+        })
       }
     }
   }

@@ -149,6 +149,7 @@ export default {
     },
     seasonSelectItems() {
       if (this.storeTv.seasons && this.storeTv.seasons.length) {
+        if (this.storeTv.seasons[0].name === 'Specials') this.season = 1
         return this.storeTv.seasons.map((season, index) => {
           return {
             name: season.name,

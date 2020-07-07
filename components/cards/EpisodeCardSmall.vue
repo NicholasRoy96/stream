@@ -19,7 +19,7 @@
 
 <script>
 export default {
-  name: 'EpisodeCard',
+  name: 'EpisodeCardSmall',
   props: {
     episode: {
       type: Object,

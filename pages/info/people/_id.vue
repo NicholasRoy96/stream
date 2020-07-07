@@ -1,16 +1,19 @@
 <template>
-  <v-app v-if="loaded">
-    <Person />
+  <v-app>
+    <LoadingOverlay v-show="!loaded" />
+    <Person v-if="loaded" />
   </v-app>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
+import LoadingOverlay from '@/components/misc/LoadingOverlay.vue'
 import Person from '@/components/infoPages/pages/Person.vue'
 
 export default {
   name: 'PersonPage',
   components: {
+    LoadingOverlay,
     Person
   },
   data() {

@@ -1,17 +1,20 @@
 <template>
-  <v-app v-if="loaded">
-    <component :is="pageComponent"></component>
+  <v-app>
+    <LoadingOverlay v-show="!loaded" />
+    <component v-if="loaded" :is="pageComponent"></component>
   </v-app>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
+import LoadingOverlay from '@/components/misc/LoadingOverlay.vue'
 import Movie from '@/components/infoPages/pages/Movie.vue'
 import MovieSmall from '@/components/infoPages/pages/MovieSmall.vue'
 
 export default {
   name: 'MoviePage',
   components: {
+    LoadingOverlay,
     Movie,
     MovieSmall
   },

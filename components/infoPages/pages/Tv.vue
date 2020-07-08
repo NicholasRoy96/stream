@@ -84,14 +84,16 @@
 
       <!-- Cast cards -->
       <div v-if="storeTv.cast.length" class="subheading-div">
-        <h3 class="info-subheading-description">Meet the stars</h3>
+        <h3 class="subheading">Cast</h3>
+        <h3 class="subheading-description">Meet the stars</h3>
       </div>
       <PersonCarousel v-if="storeTv.cast.length" :useStateCast="true" />
 
       <!-- Similar TV show cards -->
       <div v-if="storeTv.similarMedia.length">
         <div class="subheading-div">
-          <h3 class="info-subheading-description">More like this</h3>
+          <h3 class="subheading">More like this</h3>
+          <h3 class="subheading-description">Shows similar to {{storeTv.info.name}}</h3>
         </div>
         <MediaCarousel v-if="storeTv.similarMedia.length" :useStateSimilarMedia="true" />
       </div>

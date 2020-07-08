@@ -84,7 +84,7 @@
               <v-select :items="seasonSelectItems" item-text="name" item-value="index" v-model="season" outlined></v-select>
             </v-col>
           </v-row>
-          <EpisodeSlider v-if="storeTv.seasons[season].episodes" :episodes="storeTv.seasons[season].episodes" />
+          <EpisodeCardSmall v-for="(episode, i) in storeTv.seasons[season].episodes" :key="i" :episode="episode"/>
         </div>
 
         <!-- Cast cards -->
@@ -117,7 +117,7 @@ import PercentageWheel from '@/components/infoPages/PercentageWheel.vue'
 import TrailerDialog from '@/components/infoPages/TrailerDialog.vue'
 import Overview from '@/components/infoPages/Overview.vue'
 import PersonCarousel from '@/components/sliders||carousels/PersonCarousel.vue'
-import EpisodeSlider from '@/components/sliders||carousels/EpisodeSlider.vue'
+import EpisodeCardSmall from '@/components/cards/EpisodeCardSmall.vue'
 import BottomBar from '@/components/infoPages/BottomBar.vue'
 import FastAverageColor from 'fast-average-color'
 
@@ -130,7 +130,7 @@ export default {
     TrailerDialog,
     Overview,
     PersonCarousel,
-    EpisodeSlider,
+    EpisodeCardSmall,
     BottomBar
   },
   data() {

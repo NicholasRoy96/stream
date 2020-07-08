@@ -77,14 +77,16 @@
     <v-container>
       <!-- Cast cards -->
       <div v-if="storeMovie.cast.length" class="subheading-div">
-        <h3 class="info-subheading-description">Meet the stars</h3>
+        <h3 class="subheading">Cast</h3>
+        <h3 class="subheading-description">Meet the stars</h3>
       </div>
       <PersonCarousel v-if="storeMovie.cast.length" :useStateCast="true" subheading="true" />
 
       <!-- Collection cards -->
       <div v-if="storeMovie.collection && storeMovie.collection.parts">
         <div class="subheading-div">
-          <h3 class="info-subheading-description">{{storeMovie.collection.name}}</h3>
+          <h3 class="subheading">{{storeMovie.collection.name}}</h3>
+          <h3 class="subheading-description">Explore the entire collection</h3>
         </div>
         <MediaCarousel :useStateCollection="true" />
       </div>
@@ -92,7 +94,8 @@
       <!-- Similar movies cards -->
       <div v-if="storeMovie.similarMedia.length">
         <div class="subheading-div">
-          <h3 class="info-subheading-description">More like this</h3>
+          <h3 class="subheading">More like this</h3>
+          <h3 class="subheading-description">Movies similar to {{storeMovie.info.title}}</h3>
         </div>
         <MediaCarousel :useStateSimilarMedia="true" />
       </div>

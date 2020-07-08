@@ -15,14 +15,14 @@ export default {
   data () {
     return {
       spinnerStyle: {
-      	backgroundColor: "#f5c518",
-      	width: "13px",
-        height: "13px",
+      	backgroundColor: "#bababa",
+      	width: "10px",
+        height: "10px",
       	margin: "2px",
       	borderRadius: "100%",
         display: 'inline-block',
         animationName: 'v-pulseStretchDelay',
-        animationDuration: '0.7s',
+        animationDuration: '0.73s',
         animationIterationCount: 'infinite',
         animationTimingFunction: 'cubic-bezier(.2,.68,.18,1.08)',
         animationFillMode: 'both'

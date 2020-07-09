@@ -15,7 +15,9 @@
     
     <v-dialog hide-overlay v-model="trailerDialog" :width="videoWidth" @click:outside="stop">
       <client-only>
-        <youtube :video-id="storeMedia.trailer.key" :player-vars="{ autoplay: 1 }" @ready="ready" :player-height="videoHeight" :player-width="videoWidth"></youtube>
+        <div v-if="storeMedia.trailer && storeMedia.trailer.key">
+          <youtube :video-id="storeMedia.trailer.key" :player-vars="{ autoplay: 1 }" @ready="ready" :player-height="videoHeight" :player-width="videoWidth"></youtube>
+        </div>
       </client-only>
     </v-dialog>
   </div>

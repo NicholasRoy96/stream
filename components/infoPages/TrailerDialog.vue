@@ -15,8 +15,8 @@
     
     <v-dialog hide-overlay v-model="trailerDialog" :width="videoWidth" @click:outside="stop">
       <client-only>
-        <div v-if="storeMedia.trailer && storeMedia.trailer.key">
-          <youtube :video-id="storeMedia.trailer.key" :player-vars="{ autoplay: 1 }" @ready="ready" :player-height="videoHeight" :player-width="videoWidth"></youtube>
+        <div v-if="trailerId">
+          <youtube :video-id="trailerId" :player-vars="{ autoplay: 1 }" @ready="ready" :player-height="videoHeight" :player-width="videoWidth"></youtube>
         </div>
       </client-only>
     </v-dialog>
@@ -29,15 +29,16 @@ import { mapState, mapActions } from 'vuex'
 export default {
   name: 'TrailerDialog',
   props: {
+    trailerId: {
+      type: String,
+      required: true
+    },
     bottomBar: {
       type: Boolean,
       required: false
     }
   },
   computed: {
-    storeMedia() {
-      return this.$store.state.media.media
-    },
     trailerDialog() {
       return this.$store.state.trailer.trailerDialog
     },

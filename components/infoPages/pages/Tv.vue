@@ -35,7 +35,7 @@
                   <PercentageWheel v-if="storeTv.info.vote_average" class="mt-3" />
                   <AddWatchlistIcon v-if="storeTv.info.vote_average" class="pt-3 ml-8" />
                   <AddWatchlistIcon v-else class="pt-5" />
-                  <TrailerDialog v-if="storeTv.trailer" class="mt-3 ml-6" />
+                  <TrailerDialog v-if="storeTv.trailer" :trailerId="storeTv.trailer.key" class="mt-3 ml-6" />
                 </v-row>
 
                 <!-- Overview -->

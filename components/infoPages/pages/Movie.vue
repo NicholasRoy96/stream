@@ -35,7 +35,7 @@
                   <PercentageWheel v-if="storeMovie.info.vote_average" class="mt-3" :rating="storeMovie.info.vote_average" />
                   <AddWatchlistIcon v-if="storeMovie.info.vote_average" class="pt-3 ml-8" />
                   <AddWatchlistIcon v-else class="pt-5" />
-                  <TrailerDialog v-if="storeMovie.trailer" class="mt-3 ml-6" />
+                  <TrailerDialog v-if="storeMovie.trailer" :trailerId="storeMovie.trailer.key" class="mt-3 ml-6" />
                 </v-row>
                 
 
@@ -128,6 +128,7 @@ export default {
   },
   computed: {
     storeMovie() {
+      console.log(this.$store.state.media.media.trailer)
       return this.$store.state.media.media
     },
     genreList() {

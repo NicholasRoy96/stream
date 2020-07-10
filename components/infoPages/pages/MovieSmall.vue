@@ -25,7 +25,7 @@
           <PercentageWheel v-if="storeMovie.info.vote_average" class="mt-3" :rating="storeMovie.info.vote_average" />
           <h3 class="user-score">User Score</h3>
         </div>
-        <TrailerDialog v-if="storeMovie.trailer" class="mt-3 ml-6" />
+        <TrailerDialog v-if="storeMovie.trailer" :trailerId="storeMovie.trailer.key" class="mt-3 ml-6" />
       </v-row>
     </v-container>
       

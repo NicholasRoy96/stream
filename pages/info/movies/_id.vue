@@ -100,7 +100,7 @@ export default {
         // console.log(err)
       }
     },
-    async addMediaToRecentlyViewed () {
+    async addMediaToRecentlyViewed() {
       try {
         await this.addToRecentlyViewed(this.movie)
       } catch(err) {

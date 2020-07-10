@@ -143,6 +143,9 @@ export default {
   width: 45px;
   height: 45px;
 }
+.close-button:hover {
+  opacity: 0.8;
+}
 .menu-heading-div {
   display: flex;
   justify-content: left;

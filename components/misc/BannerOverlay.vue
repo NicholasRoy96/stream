@@ -42,11 +42,6 @@ export default {
       required: false
     }
   },
-  data() {
-    return {
-      openTraileronNav: false
-    }
-  },
   methods: {
     determineMediaType(media) {
       return media.first_air_date || media.last_air_date ? "tv" : "movies"
@@ -122,8 +117,8 @@ export default {
 
 /* SM */
 @media (max-width: 959px) {
-  .text-div {
-    display: block;
+  .play-button {
+    display: none;
   }
   .media-title {
     font-size: 1.8em;

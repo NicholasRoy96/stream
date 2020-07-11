@@ -42,7 +42,7 @@ export default {
       try {
         const credits = await this.$axios.$get(`https://api.themoviedb.org/3/person/${this.personId}/combined_credits?api_key=${process.env.apikey}&language=en-US`)
         if (credits.cast.length) {
-          const sortedArray = credits.cast.sort((a, b) => b.popularity - a.popularity)
+          const sortedArray = credits.cast.sort((a, b) => b.vote_average - a.vote_average)
           const modSortedArray = sortedArray.map(media => {
             return {
               ...media,
@@ -55,7 +55,7 @@ export default {
           this.castCredits = uniqueCredits.slice(0, 18)
         }
         if (credits.crew.length) {
-          const sortedArray = credits.crew.sort((a, b) => b.popularity - a.popularity)
+          const sortedArray = credits.crew.sort((a, b) => b.vote_average - a.vote_average)
           const modSortedArray = sortedArray.map(media => {
             return {
               ...media,

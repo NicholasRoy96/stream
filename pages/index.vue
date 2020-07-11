@@ -58,11 +58,6 @@
             <h3 class="subheading-description">Most popular actors</h3>
           </div>
         </nuxt-link>
-        <!-- <v-row>
-          <v-col cols="6" sm="4" lg="2" v-for="(actor, i) in trendingActors" :key="i" align-self="center">
-            <PersonCard :person="actor" :subheading="false" />
-          </v-col>
-        </v-row> -->
         <PersonCarousel :people="trendingActors" />
 
         <v-row class="subheading-div" align="center">
@@ -136,7 +131,6 @@ export default {
       this.getTopMovies(),
       this.getTrendingActors()
     ])
-    
   }
 }
 </script>

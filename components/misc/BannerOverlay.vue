@@ -13,10 +13,15 @@
           </v-img>
           </v-col>
           <v-col cols="7" sm="8" md="9" align-self="end">
-            <div class="title-div">
-              <div class="media-title">{{media.title || media.name}}</div>
-              <div v-if="keyword" class="media-subtitle">Featured in {{keyword}}</div>
-              <div v-else class="media-subtitle">Trending now</div>
+            <div class="text-div">
+              <v-btn fab large class="play-button">
+                <v-icon size="45" class="play-button-icon">mdi-play</v-icon>
+              </v-btn>
+              <div class="title-div">
+                <div class="media-title">{{media.title || media.name}}</div>
+                <div v-if="keyword" class="media-subtitle">Featured in {{keyword}}</div>
+                <div v-else class="media-subtitle">Trending now</div>
+              </div>
             </div>
           </v-col>
       </v-row>
@@ -35,6 +40,11 @@ export default {
     keyword: {
       type: String,
       required: false
+    }
+  },
+  data() {
+    return {
+      openTraileronNav: false
     }
   },
   methods: {
@@ -75,20 +85,36 @@ export default {
 .image-poster:hover {
   transform: scale(1.1);
 }
+.text-div {
+  display: flex;
+  align-items: center;
+}
+.play-button {
+  background-color: transparent !important;
+  border: 3px solid white;
+  margin-left: 10px;
+  margin-right: 15px;
+}
+.play-button:hover {
+  border-color: #f5c518;
+}
+.play-button:hover .play-button-icon {
+  color: #f5c518 !important;
+}
 .title-div {
   padding-bottom: 20px;
   padding-left: 5px;
 }
 .media-title {
-  font-size: 2.5em;
-  font-weight: bold;
+  font-size: 2.35em;
+  font-weight: 500;
   color: white;
 }
 .media-title:hover {
   color: #f5c518;
 }
 .media-subtitle {
-  font-size: 2em;
+  font-size: 1.9em;
   color: grey;
 }
 
@@ -96,6 +122,9 @@ export default {
 
 /* SM */
 @media (max-width: 959px) {
+  .text-div {
+    display: block;
+  }
   .media-title {
     font-size: 1.8em;
   }

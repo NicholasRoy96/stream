@@ -128,7 +128,6 @@ export default {
   },
   computed: {
     storeMovie() {
-      console.log(this.$store.state.media.media.trailer)
       return this.$store.state.media.media
     },
     genreList() {

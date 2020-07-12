@@ -22,7 +22,7 @@
       <v-btn icon depressed @click="goBack">
         <v-icon size="28">mdi-arrow-left</v-icon>
       </v-btn>
-      <TrailerDialog :trailerId="storeMedia.trailer.key" :bottomBar="true" />
+      <TrailerDialog v-if="storeMedia.trailer" :trailerId="storeMedia.trailer.key" :bottomBar="true" />
       <AddWatchlistIcon :bottomBar="true"/>
     </v-row>
 

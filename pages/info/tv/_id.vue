@@ -160,7 +160,6 @@ export default {
       this.addMediaToRecentlyViewed()
       this.addTvToStore()
       this.loaded = true
-      console.log(this.tvShow)
     })
     .catch(err => {
       console.log(err)

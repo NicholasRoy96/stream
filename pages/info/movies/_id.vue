@@ -121,42 +121,6 @@ export default {
         console.log(err)
       }
     }
-    // async getAverageColor() {
-    //   function startDownload() {
-    //   let imageURL = this.movieBackdrop;
-    
-    //   downloadedImg = new Image;
-    //   downloadedImg.crossOrigin = "Anonymous";
-    //   downloadedImg.addEventListener("load", imageReceived, false);
-    //   downloadedImg.src = imageURL;
-    // }
-    //   function imageReceived() {
-    //     let canvas = document.createElement("canvas");
-    //     let context = canvas.getContext("2d");
-
-    //     canvas.width = downloadedImg.width;
-    //     canvas.height = downloadedImg.height;
-      
-    //     context.drawImage(downloadedImg, 0, 0);
-    //     imageBox.appendChild(canvas);
-    //     try {
-    //       localStorage.setItem("poster-image", canvas.toDataURL("image/png"));
-    //     }
-    //     catch(err) {
-    //       console.log("Error: " + err);
-    //     }  
-    //   }
-    //   const fac = new FastAverageColor()
-    //   fac.getColorAsync(localStorage.poster-image)
-    //     .then(function(color) {
-
-    //         console.log('Average color', color);
-    //     })
-    //     .catch(function(e) {
-    //         console.log(e);
-    //     });
-    //   startDownload()
-    // }
   },
   created() {
     Promise.all([

@@ -18,7 +18,7 @@
     </nuxt-link>
     <div class="media-card-rating-div">
       <v-icon class="media-card-rating-star" size="17">mdi-star</v-icon>
-      <span v-if="media.vote_average" class="media-card-rating">{{media.vote_average}}</span>
+      <span v-if="media.vote_average" class="media-card-rating">{{media.vote_average.toFixed(1)}}</span>
       <span v-else class="media-card-rating">N/A</span>
     </div>
     

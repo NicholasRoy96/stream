@@ -16,6 +16,9 @@ export const mutations = {
   toggleSearch: state => {
     state.searchOpen = !state.searchOpen;
   },
+  closeSearch: state => {
+    state.searchOpen = false;
+  },
   // Recently Viewed
   setRecentlyViewed: (state, params) => {
     state.recentlyViewed.unshift(params);
@@ -46,6 +49,9 @@ export const actions = {
   // Search
   toggleSearchBar({ commit }) {
     commit("toggleSearch");
+  },
+  closeSearchBar({ commit }) {
+    commit("closeSearch");
   },
   // Recently Viewed
   addToRecentlyViewed({ commit, state }, params) {

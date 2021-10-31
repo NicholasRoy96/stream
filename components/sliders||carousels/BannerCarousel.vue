@@ -1,18 +1,18 @@
 <template>
-  <v-container>
-    <v-carousel :height="bannerSize" cycle interval="5000" continuous show-arrows-on-hover hide-delimiters>
-      <div v-for="(movie,i) in movies" :key="i">
-          <v-carousel-item
-            :src="`https://image.tmdb.org/t/p/original${movie.backdrop_path}`"
-            reverse-transition="fade-transition"
-            transition="fade-transition"
-            class="slide"
-          >
-            <BannerOverlay :media="movie" />
-          </v-carousel-item>
-      </div>
-    </v-carousel>
-  </v-container>
+  <v-carousel :height="bannerSize" cycle interval="5000" continuous show-arrows-on-hover hide-delimiters>
+    <div v-for="(movie,i) in movies" :key="i">
+      <v-carousel-item
+        :src="`https://image.tmdb.org/t/p/original${movie.backdrop_path}`"
+        reverse-transition="fade-transition"
+        transition="fade-transition"
+        class="slide"
+      >
+        <v-container>
+          <BannerOverlay :media="movie" />
+        </v-container>
+      </v-carousel-item>
+    </div>
+  </v-carousel>
 </template>
 
 <script>

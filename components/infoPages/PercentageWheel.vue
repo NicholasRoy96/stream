@@ -1,7 +1,12 @@
 <template>
-  <v-progress-circular rotate="270" :size="circleSize" :value="ratingPercentage" :width="width" color="#f5c518">
-    {{ratingPercentage}} <v-icon :size="iconSize">mdi-percent</v-icon>
-  </v-progress-circular>
+  <v-tooltip bottom>
+    <template v-slot:activator="{ on }">
+      <v-progress-circular v-on="on" rotate="270" :size="circleSize" :value="ratingPercentage" :width="width" color="#f5c518">
+        {{ratingPercentage}} <v-icon :size="iconSize">mdi-percent</v-icon>
+      </v-progress-circular>
+    </template>
+    <span>Based on <strong>{{ storeMedia.info.vote_count }}</strong> ratings.</span>
+  </v-tooltip>
 </template>
 
 <script>

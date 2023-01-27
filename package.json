@@ -14,7 +14,7 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.10.3",
     "fast-average-color": "^6.0.2",
-    "nuxt": "^2.0.0",
+    "nuxt": "^2.15.8",
     "vue-infinite-loading": "^2.4.5",
     "vue-virtual-scroller": "^1.0.10",
     "vue-youtube-embed": "^2.2.2",

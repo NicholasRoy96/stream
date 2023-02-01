@@ -1,7 +1,7 @@
 ![logo](https://user-images.githubusercontent.com/54635883/82729346-abff3480-9cee-11ea-97b3-228b725fb6f3.png)
 
 # stream
-### Visit the live stream site [here](http://stream-co.herokuapp.com/), hosted with Heroku.
+### Visit the live stream site [here](https://streamco.me.uk/), hosted with Netlify.
 
 ----
 ## What is stream?
@@ -15,8 +15,9 @@
 ```
 1. git clone https://github.com/NicholasRoy96/stream.git
 2. cd stream
-3. npm install
-4. npm run dev
+3. nvm use
+4. npm install
+5. npm run dev
 ```
 
 ----
@@ -40,6 +41,3 @@
 ### Genres
 * With the way the TMDB API is designed, fetching a list of the current genres only returns a genre id and name. To fetch any further information about a genre (including image paths), a separate API request must be made for each genre.
 * As a consequence, I would have needed to make ~20 separate API requests just to receive a placeholder image for each genre card on the homepage.
-
-### Hosting
-* The site is currently hosted using a free tier of Heroku. In a production environment, paying for better hosting (and using a custom domain name) would improve the site look and performance.

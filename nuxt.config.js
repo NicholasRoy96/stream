@@ -80,5 +80,6 @@ export default {
   },
   env: {
     apikey: "fac214f57908d267c5cd93e69460f956"
-  }
+  },
+  target: "static"
 };
